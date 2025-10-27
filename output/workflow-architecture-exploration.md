@@ -22,12 +22,15 @@ This workflow implements a **Conversational State Machine Pattern** with:
 
 ### Phase 1: Requirements Intake
 
-**Goal:** Gather complete product requirements and constraints
+**Goal:** Review and understand complete product requirements and constraints
 
 **Process:**
-1. User describes their product requirements in natural language
-2. Identify missing critical information and ask clarifying questions
-3. Confirm understanding by summarizing requirements before proceeding
+1. **Review any provided requirements or release plans** - If user provides documents, specifications, or release plans, read and analyze them first
+2. **Summarize understanding back to user** - Confirm what was understood from provided materials
+3. **Gather additional information** - Ask clarifying questions about missing details
+4. **Confirm complete understanding** - Summarize final requirements before proceeding to overview
+
+**CRITICAL: Always start by reviewing what the user has provided** - Don't ask questions before reading their requirements documents or release plans
 
 **Required Information:**
 - **Functional Requirements**: What the system must do (user stories, features)
@@ -40,7 +43,29 @@ This workflow implements a **Conversational State Machine Pattern** with:
   - Budget (limited, moderate, flexible)
 - **Domain Context**: Industry, regulatory requirements, special considerations
 
-**Conversation Pattern:**
+**Conversation Pattern (with provided requirements):**
+```
+User: "Here are my product requirements: [provides document/spec]"
+
+Agent: "Thank you for providing the requirements. Let me review them first.
+
+[Reads and analyzes provided requirements]
+
+Based on my review, I understand:
+- **Product**: [summary]
+- **Key Features**: [list]
+- **Target Users**: [description]
+- **Constraints**: [team size, timeline, budget from document]
+
+I have a few clarifying questions:
+1. [Question about missing detail]
+2. [Question about unclear requirement]
+3. [Question about constraints]
+
+Does this match your understanding? Any corrections or additions?"
+```
+
+**Conversation Pattern (without provided requirements):**
 ```
 User: "I need to build a task management application..."
 
