@@ -10,22 +10,720 @@
 
 ## Table of Contents
 
-1. [Event-Driven Architecture](#1-event-driven-architecture)
-2. [Microservices Architecture](#2-microservices-architecture)
-3. [Modular Monolith Architecture](#3-modular-monolith-architecture)
-4. [Serverless Architecture](#4-serverless-architecture)
-5. [Data Architecture Patterns](#5-data-architecture-patterns)
-6. [API Gateway Pattern](#6-api-gateway-pattern)
-7. [CQRS and Event Sourcing](#7-cqrs-and-event-sourcing)
-8. [Service Mesh Pattern](#8-service-mesh-pattern)
-9. [Hexagonal Architecture](#9-hexagonal-architecture)
-10. [Strangler Fig Pattern](#10-strangler-fig-pattern)
-11. [Circuit Breaker Pattern](#11-circuit-breaker-pattern)
-12. [Backend for Frontend (BFF)](#12-backend-for-frontend-bff)
+1. [Infrastructure as Code (IaC) with Docker](#1-infrastructure-as-code-iac-with-docker)
+2. [Observability with OpenTelemetry](#2-observability-with-opentelemetry)
+3. [Event-Driven Architecture](#3-event-driven-architecture)
+4. [Microservices Architecture](#4-microservices-architecture)
+5. [Modular Monolith Architecture](#5-modular-monolith-architecture)
+6. [Data Architecture Patterns](#6-data-architecture-patterns)
 
 ---
 
-## 1. Event-Driven Architecture
+## 1. Infrastructure as Code (IaC) with Docker
+
+### Overview
+Infrastructure as Code (IaC) with Docker containers provides reproducible, version-controlled healthcare infrastructure that ensures consistency across development, testing, and production environments while meeting HIPAA compliance requirements.
+
+### Healthcare Use Cases
+- **Containerized Microservices**: Patient, Clinical, Billing services as Docker containers
+- **Development Environment Parity**: Developers run identical containers as production
+- **CI/CD Pipeline Automation**: Automated testing and deployment of containerized healthcare apps
+- **Multi-Environment Management**: Dev, staging, prod environments defined in code
+- **Disaster Recovery**: Entire infrastructure rebuilds from code in minutes
+
+### IaC Strategy with Docker Compose
+
+**docker-compose.yml for Healthcare Application:**
+
+```yaml
+version: '3.8'
+
+services:
+  # Patient Service
+  patient-service:
+    image: acr.azurecr.io/patient-service:${VERSION:-latest}
+    container_name: patient-service
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://user:pass@postgres:5432/patients
+      - REDIS_URL=redis://redis:6379
+      - KAFKA_BROKERS=kafka:9092
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
+      - OTEL_SERVICE_NAME=patient-service
+    ports:
+      - "3001:3000"
+    networks:
+      - healthcare-network
+    depends_on:
+      - postgres
+      - redis
+      - kafka
+      - otel-collector
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Clinical Service (FHIR)
+  clinical-service:
+    image: acr.azurecr.io/clinical-service:${VERSION:-latest}
+    container_name: clinical-service
+    environment:
+      - NODE_ENV=production
+      - FHIR_SERVER_URL=http://aidbox:8080
+      - POSTGRES_URL=postgresql://user:pass@postgres:5432/clinical
+      - KAFKA_BROKERS=kafka:9092
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
+      - OTEL_SERVICE_NAME=clinical-service
+    ports:
+      - "3002:3000"
+    networks:
+      - healthcare-network
+    depends_on:
+      - aidbox
+      - postgres
+      - kafka
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Billing Service (SOX Compliant)
+  billing-service:
+    image: acr.azurecr.io/billing-service:${VERSION:-latest}
+    container_name: billing-service
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://user:pass@postgres:5432/billing
+      - KAFKA_BROKERS=kafka:9092
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
+      - OTEL_SERVICE_NAME=billing-service
+      # SOX: Audit all financial transactions
+      - AUDIT_ENABLED=true
+      - AUDIT_LEVEL=verbose
+    ports:
+      - "3003:3000"
+    networks:
+      - healthcare-network
+    depends_on:
+      - postgres
+      - kafka
+    labels:
+      - "compliance.sox=true"
+      - "data.classification=financial"
+
+  # Azure Managed PostgreSQL (connection only - managed service)
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres-local
+    environment:
+      - POSTGRES_USER=healthcare_user
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=healthcare
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - healthcare-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U healthcare_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    # HIPAA: Encryption at rest
+    command: >
+      postgres
+      -c ssl=on
+      -c ssl_cert_file=/etc/ssl/certs/server.crt
+      -c ssl_key_file=/etc/ssl/private/server.key
+
+  # Azure Managed Redis (connection only - managed service)
+  redis:
+    image: redis:7-alpine
+    container_name: redis-cache
+    command: redis-server --requirepass ${REDIS_PASSWORD} --appendonly yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - healthcare-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # Confluent Kafka
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: kafka
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_LOG_RETENTION_HOURS: 168  # 7 days for HIPAA audit
+    ports:
+      - "9092:9092"
+    networks:
+      - healthcare-network
+    depends_on:
+      - zookeeper
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - healthcare-network
+
+  # Health Samurai Aidbox (FHIR Server)
+  aidbox:
+    image: healthsamurai/aidbox:edge
+    container_name: aidbox-fhir
+    environment:
+      - AIDBOX_LICENSE=${AIDBOX_LICENSE}
+      - AIDBOX_BASE_URL=http://aidbox:8080
+      - AIDBOX_PORT=8080
+      - PGHOST=postgres
+      - PGPORT=5432
+      - PGDATABASE=aidbox
+      - PGUSER=aidbox
+      - PGPASSWORD=${AIDBOX_DB_PASSWORD}
+    ports:
+      - "8080:8080"
+    networks:
+      - healthcare-network
+    depends_on:
+      - postgres
+
+  # OpenTelemetry Collector
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    container_name: otel-collector
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - "4317:4317"   # OTLP gRPC receiver
+      - "4318:4318"   # OTLP HTTP receiver
+      - "8888:8888"   # Prometheus metrics
+      - "13133:13133" # Health check
+    networks:
+      - healthcare-network
+    environment:
+      - DATADOG_API_KEY=${DATADOG_API_KEY}
+
+  # Apollo Federation Gateway
+  apollo-gateway:
+    image: acr.azurecr.io/apollo-gateway:${VERSION:-latest}
+    container_name: apollo-gateway
+    environment:
+      - PATIENT_SERVICE_URL=http://patient-service:3000/graphql
+      - CLINICAL_SERVICE_URL=http://clinical-service:3000/graphql
+      - BILLING_SERVICE_URL=http://billing-service:3000/graphql
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
+      - OTEL_SERVICE_NAME=apollo-gateway
+    ports:
+      - "4000:4000"
+    networks:
+      - healthcare-network
+    depends_on:
+      - patient-service
+      - clinical-service
+      - billing-service
+
+networks:
+  healthcare-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  redis-data:
+```
+
+### Terraform for Azure Managed Services
+
+**main.tf - Azure Infrastructure:**
+
+```hcl
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.0"
+    }
+  }
+}
+
+provider "azurerm" {
+  features {}
+}
+
+# Resource Group
+resource "azurerm_resource_group" "healthcare" {
+  name     = "rg-healthcare-${var.environment}"
+  location = var.location
+  tags = {
+    environment = var.environment
+    compliance  = "HIPAA,SOX,SOC2"
+  }
+}
+
+# Azure Container Registry
+resource "azurerm_container_registry" "acr" {
+  name                = "acrhealthcare${var.environment}"
+  resource_group_name = azurerm_resource_group.healthcare.name
+  location            = azurerm_resource_group.healthcare.location
+  sku                 = "Premium"
+  admin_enabled       = false
+
+  georeplications {
+    location = var.secondary_location
+    tags     = {}
+  }
+}
+
+# Azure Kubernetes Service
+resource "azurerm_kubernetes_cluster" "aks" {
+  name                = "aks-healthcare-${var.environment}"
+  location            = azurerm_resource_group.healthcare.location
+  resource_group_name = azurerm_resource_group.healthcare.name
+  dns_prefix          = "healthcare-${var.environment}"
+  kubernetes_version  = "1.28"
+
+  default_node_pool {
+    name                = "default"
+    node_count          = 3
+    vm_size             = "Standard_D4s_v3"
+    enable_auto_scaling = true
+    min_count           = 3
+    max_count           = 10
+
+    # HIPAA: Enable encryption at host
+    enable_host_encryption = true
+  }
+
+  identity {
+    type = "SystemAssigned"
+  }
+
+  network_profile {
+    network_plugin = "azure"
+    network_policy = "calico"
+  }
+
+  # HIPAA: Enable Azure Policy
+  azure_policy_enabled = true
+
+  # SOC 2: Enable monitoring
+  oms_agent {
+    log_analytics_workspace_id = azurerm_log_analytics_workspace.healthcare.id
+  }
+}
+
+# Azure Database for PostgreSQL Flexible Server
+resource "azurerm_postgresql_flexible_server" "postgres" {
+  name                   = "psql-healthcare-${var.environment}"
+  resource_group_name    = azurerm_resource_group.healthcare.name
+  location               = azurerm_resource_group.healthcare.location
+  version                = "15"
+  administrator_login    = "healthcare_admin"
+  administrator_password = var.postgres_admin_password
+
+  storage_mb   = 32768
+  sku_name     = "GP_Standard_D4s_v3"
+
+  # HIPAA: High availability
+  high_availability {
+    mode = "ZoneRedundant"
+  }
+
+  # HIPAA: Encryption
+  customer_managed_key {
+    key_vault_key_id = azurerm_key_vault_key.postgres.id
+  }
+
+  # HIPAA: Backup retention
+  backup_retention_days = 35
+
+  tags = {
+    data_classification = "PHI"
+    compliance          = "HIPAA"
+  }
+}
+
+# Azure Cache for Redis
+resource "azurerm_redis_cache" "redis" {
+  name                = "redis-healthcare-${var.environment}"
+  location            = azurerm_resource_group.healthcare.location
+  resource_group_name = azurerm_resource_group.healthcare.name
+  capacity            = 2
+  family              = "P"
+  sku_name            = "Premium"
+
+  # HIPAA: Enable data persistence
+  redis_configuration {
+    enable_authentication         = true
+    maxmemory_policy             = "allkeys-lru"
+    rdb_backup_enabled           = true
+    rdb_backup_frequency         = 60
+    rdb_backup_max_snapshot_count = 1
+    rdb_storage_connection_string = azurerm_storage_account.backup.primary_blob_connection_string
+  }
+
+  # HIPAA: Zone redundancy
+  zones = ["1", "2", "3"]
+
+  tags = {
+    data_classification = "Cache"
+    compliance          = "HIPAA"
+  }
+}
+
+# Azure Key Vault
+resource "azurerm_key_vault" "healthcare" {
+  name                = "kv-healthcare-${var.environment}"
+  location            = azurerm_resource_group.healthcare.location
+  resource_group_name = azurerm_resource_group.healthcare.name
+  tenant_id           = data.azurerm_client_config.current.tenant_id
+  sku_name            = "premium"
+
+  # HIPAA: Enable purge protection
+  purge_protection_enabled = true
+
+  # SOC 2: Enable soft delete
+  soft_delete_retention_days = 90
+
+  network_acls {
+    default_action = "Deny"
+    bypass         = "AzureServices"
+  }
+}
+
+# Log Analytics Workspace for DataDog integration
+resource "azurerm_log_analytics_workspace" "healthcare" {
+  name                = "log-healthcare-${var.environment}"
+  location            = azurerm_resource_group.healthcare.location
+  resource_group_name = azurerm_resource_group.healthcare.name
+  sku                 = "PerGB2018"
+  retention_in_days   = 365  # HIPAA: 1 year retention
+
+  tags = {
+    purpose    = "HIPAA-audit-logs"
+    compliance = "HIPAA,SOX"
+  }
+}
+```
+
+### Dockerfile Best Practices for Healthcare
+
+**Dockerfile (Multi-stage build for security):**
+
+```dockerfile
+# Build stage
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+# Copy dependency files
+COPY package*.json ./
+COPY tsconfig.json ./
+
+# Install dependencies
+RUN npm ci --only=production && \
+    npm cache clean --force
+
+# Copy source code
+COPY src/ ./src/
+
+# Build TypeScript
+RUN npm run build
+
+# Production stage
+FROM node:20-alpine
+
+# HIPAA: Run as non-root user
+RUN addgroup -g 1001 healthcare && \
+    adduser -D -u 1001 -G healthcare healthcare
+
+WORKDIR /app
+
+# Copy built files from builder
+COPY --from=builder --chown=healthcare:healthcare /app/dist ./dist
+COPY --from=builder --chown=healthcare:healthcare /app/node_modules ./node_modules
+COPY --from=builder --chown=healthcare:healthcare /app/package*.json ./
+
+# HIPAA: Remove unnecessary packages
+RUN apk del npm && \
+    rm -rf /root/.npm
+
+# Switch to non-root user
+USER healthcare
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:3000/health', (r) => process.exit(r.statusCode === 200 ? 0 : 1))"
+
+# Expose port
+EXPOSE 3000
+
+# Start application
+CMD ["node", "dist/index.js"]
+```
+
+### Compliance Considerations
+
+**HIPAA Requirements:**
+- ✅ **Container Scanning**: Scan images for vulnerabilities before deployment
+- ✅ **Secrets Management**: Use Azure Key Vault, never embed secrets in images
+- ✅ **Network Isolation**: Docker networks isolate services
+- ✅ **Audit Logging**: Container logs forwarded to centralized logging
+
+**SOX Requirements:**
+- ✅ **Immutable Infrastructure**: Containers deployed from versioned images
+- ✅ **Change Control**: Git commits + container tags provide full audit trail
+- ✅ **Rollback Capability**: Previous container versions always available
+
+**SOC 2 Requirements:**
+- ✅ **Automated Testing**: CI/CD pipeline tests all containers
+- ✅ **Health Checks**: Docker health checks enable automatic recovery
+- ✅ **Resource Limits**: Prevent resource exhaustion attacks
+
+---
+
+## 2. Observability with OpenTelemetry
+
+### Overview
+OpenTelemetry (OTEL) provides unified telemetry collection for healthcare applications, sending traces, metrics, and logs to DataDog for comprehensive observability and HIPAA-compliant audit logging.
+
+### Healthcare Use Cases
+- **Distributed Tracing**: Track HL7 message processing across microservices
+- **Performance Monitoring**: Monitor API response times for clinical workflows
+- **HIPAA Audit Logging**: Centralize PHI access logs with full context
+- **Anomaly Detection**: Alert on unusual patterns (potential security incidents)
+- **Capacity Planning**: Track resource utilization for scaling decisions
+
+### OpenTelemetry Configuration for DataDog
+
+**otel-collector-config.yaml:**
+
+```yaml
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+  batch:
+    timeout: 10s
+    send_batch_size: 1024
+
+  # HIPAA: Add PHI classification tags
+  attributes:
+    actions:
+      - key: data.classification
+        value: PHI
+        action: upsert
+      - key: compliance.framework
+        value: HIPAA,SOX,SOC2
+        action: upsert
+
+  # Filter sensitive data from traces
+  filter:
+    traces:
+      span:
+        - 'attributes["http.request.header.authorization"] != nil'
+        - 'attributes["patient.ssn"] != nil'
+
+exporters:
+  # DataDog exporter
+  datadog:
+    api:
+      key: ${DATADOG_API_KEY}
+      site: datadoghq.com
+
+    # HIPAA: Tag all metrics
+    host_metadata:
+      tags:
+        - env:production
+        - compliance:hipaa
+        - team:healthcare
+
+  # Backup to Azure Blob Storage for HIPAA retention
+  azureblob:
+    connection_string: ${AZURE_STORAGE_CONNECTION_STRING}
+    container: telemetry-backup
+    blob_prefix: otel-traces
+    compression: gzip
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch, attributes, filter]
+      exporters: [datadog, azureblob]
+
+    metrics:
+      receivers: [otlp]
+      processors: [batch, attributes]
+      exporters: [datadog]
+
+    logs:
+      receivers: [otlp]
+      processors: [batch, attributes, filter]
+      exporters: [datadog, azureblob]
+```
+
+### TypeScript Application with OTEL
+
+**otel-instrumentation.ts:**
+
+```typescript
+import { NodeSDK } from '@opentelemetry/sdk-node';
+import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
+import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
+import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-http';
+import { Resource } from '@opentelemetry/resources';
+import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
+
+// Initialize OpenTelemetry
+const sdk = new NodeSDK({
+  resource: new Resource({
+    [SemanticResourceAttributes.SERVICE_NAME]: process.env.OTEL_SERVICE_NAME || 'patient-service',
+    [SemanticResourceAttributes.SERVICE_VERSION]: process.env.SERVICE_VERSION || '1.0.0',
+    [SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT]: process.env.NODE_ENV || 'development',
+    'compliance.framework': 'HIPAA,SOX,SOC2',
+    'data.classification': 'PHI',
+  }),
+  traceExporter: new OTLPTraceExporter({
+    url: process.env.OTEL_EXPORTER_OTLP_ENDPOINT || 'http://otel-collector:4318/v1/traces',
+  }),
+  metricReader: new OTLPMetricExporter({
+    url: process.env.OTEL_EXPORTER_OTLP_ENDPOINT || 'http://otel-collector:4318/v1/metrics',
+  }),
+  instrumentations: [
+    getNodeAutoInstrumentations({
+      '@opentelemetry/instrumentation-fs': { enabled: false }, // Disable file system tracing
+      '@opentelemetry/instrumentation-http': {
+        // HIPAA: Don't capture request bodies (may contain PHI)
+        ignoreIncomingRequestHook: (request) => {
+          return request.url?.includes('/health');
+        },
+      },
+      '@opentelemetry/instrumentation-express': { enabled: true },
+      '@opentelemetry/instrumentation-pg': { enabled: true },
+      '@opentelemetry/instrumentation-redis': { enabled: true },
+    }),
+  ],
+});
+
+sdk.start();
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  sdk.shutdown()
+    .then(() => console.log('Tracing terminated'))
+    .catch((error) => console.log('Error terminating tracing', error))
+    .finally(() => process.exit(0));
+});
+```
+
+**patient-service.ts with OTEL tracing:**
+
+```typescript
+import { trace, context, SpanStatusCode } from '@opentelemetry/api';
+import express from 'express';
+
+const app = express();
+const tracer = trace.getTracer('patient-service');
+
+app.get('/patients/:id', async (req, res) => {
+  // Create span for patient lookup
+  const span = tracer.startSpan('get_patient', {
+    attributes: {
+      'http.method': req.method,
+      'http.url': req.url,
+      'patient.id': req.params.id,
+      // HIPAA: Mark as PHI access
+      'data.classification': 'PHI',
+      'audit.action': 'READ_PATIENT',
+      'audit.user': req.user?.id,
+    },
+  });
+
+  try {
+    // Database query (auto-instrumented)
+    const patient = await db.query('SELECT * FROM patients WHERE id = $1', [req.params.id]);
+
+    if (!patient) {
+      span.setStatus({ code: SpanStatusCode.ERROR, message: 'Patient not found' });
+      return res.status(404).json({ error: 'Patient not found' });
+    }
+
+    // HIPAA: Log PHI access to audit trail
+    await auditLogger.log({
+      action: 'READ_PATIENT',
+      userId: req.user.id,
+      patientId: req.params.id,
+      timestamp: new Date(),
+      ipAddress: req.ip,
+      traceId: span.spanContext().traceId, // Link to trace
+    });
+
+    span.setAttributes({
+      'patient.mrn': patient.mrn,
+      'audit.logged': true,
+    });
+
+    span.setStatus({ code: SpanStatusCode.OK });
+    res.json(patient);
+  } catch (error) {
+    span.recordException(error);
+    span.setStatus({ code: SpanStatusCode.ERROR, message: error.message });
+    res.status(500).json({ error: 'Internal server error' });
+  } finally {
+    span.end();
+  }
+});
+```
+
+### DataDog Dashboard for Healthcare
+
+**Key Metrics to Monitor:**
+- **API Performance**: P50, P95, P99 latency for patient/clinical/billing APIs
+- **HL7 Processing**: Message throughput, parsing errors, transformation time
+- **FHIR Operations**: Query performance, write latency, validation errors
+- **Database Health**: Connection pool usage, query duration, deadlocks
+- **Kafka Lag**: Consumer group lag for event processing
+- **HIPAA Audit**: PHI access rate, unauthorized access attempts, export requests
+
+---
+
+## 3. Event-Driven Architecture
 
 ### Overview
 Event-Driven Architecture (EDA) for healthcare systems centers on asynchronous message processing for HL7/FHIR events, clinical workflows, and billing transactions with complete audit trails required by HIPAA and SOX regulations.
