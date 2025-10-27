@@ -270,11 +270,103 @@ Let's restart from Phase 1 with better clarity."
 
 ---
 
+### Phase 2.75: Technology Research & Discovery (Optional)
+
+**Goal:** Research current capabilities of key technologies to inform architecture recommendations
+
+**Trigger:** Approved solution overview mentions specific technologies OR architectural patterns that depend on specific tech capabilities
+
+**When to Use:**
+- User mentioned specific technologies in requirements (e.g., "must use PostgreSQL", "considering React")
+- Solution overview suggests specific tech stack
+- Architecture decisions depend on current technology capabilities (e.g., "Does Redis support vector search?")
+- Need to verify technology version features (e.g., "What's new in Next.js 14?")
+
+**When to Skip:**
+- Technologies are well-established in knowledge base
+- No specific tech mentioned in requirements
+- User wants technology-agnostic architecture first
+
+**Process:**
+1. **Identify key technologies** from approved overview and requirements
+2. **Use web search** to discover current features/capabilities
+3. **Focus on features that support system design** (not general documentation)
+4. **Summarize findings** relevant to architecture decisions
+5. **Update mental model** before generating approaches
+
+**Web Search Strategy:**
+
+**Search for:**
+- Current version features: "[Technology] latest version features 2025"
+- Specific capabilities: "[Technology] [capability] support" (e.g., "PostgreSQL vector search support")
+- Integration patterns: "[Technology A] [Technology B] integration"
+- Performance characteristics: "[Technology] scalability benchmarks"
+- Best practices: "[Technology] production architecture patterns 2025"
+
+**What to extract:**
+- Features that directly support requirements (e.g., built-in caching, real-time capabilities)
+- Version compatibility and migration considerations
+- Performance/scaling characteristics relevant to user's scale
+- Integration capabilities with other technologies in stack
+- Known limitations or anti-patterns
+
+**Conversation Pattern:**
+
+```
+Agent (after overview approval): "Before I generate detailed architectural approaches, I'd like to research current capabilities of the key technologies we identified:
+
+- PostgreSQL (for relational data + JSONB for custom fields)
+- Redis (for caching and session storage)
+- Next.js (for full-stack development)
+
+This will take a moment while I look up their latest features and capabilities that support your requirements.
+
+[Uses web search to discover current features]
+
+Based on my research, here are relevant capabilities:
+
+**PostgreSQL 16:**
+- Enhanced JSONB indexing (supports your custom fields requirement)
+- Built-in logical replication (supports future scaling)
+- Improved query performance for complex queries
+
+**Redis 7.2:**
+- Native JSON support (simplifies caching layer)
+- Functions for server-side logic (reduces network calls)
+- Improved memory efficiency
+
+**Next.js 14:**
+- Server actions (simplifies API layer)
+- Partial prerendering (improves performance)
+- Enhanced caching strategies
+
+These capabilities directly support your requirements for:
+- Custom fields per workspace → PostgreSQL JSONB + indexing
+- Real-time collaboration → Redis pub/sub capabilities
+- Fast page loads → Next.js partial prerendering
+
+Now I'll generate 2-3 architectural approaches leveraging these current capabilities..."
+```
+
+**Critical Rules:**
+
+1. **Use web search for discovery** - Don't rely solely on knowledge base (may be outdated)
+2. **Focus on system design relevance** - Only research features that impact architecture decisions
+3. **Keep research focused** - Limit to 3-5 key technologies, don't research entire ecosystem
+4. **Summarize findings** - Don't dump raw documentation, extract relevant insights
+5. **Skip if not needed** - If knowledge base is sufficient, proceed directly to Phase 3
+
+**Time Limit:** 5-10 minutes of research
+
+**Output:** Brief summary (2-3 paragraphs) of relevant technology capabilities before generating approaches
+
+---
+
 ### Phase 3: Architecture Exploration
 
 **Goal:** Present 2-3 genuinely different architectural approaches
 
-**Trigger:** User has approved solution overview from Phase 2.5
+**Trigger:** User has approved solution overview from Phase 2.5 (and optional Phase 2.75 research complete)
 
 **Process:**
 1. Query knowledge base for relevant patterns
@@ -945,6 +1037,13 @@ Before presenting artifacts, verify:
 ---
 
 ## Version History
+
+**v1.3 (technology-research)** - 2025-10-27
+- Added Phase 1 enhancement: Review provided requirements/release plans first
+- Added Phase 2.75: Technology Research & Discovery (optional)
+- Web search integration for current technology capabilities
+- Focus on features that support system design decisions
+- Time-limited research (5-10 minutes) before architecture generation
 
 **v1.2 (staged-review-approval)** - 2025-10-27
 - Added Phase 2.5: Solution Overview & Approval Checkpoint
