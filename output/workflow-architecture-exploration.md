@@ -108,16 +108,94 @@ This helps me recommend approaches that fit your actual constraints rather than 
 
 **Pattern Selection Algorithm:**
 
-**Diversity Rules:**
-- Must span different pattern categories (e.g., monolithic + microservices + serverless)
-- Must have distinct scaling characteristics
-- Must have different complexity levels
-- Must align with at least one constraint (team size OR scale OR timeline)
+### Step 1: Query Knowledge Base
+
+Reference `kb-architecture-patterns.md` for available patterns:
+- Monolithic Architecture
+- Modular Monolith
+- Microservices Architecture
+- Event-Driven Architecture
+- Serverless Architecture (AWS Lambda, Vercel, Cloudflare Workers)
+- Service-Oriented Architecture (SOA)
+- Jamstack Architecture
+- CQRS + Event Sourcing
+
+### Step 2: Filter by Constraint Viability
+
+**Team Size Constraints:**
+| Team Size | Suitable Patterns | Avoid |
+|-----------|------------------|-------|
+| 1-2 engineers | Monolithic, Serverless, Jamstack | Microservices, Event-Driven |
+| 3-5 engineers | Monolithic, Modular Monolith, Serverless | Microservices (too much overhead) |
+| 6-10 engineers | Modular Monolith, Microservices, Serverless | Simple Monolith (underutilizes team) |
+| 10+ engineers | Microservices, Event-Driven, SOA | Simple Monolith |
+
+**Scale Constraints:**
+| User Scale | Suitable Patterns | Avoid |
+|-----------|------------------|-------|
+| <1K users | Monolithic, Serverless, Jamstack | Microservices (premature) |
+| 1K-10K | Monolithic, Modular Monolith, Serverless | Event-Driven (overkill) |
+| 10K-100K | Modular Monolith, Microservices, Serverless | Simple Monolith (scaling limits) |
+| 100K-1M | Microservices, Event-Driven, Modular (extract) | Simple Monolith |
+| 1M+ | Microservices, Event-Driven, SOA | Monolithic |
+
+**Timeline Constraints:**
+| Timeline | Suitable Patterns | Avoid |
+|---------|------------------|-------|
+| <1 month | Serverless, Jamstack, Simple Monolith | Microservices, Event-Driven |
+| 1-3 months | Monolithic, Modular Monolith, Serverless | Microservices (2-3 month setup) |
+| 3-6 months | Modular Monolith, Microservices, Serverless | Event-Driven (2-3 month setup) |
+| 6+ months | All patterns viable | N/A |
+
+**Budget Constraints:**
+| Budget | Suitable Patterns | Avoid |
+|--------|------------------|-------|
+| Limited ($0-$100/mo) | Serverless (pay-per-use), Jamstack, PaaS Monolith | Microservices (high infra cost) |
+| Moderate ($100-$500/mo) | Monolithic, Modular Monolith, Serverless | Large-scale microservices |
+| Flexible ($500+/mo) | All patterns viable | N/A |
+
+### Step 3: Calculate Fit Score (0-100)
+
+For each viable pattern, calculate score:
+- **Team Size Fit** (40% weight): Ideal team size match
+- **Scale Fit** (30% weight): Can handle expected scale
+- **Timeline Fit** (20% weight): Setup time < timeline
+- **Budget Fit** (10% weight): Cost <= budget
+
+### Step 4: Ensure Diversity (5 Rules)
+
+**Rule 1: Category Diversity** (CRITICAL)
+- No two patterns from same category
+- ❌ Invalid: Microservices + Microservices with API Gateway
+- ✅ Valid: Microservices + Serverless + Modular Monolith
+
+**Rule 2: Deployment Model Diversity**
+- Mix deployment approaches
+- Single-node (monolith) vs Multi-node (microservices) vs Serverless
+
+**Rule 3: Scaling Characteristic Diversity**
+- Vertical scaling (monolith) vs Horizontal scaling (microservices) vs Auto-scaling (serverless)
+
+**Rule 4: Complexity Level Diversity**
+- Include range: Simple (monolith) → Moderate (modular/serverless) → Complex (microservices/event-driven)
+
+**Rule 5: Simplicity Option When Required** (CRITICAL)
+- **If team < 5 engineers**: MUST include monolithic or serverless option
+- **If timeline < 3 months**: MUST include fastest-to-deploy option (monolith/serverless)
+- **If budget = limited**: MUST include low-cost option (serverless/PaaS monolith)
+
+### Step 5: Select 2-3 Approaches
+
+**Selection Logic:**
+1. **Best Fit** (highest score): Always include top-scoring pattern
+2. **Diverse Alternative** (different category): 2nd pattern from different category with score > 60
+3. **Third Option** (if applicable): Different category OR simpler fallback (if constraints tight)
 
 **Example Pattern Combinations:**
-- **Small team + short timeline**: Modular Monolith, Serverless, Microservices
-- **Large team + high scale**: Microservices, Event-Driven, Modular Monolith
-- **Unknown scale + 1 developer**: Serverless, Monolithic, Jamstack
+- **Small team (2) + short timeline (3mo)**: Monolithic (HIGH), Serverless (MEDIUM), Modular (MEDIUM)
+- **Large team (10) + high scale (1M)**: Microservices (HIGH), Event-Driven (HIGH), Modular (MEDIUM)
+- **Unknown scale + solo developer**: Serverless (HIGH), Jamstack (MEDIUM-HIGH), Monolith (MEDIUM)
+- **Enterprise + compliance**: SOA (HIGH), Event-Driven (HIGH), Modular (MEDIUM-HIGH)
 
 **Presentation Format:**
 
