@@ -1,0 +1,29 @@
+{
+  "name": "complete-project-setup",
+  "feature": "complete-project-setup",
+  "phase": "implementation",
+  "created": "2025-10-27T09:26:00Z",
+  "created_at": "2025-10-27T09:26:00Z",
+  "lastUpdated": "2025-10-27T16:00:00Z",
+  "updated_at": "2025-10-27T16:00:00Z",
+  "branchName": "spec/complete-project-setup",
+  "healthcare_focus": true,
+  "compliance_requirements": ["HIPAA", "SOX", "SOC2"],
+  "technology_stack": {
+    "cloud": "Azure",
+    "messaging": "Confluent Kafka",
+    "api": "Apollo GraphQL Federation",
+    "healthcare": "Health Samurai Aidbox",
+    "workflow": "IBM BAMOE"
+  },
+  "knowledge_base": {
+    "total_tokens": 230000,
+    "files": 5,
+    "focus": "Healthcare Enterprise Architecture"
+  },
+  "tasks": {
+    "total": 7,
+    "estimated_hours": "28-36",
+    "estimated_days": "4.7-6"
+  }
+}
