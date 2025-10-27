@@ -479,7 +479,14 @@ For each approach, provide:
    - **Cons** (3-5 disadvantages - MUST INCLUDE)
    - **Best For** (ideal use cases)
    - **Avoid If** (anti-patterns)
-5. **Fit Score**: How well this matches stated constraints (High / Medium / Low)
+5. **Key Technology Decisions** (ADR-ready): For each major decision, include:
+   - **Decision**: What was chosen (e.g., "PostgreSQL as primary database")
+   - **Rationale**: Why this choice fits requirements (2-3 sentences)
+   - **Alternatives Considered**: What else was evaluated (1-2 alternatives)
+   - **Tradeoffs**: Pros/cons of this specific decision
+6. **Fit Score**: How well this matches stated constraints (High / Medium / Low)
+
+**CRITICAL for ADR Generation**: Capture enough decision context in Phase 3 so ADRs can be generated WITHOUT needing Phase 6 (detailed component design). Each technology decision should have clear rationale tied to requirements.
 
 **Example Output:**
 ```
@@ -519,6 +526,23 @@ Based on your requirements (3 engineers, 2-month timeline, task management app, 
 - Need independent scaling per feature
 - Multiple teams need deployment independence
 - Ultra-high scale (>100K users) expected soon
+
+**Key Technology Decisions:**
+
+1. **Database: PostgreSQL**
+   - **Rationale**: Relational data model (users, projects, tasks with clear relationships), JSONB supports custom fields without schema changes, team likely familiar with SQL
+   - **Alternatives**: MongoDB (document-oriented, but relationships awkward), MySQL (viable but less flexible JSONB)
+   - **Tradeoffs**: Pro - Strong consistency, ACID guarantees; Con - Vertical scaling limits at very high scale
+
+2. **Stack: Next.js (Full-stack)**
+   - **Rationale**: Single codebase for 3-person team, server + client in one framework, fast development velocity
+   - **Alternatives**: Separate React + Node.js (more flexible but slower), Python Django (if team prefers Python)
+   - **Tradeoffs**: Pro - Fast shipping, good DX; Con - Framework lock-in, less flexibility than separate stacks
+
+3. **Caching: Redis**
+   - **Rationale**: Session storage, frequently-accessed projects, rate limiting - all supported out of box
+   - **Alternatives**: In-memory (simplest but doesn't persist), Memcached (viable but less feature-rich)
+   - **Tradeoffs**: Pro - Fast, versatile; Con - Another service to manage, memory costs
 
 **Fit Score:** HIGH (matches team size, timeline, scale)
 
@@ -690,13 +714,29 @@ Agent: "Great choice! Modular Monolith fits your constraints well (3 engineers, 
 4. **Deployment Strategy**: Set up CI/CD pipeline and hosting (AWS? Azure? Vercel?)
 5. **Monitoring**: Configure logging and alerting
 
-Would you like me to:
-- [ ] Help with detailed component design (module responsibilities, interfaces, data schemas)
-- [ ] Generate Architecture Decision Record documenting this choice
-- [ ] Provide technology recommendations for your stack
-- [ ] Just document our discussion and you'll take it from here
+**What would you like next?**
 
-Let me know what would be most helpful!"
+**Option 1: Generate ADRs (Recommended - No Phase 6 needed)**
+- I can generate 3-5 Architecture Decision Records NOW from Phase 3 decisions
+- Documents: Architecture choice, database selection, caching strategy, stack choice
+- Each ADR includes: Context, Decision, Rationale, Alternatives, Tradeoffs, Implementation notes
+- **Takes 10-15 minutes** - Ready to use immediately
+
+**Option 2: Detailed Component Design (Phase 6 - Optional)**
+- Full implementation specs (component responsibilities, interfaces, data schemas, deployment architecture)
+- **Takes 1-2 hours** - Most teams don't need this level of detail
+- Only recommended if you need specifications to hand off to implementation team
+
+**Option 3: Technology Deep Dive**
+- Specific guidance on chosen stack (setup, best practices, gotchas)
+- Code examples, configuration templates
+
+**Option 4: You're All Set**
+- Document discussion, you'll take it from here
+
+**Most Common Choice**: Generate ADRs from Phase 3 → Sufficient for most teams to start implementing
+
+Let me know!"
 ```
 
 ---
@@ -1037,6 +1077,13 @@ Before presenting artifacts, verify:
 ---
 
 ## Version History
+
+**v1.4 (adr-ready-decisions)** - 2025-10-27
+- Enhanced Phase 3: Capture ADR-ready technology decisions
+- Each approach now includes Key Technology Decisions with rationale, alternatives, tradeoffs
+- ADRs can be generated directly from Phase 3 (no Phase 6 needed)
+- Updated Phase 5 options: Emphasize ADR generation as recommended path (10-15 min)
+- Phase 6 (Detailed Component Design) now clearly optional (most teams don't need it)
 
 **v1.3 (technology-research)** - 2025-10-27
 - Added Phase 1 enhancement: Review provided requirements/release plans first
