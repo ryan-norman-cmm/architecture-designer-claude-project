@@ -282,14 +282,59 @@ If Phase 2.5 doesn't work as expected:
 
 Before considering this design complete:
 
-- [x] Phase 2.5 added to workflow file
+- [x] Phase 2.5 added to workflow file (v1.2)
+- [x] Phase 2.75 added to workflow file (v1.3) - Technology research
+- [x] Phase 1 enhanced to review requirements first (v1.3)
+- [x] Phase 3 enhanced with ADR-ready decisions (v1.4)
+- [x] Phase 5 updated to emphasize ADR generation (v1.4)
 - [x] Solution overview template defined (500 words max)
 - [x] Conversation patterns documented (approve/refine/reject)
-- [x] Critical rules specified (5 rules in workflow)
-- [x] Version history updated (v1.2)
+- [x] Critical rules specified (5 rules in Phase 2.5)
+- [x] Version history updated (v1.4)
 - [x] Integration with existing phases clear
-- [ ] Manual testing in Claude Desktop (pending deployment)
+- [x] Testing results template created (`testing-results.md`)
+- [ ] Manual testing in Claude Desktop (ready for deployment)
 - [ ] User feedback incorporated (pending usage)
+
+## Deployment Readiness
+
+### Files Ready for Deployment
+
+**Primary Deliverable:**
+- `output/workflow-architecture-exploration.md` (v1.4, ~40KB)
+  - Phase 1: Enhanced to review requirements first
+  - Phase 2.5: Solution Overview & Approval Checkpoint (NEW)
+  - Phase 2.75: Technology Research & Discovery (NEW)
+  - Phase 3: Enhanced with ADR-ready technology decisions
+  - Phase 5: Updated to emphasize ADR generation over Phase 6
+  - Phase 6: Marked as optional
+
+**Testing Documentation:**
+- `specs/staged-review-approval/testing-results.md` (comprehensive test template)
+
+### Deployment Steps
+
+1. Open Claude Desktop application
+2. Navigate to "Architecture Designer" project
+3. Upload `output/workflow-architecture-exploration.md` to project knowledge base
+4. Verify version v1.4 in file header
+5. Test agent access with: "What phases are in the architecture workflow?"
+
+### Post-Deployment Testing
+
+Use `specs/staged-review-approval/testing-results.md` template to test:
+- 7 test scenarios
+- 19 total test cases
+- Success criteria validation
+
+### Expected Impact
+
+After deployment, the Architecture Designer agent will:
+1. **Review requirements first** (Phase 1) before asking questions
+2. **Generate minimal overviews** (Phase 2.5) for validation before detailed work
+3. **Research technologies** (Phase 2.75) via web search when needed
+4. **Capture ADR-ready decisions** (Phase 3) without requiring Phase 6
+5. **Recommend ADR generation** (Phase 5) as default path (10-15 min vs 1-2h for Phase 6)
 
 ## Documentation References
 

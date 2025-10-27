@@ -24,9 +24,11 @@
 
 ## Decision Drivers
 
-* [Driver 1 - e.g., HIPAA compliance requirement]
-* [Driver 2 - e.g., Team expertise]
-* [Driver 3 - e.g., Performance requirements]
+* [Driver 1 - e.g., Platform cohesion - reuse existing services]
+* [Driver 2 - e.g., Vendor tooling leverage - use Azure managed services]
+* [Driver 3 - e.g., Open standards - FHIR R4 compliance]
+* [Driver 4 - e.g., MVP scope - core features vs deferred]
+* [Driver 5 - e.g., Performance/compliance requirements]
 
 ## Considered Options
 
@@ -34,11 +36,64 @@
 * [Option 2]
 * [Option 3]
 
+### Options Comparison (Diagram - Optional but Recommended)
+
+**When to include:** Architecture decisions, integration patterns, data flow changes
+
+```mermaid
+graph LR
+    subgraph "Option 1: [Name]"
+        O1A[Component A]
+        O1B[Component B]
+        O1A -->|Flow| O1B
+    end
+
+    subgraph "Option 2: [Name]"
+        O2A[Component A]
+        O2B[Component B]
+        O2A -.->|Flow| O2B
+    end
+
+    style O1A fill:#90EE90
+    style O2A fill:#FFB6C1
+```
+
+**Comparison:**
+- **Option 1**: [Key characteristic, tradeoff]
+- **Option 2**: [Key characteristic, tradeoff]
+
 ## Decision Outcome
 
 **Chosen option:** "[Option X]"
 
 **Rationale:** [Explain why this option was chosen]
+
+### Architecture Impact (Diagram - Include for structural changes)
+
+**When to include:** Changes to system structure, component interactions, deployment architecture
+
+```mermaid
+graph TB
+    subgraph "Before (Current State)"
+        B1[Current Component]
+        B2[Existing System]
+        B1 --> B2
+    end
+
+    subgraph "After (With This Decision)"
+        A1[New Component]
+        A2[Updated System]
+        A3[Added Component]
+        A1 --> A2
+        A2 --> A3
+    end
+
+    style A3 fill:#90EE90
+```
+
+**Key Changes:**
+- [What's being added/removed/changed]
+- [Impact on existing components]
 
 ## Consequences
 
@@ -50,6 +105,24 @@
 * [Negative consequence 1]
 * [Mitigation: How we'll address this]
 
+### Data Flow Impact (Diagram - Include for integration/data decisions)
+
+**When to include:** Message flow changes, API integration patterns, event-driven architecture
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant S as Service
+    participant D as Database
+
+    C->>S: Request
+    S->>D: Query
+    D-->>S: Data
+    S-->>C: Response
+
+    Note over S,D: Decision impact:<br/>Shows new interaction pattern
+```
+
 ## Compliance Impact
 
 **HIPAA:** [Impact on PHI protection, audit trails, encryption]
@@ -60,10 +133,113 @@
 
 [Technical details for implementation team]
 
+### Deployment Impact (Diagram - Include for infrastructure decisions)
+
+**When to include:** Cloud architecture, deployment strategy, infrastructure changes
+
+```mermaid
+graph TB
+    subgraph "Production Environment"
+        LB[Load Balancer]
+        APP1[App Instance 1]
+        APP2[App Instance 2]
+        DB[(Database)]
+
+        LB --> APP1
+        LB --> APP2
+        APP1 --> DB
+        APP2 --> DB
+    end
+
+    style LB fill:#FFD700
+    style DB fill:#87CEEB
+```
+
 ## References
 
 * [Link to related documentation]
 * [Link to compliance requirements]
+```
+
+---
+
+## Diagram Guidelines for ADRs
+
+### When to Include Diagrams
+
+**ALWAYS include diagrams for:**
+1. **Architecture decisions** - System structure changes
+2. **Integration patterns** - How services communicate
+3. **Data flow changes** - Message routing, event flows
+4. **Deployment strategy** - Infrastructure changes
+
+**SOMETIMES include diagrams for:**
+1. **Technology choices** - If architecture differs significantly
+2. **Security decisions** - If showing attack vectors or protection layers
+3. **Performance optimizations** - If showing before/after topology
+
+**SKIP diagrams for:**
+1. **Library/framework choices** - Unless it changes architecture
+2. **Code style/conventions** - No architectural impact
+3. **Tool selections** - Unless it affects system design
+
+### Diagram Types by Decision Category
+
+| Decision Category | Recommended Diagram Type | Example |
+|------------------|-------------------------|---------|
+| Architecture/Structure | Component diagram, Layered architecture | Monolith → Microservices |
+| Integration | Sequence diagram, Flow diagram | API Gateway pattern |
+| Data/Storage | Entity-relationship, Data flow | Database selection, Caching layer |
+| Deployment | Deployment diagram, Infrastructure | Multi-region deployment |
+| Security | Threat model, Data flow with boundaries | Zero-trust architecture |
+| Performance | Before/after topology | CDN addition, Read replicas |
+
+### Mermaid Quick Reference for ADRs
+
+**Component Comparison (Side-by-side):**
+```mermaid
+graph LR
+    subgraph "Current"
+        C1[Component]
+    end
+    subgraph "Proposed"
+        P1[New Component]
+        P2[Added Service]
+        P1 --> P2
+    end
+```
+
+**Before/After Architecture:**
+```mermaid
+graph TB
+    subgraph "Before"
+        B1[Old Pattern]
+    end
+    subgraph "After"
+        A1[New Pattern]
+        A2[Added Component]
+        A1 --> A2
+    end
+    style A2 fill:#90EE90
+```
+
+**Integration Pattern:**
+```mermaid
+sequenceDiagram
+    participant A as System A
+    participant B as System B
+    A->>B: Request
+    B-->>A: Response
+```
+
+**Deployment Architecture:**
+```mermaid
+graph TB
+    LB[Load Balancer]
+    APP[Application]
+    DB[(Database)]
+    LB --> APP
+    APP --> DB
 ```
 
 ---
@@ -82,9 +258,9 @@ Healthcare application needs relational database for patient demographics, clini
 ### Decision Drivers
 
 * HIPAA: Encryption, audit logging, access controls required
-* Team Expertise: Team experienced with PostgreSQL (40% weight)
+* Platform cohesion: Azure platform already uses PostgreSQL for other services
 * FHIR Support: Native JSONB for FHIR resources
-* Cost: Fully managed service reduces operational overhead
+* Vendor tooling: Fully managed Azure service reduces operational overhead
 * Aidbox Compatibility: Aidbox FHIR server requires PostgreSQL
 
 ### Considered Options
@@ -184,7 +360,7 @@ Need event-driven architecture for HL7 message processing, clinical workflows, a
 * HIPAA: Complete audit trail of all PHI access
 * Scale: Process 100K+ HL7 messages daily
 * Reliability: Exactly-once semantics for billing
-* Team Expertise: Team has Kafka experience from prior project
+* Platform integration: Event-driven architecture aligns with existing platform services
 
 ### Considered Options
 
@@ -268,7 +444,7 @@ Need unified API gateway for microservices (Patient, Clinical, Billing). Must ef
 * Developer Experience: Type-safe schema, single endpoint
 * Performance: Minimize API round-trips for clinical workflows
 * FHIR Integration: Aidbox provides native GraphQL API
-* Team Expertise: Team prefers GraphQL over REST
+* Open standards: GraphQL provides standardized API layer across services
 
 ### Considered Options
 
@@ -347,7 +523,7 @@ Need FHIR R4 server for storing clinical resources (Patient, Observation, Condit
 * Performance: Sub-100ms queries for clinical workflows
 * Custom Extensions: Hospital-specific FHIR profiles
 * GraphQL Support: Integrate with Apollo Federation
-* Team Expertise: Team prefers PostgreSQL-backed solution
+* Platform cohesion: Aligns with existing PostgreSQL infrastructure
 
 ### Considered Options
 
@@ -422,7 +598,7 @@ Need comprehensive observability platform for distributed tracing, log managemen
 
 * HIPAA: 7-year audit log retention, PHI access monitoring
 * Distributed Tracing: Track HL7 messages across microservices
-* Team Expertise: Team prefers SaaS over self-hosted
+* Vendor tooling: Leverage SaaS to minimize operational overhead
 * Cost: Predictable pricing model
 
 ### Considered Options
@@ -504,7 +680,7 @@ Need Infrastructure as Code strategy for reproducible environments and HIPAA-com
 
 * SOX: Change control and audit trail required
 * Development Parity: Dev environment matches production
-* Team Expertise: Team knows Docker and Terraform
+* Platform standards: Docker and Terraform align with platform tooling
 * Cost: Open-source tools preferred
 
 ### Considered Options
@@ -580,7 +756,7 @@ Need vendor-neutral telemetry collection for distributed tracing, metrics, and l
 * Vendor Neutrality: Avoid DataDog lock-in for instrumentation
 * HIPAA: Filter PHI from traces before export
 * Standards: CNCF standard preferred over proprietary
-* Team Expertise: Team familiar with OpenTelemetry
+* Open standards: OpenTelemetry is CNCF standard, vendor-neutral
 
 ### Considered Options
 

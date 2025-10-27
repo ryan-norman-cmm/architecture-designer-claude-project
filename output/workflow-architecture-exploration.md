@@ -2,7 +2,7 @@
 
 **Purpose:** Enable users to explore 2-3 distinct architectural approaches through conversational interface with visual diagrams, honest tradeoff analysis, and contextual recommendations.
 
-**Version:** 1.0 (REL-002)
+**Version:** v1.6 (platform-cohesion)
 **Last Updated:** 2025-10-27
 
 ---
@@ -34,14 +34,28 @@ This workflow implements a **Conversational State Machine Pattern** with:
 
 **Required Information:**
 - **Functional Requirements**: What the system must do (user stories, features)
+- **MVP Scope**: What's the minimal valuable release? What features can be deferred?
+- **Platform Context**:
+  - Existing platform services available for reuse (auth, notifications, file storage, etc.)
+  - Integration points with current platform systems
+  - Platform standards to follow (API conventions, logging, monitoring, deployment)
+  - Shared infrastructure available (databases, message queues, caches, CDN)
+- **Vendor Tooling Opportunities**:
+  - Existing vendor tools/services in use (AWS/Azure/GCP, SaaS platforms)
+  - Vendor managed services that could be leveraged (databases, queues, search, ML)
+  - Licensing/contracts already in place
+- **Standards & Reusability**:
+  - Open standards to use (REST, GraphQL, FHIR, OpenAPI, OpenTelemetry, CloudEvents, etc.)
+  - Existing services/components that could be reused
+  - API contracts and data format standards
+  - Cross-platform integration needs
 - **Performance Targets**: Response time, throughput, availability expectations (if applicable)
 - **Scale Expectations**: Number of users (current and projected)
-- **Team Constraints**:
-  - Team size (number of engineers)
-  - Team expertise (technologies they know well)
-  - Timeline (weeks or months to delivery)
-  - Budget (limited, moderate, flexible)
 - **Domain Context**: Industry, regulatory requirements, special considerations
+
+**Default Assumptions (unless evaluating brand new tools):**
+- Team has expertise with existing platform tools/technologies
+- Team size and delivery timeline are flexible - optimize for platform cohesion and long-term reusability, not speed
 
 **Conversation Pattern (with provided requirements):**
 ```
@@ -54,13 +68,15 @@ Agent: "Thank you for providing the requirements. Let me review them first.
 Based on my review, I understand:
 - **Product**: [summary]
 - **Key Features**: [list]
+- **MVP Scope**: [minimal release vs future features]
 - **Target Users**: [description]
-- **Constraints**: [team size, timeline, budget from document]
 
-I have a few clarifying questions:
-1. [Question about missing detail]
-2. [Question about unclear requirement]
-3. [Question about constraints]
+I have a few clarifying questions to optimize for platform cohesion:
+1. **Platform Integration**: What existing platform services can this leverage? (auth, notifications, storage, etc.)
+2. **Vendor Tooling**: Are you using a specific cloud provider or managed services we should leverage?
+3. **Open Standards**: Any API standards to follow? (REST, GraphQL, FHIR, OpenAPI, etc.)
+4. **Reusability**: Are there existing services/components we should integrate with?
+5. [Any other missing critical details]
 
 Does this match your understanding? Any corrections or additions?"
 ```
@@ -71,50 +87,56 @@ User: "I need to build a task management application..."
 
 Agent: "I'll help you explore architectural approaches for your task management application.
 
-To provide the most relevant recommendations, I need to understand a few key constraints:
+To provide the most relevant recommendations focused on platform cohesion and reusability:
 
-1. **Team Size & Expertise**: How many engineers will work on this? What technologies does your team know well?
+1. **MVP Scope**: What's the minimal valuable release? Which features are must-have vs nice-to-have?
 
-2. **Scale Expectations**: How many users do you expect? (Now and in 12 months)
+2. **Platform Context**: Do you have an existing platform with services we can reuse? (auth, notifications, storage, etc.)
 
-3. **Timeline**: What's your delivery timeline?
+3. **Vendor Tooling**: What cloud provider or managed services are you already using? (AWS/Azure/GCP, databases, caches, etc.)
 
-4. **Budget Constraints**: What's your infrastructure budget tolerance? (limited / moderate / flexible)
+4. **Standards**: Any API or integration standards to follow? (REST, GraphQL, FHIR, OpenAPI, OpenTelemetry, etc.)
 
-5. **Special Requirements**: Any compliance needs, integrations, or performance requirements?
+5. **Scale & Performance**: Expected user scale? Any specific performance or availability requirements?
 
-Please share what you know - we can refine as we go."
+6. **Special Requirements**: Compliance needs (HIPAA, SOX, GDPR), critical integrations, or domain-specific considerations?
+
+Please share what you know - we'll focus on leveraging your existing platform and vendor tools for maximum cohesion and reusability."
 ```
 
 ---
 
 ### Phase 2: Gap Identification
 
-**Goal:** Ensure all critical constraints are captured
+**Goal:** Ensure all critical context for platform cohesion and vendor tooling leverage is captured
 
 **Process:**
 1. Analyze provided requirements
-2. Identify missing critical constraints (team size, timeline, budget, scale)
+2. Identify missing critical context (MVP scope, platform services, vendor tools, standards)
 3. Request clarification for gaps
 4. Update requirement understanding
 5. Repeat until requirements are complete
 
 **Gap Detection Rules:**
-- **MUST HAVE**: Functional requirements, team size, timeline
-- **SHOULD HAVE**: Team expertise, scale expectations, budget
+- **MUST HAVE**: Functional requirements, MVP scope, platform context
+- **SHOULD HAVE**: Vendor tooling in use, open standards, reusability opportunities, scale expectations
 - **NICE TO HAVE**: Performance targets, compliance requirements, domain specifics
 
 **Conversation Pattern:**
 ```
-User: "We have 3 engineers and need it in 2 months."
+User: "We're building a patient scheduling system for our healthcare platform."
 
-Agent: "Great! To complete the picture, I need two more pieces of information:
+Agent: "Perfect! To optimize for platform cohesion and reusability, I need to understand:
 
-1. **Scale**: How many users do you expect? (This affects architecture complexity)
+1. **Platform Services**: What existing platform services can we leverage? (Auth, notifications, audit logging, etc.)
 
-2. **Team Expertise**: What technologies does your team already know? (TypeScript? Python? React? etc.)
+2. **Vendor Tooling**: What cloud provider and managed services are already in use? (e.g., Azure PostgreSQL, Redis Cache, etc.)
 
-This helps me recommend approaches that fit your actual constraints rather than theoretical 'best practices'."
+3. **Open Standards**: Should this follow FHIR for patient data? Any API standards required? (REST, GraphQL, OpenAPI, etc.)
+
+4. **Existing Integrations**: What systems does this need to integrate with? Any reusable components from other services?
+
+This helps me recommend approaches that maximize platform cohesion and minimize reinvention."
 ```
 
 ---
@@ -148,19 +170,21 @@ Examples:
 - "Serverless functions with API Gateway and managed databases"
 
 ### Key Assumptions
-- Team constraint: [size, expertise]
+- MVP scope: [minimal release features]
+- Platform services leveraged: [auth, notifications, storage, etc.]
+- Vendor tooling used: [cloud provider, managed services]
+- Open standards: [REST, FHIR, OpenAPI, etc.]
 - Scale target: [users, requests]
-- Timeline: [delivery window]
-- Budget: [infrastructure cost tolerance]
 - Critical requirement: [most important non-negotiable]
 
 ### Architectural Principles for This Solution
 [3-5 principles that will guide detailed design]
 
 Examples:
-- "Optimize for development velocity over premature scalability"
-- "Minimize operational complexity (managed services preferred)"
-- "Clear module boundaries to enable future extraction if needed"
+- "Maximize platform cohesion - reuse existing services vs reinventing"
+- "Leverage vendor managed services to minimize operational complexity"
+- "Follow open standards (FHIR, OpenAPI) for cross-platform compatibility"
+- "Design for service reusability across future platform releases"
 
 ### What This Enables
 [2-3 sentences on what users will be able to do with this architecture]
@@ -390,15 +414,21 @@ Reference `kb-architecture-patterns.md` for available patterns:
 - Jamstack Architecture
 - CQRS + Event Sourcing
 
-### Step 2: Filter by Constraint Viability
+### Step 2: Filter by Platform Cohesion & Constraints
 
-**Team Size Constraints:**
-| Team Size | Suitable Patterns | Avoid |
-|-----------|------------------|-------|
-| 1-2 engineers | Monolithic, Serverless, Jamstack | Microservices, Event-Driven |
-| 3-5 engineers | Monolithic, Modular Monolith, Serverless | Microservices (too much overhead) |
-| 6-10 engineers | Modular Monolith, Microservices, Serverless | Simple Monolith (underutilizes team) |
-| 10+ engineers | Microservices, Event-Driven, SOA | Simple Monolith |
+**Platform Cohesion Constraints:**
+| Platform Maturity | Suitable Patterns | Avoid |
+|-------------------|------------------|-------|
+| New platform (greenfield) | Modular Monolith, Event-Driven, Microservices | Avoid over-engineering for first release |
+| Existing platform (brownfield) | Service-oriented, Event-Driven (integrate), Modular (extend) | Monolithic (hard to integrate) |
+| Mature platform (many services) | Microservices (consistency), Event-Driven (async), API Gateway | Simple monolith (doesn't fit ecosystem) |
+
+**Vendor Tooling Leverage:**
+| Vendor Adoption | Suitable Patterns | Recommendations |
+|-----------------|------------------|-----------------|
+| Heavy vendor lock-in | Serverless, Managed PaaS, Vendor-native patterns | Maximize vendor-managed services|
+| Moderate vendor use | Modular Monolith on managed infrastructure, Hybrid | Balance vendor services with custom code |
+| Vendor-agnostic | Containerized services, Open standards, Portable patterns | Focus on Docker, Kubernetes, open APIs |
 
 **Scale Constraints:**
 | User Scale | Suitable Patterns | Avoid |
@@ -409,28 +439,13 @@ Reference `kb-architecture-patterns.md` for available patterns:
 | 100K-1M | Microservices, Event-Driven, Modular (extract) | Simple Monolith |
 | 1M+ | Microservices, Event-Driven, SOA | Monolithic |
 
-**Timeline Constraints:**
-| Timeline | Suitable Patterns | Avoid |
-|---------|------------------|-------|
-| <1 month | Serverless, Jamstack, Simple Monolith | Microservices, Event-Driven |
-| 1-3 months | Monolithic, Modular Monolith, Serverless | Microservices (2-3 month setup) |
-| 3-6 months | Modular Monolith, Microservices, Serverless | Event-Driven (2-3 month setup) |
-| 6+ months | All patterns viable | N/A |
-
-**Budget Constraints:**
-| Budget | Suitable Patterns | Avoid |
-|--------|------------------|-------|
-| Limited ($0-$100/mo) | Serverless (pay-per-use), Jamstack, PaaS Monolith | Microservices (high infra cost) |
-| Moderate ($100-$500/mo) | Monolithic, Modular Monolith, Serverless | Large-scale microservices |
-| Flexible ($500+/mo) | All patterns viable | N/A |
-
 ### Step 3: Calculate Fit Score (0-100)
 
 For each viable pattern, calculate score:
-- **Team Size Fit** (40% weight): Ideal team size match
-- **Scale Fit** (30% weight): Can handle expected scale
-- **Timeline Fit** (20% weight): Setup time < timeline
-- **Budget Fit** (10% weight): Cost <= budget
+- **Platform Cohesion** (40% weight): Fits existing platform architecture and services
+- **Vendor Tooling Leverage** (25% weight): Maximizes use of existing vendor services/licenses
+- **Scale Fit** (20% weight): Can handle expected scale
+- **Standards Compliance** (15% weight): Uses open standards for cross-platform integration
 
 ### Step 4: Ensure Diversity (5 Rules)
 
@@ -449,23 +464,23 @@ For each viable pattern, calculate score:
 **Rule 4: Complexity Level Diversity**
 - Include range: Simple (monolith) → Moderate (modular/serverless) → Complex (microservices/event-driven)
 
-**Rule 5: Simplicity Option When Required** (CRITICAL)
-- **If team < 5 engineers**: MUST include monolithic or serverless option
-- **If timeline < 3 months**: MUST include fastest-to-deploy option (monolith/serverless)
-- **If budget = limited**: MUST include low-cost option (serverless/PaaS monolith)
+**Rule 5: MVP-Appropriate Complexity** (CRITICAL)
+- **If greenfield/MVP**: MUST include simpler option (monolith/serverless) to enable faster validation
+- **If heavy vendor tooling**: MUST include vendor-native pattern (serverless, managed PaaS)
+- **If mature platform**: MUST include pattern consistent with platform architecture
 
 ### Step 5: Select 2-3 Approaches
 
 **Selection Logic:**
 1. **Best Fit** (highest score): Always include top-scoring pattern
 2. **Diverse Alternative** (different category): 2nd pattern from different category with score > 60
-3. **Third Option** (if applicable): Different category OR simpler fallback (if constraints tight)
+3. **Third Option** (if applicable): Different category OR vendor-leverage alternative
 
 **Example Pattern Combinations:**
-- **Small team (2) + short timeline (3mo)**: Monolithic (HIGH), Serverless (MEDIUM), Modular (MEDIUM)
-- **Large team (10) + high scale (1M)**: Microservices (HIGH), Event-Driven (HIGH), Modular (MEDIUM)
-- **Unknown scale + solo developer**: Serverless (HIGH), Jamstack (MEDIUM-HIGH), Monolith (MEDIUM)
-- **Enterprise + compliance**: SOA (HIGH), Event-Driven (HIGH), Modular (MEDIUM-HIGH)
+- **Greenfield MVP + Azure platform**: Modular Monolith on App Service (HIGH), Serverless Functions (MEDIUM), Event-Driven with Service Bus (MEDIUM)
+- **Mature platform + high scale (1M)**: Microservices (HIGH), Event-Driven (HIGH), API Gateway + Modular (MEDIUM)
+- **Heavy AWS adoption**: Serverless (Lambda/API Gateway) (HIGH), ECS Fargate services (MEDIUM-HIGH), App Runner monolith (MEDIUM)
+- **Healthcare platform + FHIR**: FHIR-compliant services (HIGH), Event-driven FHIR workflows (HIGH), Modular FHIR server (MEDIUM-HIGH)
 
 **Presentation Format:**
 
@@ -717,10 +732,12 @@ Agent: "Great choice! Modular Monolith fits your constraints well (3 engineers, 
 **What would you like next?**
 
 **Option 1: Generate ADRs (Recommended - No Phase 6 needed)**
-- I can generate 3-5 Architecture Decision Records NOW from Phase 3 decisions
-- Documents: Architecture choice, database selection, caching strategy, stack choice
+- I can generate 1-2 Architecture Decision Records NOW from Phase 3 decisions
+- Focus on **most impactful decisions**: Architecture pattern + Database OR Integration pattern
 - Each ADR includes: Context, Decision, Rationale, Alternatives, Tradeoffs, Implementation notes
-- **Takes 10-15 minutes** - Ready to use immediately
+- **Includes diagrams**: Before/after architecture, options comparison, data flow (where impactful)
+- **Takes 5-10 minutes** - Ready to use immediately
+- If you need more than 2 ADRs, the scope is likely too complex (break into phases)
 
 **Option 2: Detailed Component Design (Phase 6 - Optional)**
 - Full implementation specs (component responsibilities, interfaces, data schemas, deployment architecture)
@@ -738,6 +755,251 @@ Agent: "Great choice! Modular Monolith fits your constraints well (3 engineers, 
 
 Let me know!"
 ```
+
+---
+
+### ADR Generation Guide (From Phase 3 Decisions)
+
+**Goal:** Generate Architecture Decision Records with impactful diagrams from Phase 3 technology decisions
+
+**When to Use:** After user selects "Option 1: Generate ADRs" in Phase 5
+
+**Process:**
+
+1. **Identify 1-2 Most Impactful Decisions from Phase 3**
+   - Review selected approach's "Key Technology Decisions"
+   - **Limit to 1-2 ADRs** - If more needed, scope is too complex (break into phases)
+   - **Priority order**: Architecture pattern > Database > Integration pattern > Deployment
+   - Each should have: Decision, Rationale, Alternatives, Tradeoffs
+
+2. **Generate ADRs with Strategic Diagrams**
+   - Use `kb-adr-library.md` template
+   - **ALWAYS include diagrams** for architecture/integration/data decisions
+   - **SKIP diagrams** for simple library/tool choices
+
+**Decision Priority (Pick 1-2):**
+1. **Architecture pattern** (Monolith/Microservices/Serverless) - ALWAYS document if significant
+2. **Database selection** - ALWAYS document if major decision
+3. **Integration pattern** (Event-driven, API Gateway) - Document if complex integration
+4. **Deployment strategy** - Document if multi-region or complex
+5. **Stack/Framework** - RARELY document (usually not architectural)
+
+3. **Diagram Placement by Decision Type:**
+
+| Decision Type | Diagram Type | When to Include |
+|--------------|-------------|-----------------|
+| **Architecture pattern** (Monolith/Microservices/Serverless) | Component diagram showing structure | ALWAYS |
+| **Database selection** | Deployment diagram showing replication/sharding | If multi-instance |
+| **Caching layer** | Data flow showing cache integration | ALWAYS |
+| **Integration pattern** (API Gateway, Event-driven) | Sequence diagram showing message flow | ALWAYS |
+| **Stack/Framework choice** | Skip diagram | RARELY (unless unique architecture) |
+| **Security pattern** (Zero-trust, mTLS) | Security boundary diagram | ALWAYS |
+| **Deployment strategy** (Multi-region, Blue-green) | Infrastructure diagram | ALWAYS |
+
+4. **ADR Template Sections with Diagrams:**
+
+```markdown
+# ADR-001: [Decision from Phase 3]
+
+## Context and Problem Statement
+[Copy from Phase 3 rationale]
+
+## Decision Drivers
+- [From Phase 3 requirements]
+- [From constraints]
+
+## Considered Options
+- [From Phase 3 alternatives]
+
+### Options Comparison (Diagram)
+**Include for: Architecture, Integration, Data flow decisions**
+
+```mermaid
+graph LR
+    subgraph "Option 1: [Chosen]"
+        O1[Component]
+        O1 -->|Pattern| O2[Result]
+    end
+    subgraph "Option 2: [Alternative]"
+        A1[Component]
+        A1 -.->|Pattern| A2[Result]
+    end
+    style O1 fill:#90EE90
+```
+
+## Decision Outcome
+**Chosen option:** "[From Phase 3]"
+
+### Architecture Impact (Diagram)
+**Include for: Structural changes, new components, integration patterns**
+
+```mermaid
+graph TB
+    subgraph "After This Decision"
+        A1[New Component]
+        A2[Existing System]
+        A3[Integration Layer]
+        A1 --> A3
+        A3 --> A2
+    end
+    style A1 fill:#90EE90
+```
+
+## Consequences
+**Positive:** [From Phase 3 tradeoffs - Pro]
+**Negative:** [From Phase 3 tradeoffs - Con]
+
+### Data Flow Impact (Diagram)
+**Include for: Caching, messaging, API patterns**
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant Cache as Redis Cache
+    participant DB as Database
+    C->>Cache: GET key
+    alt Cache Hit
+        Cache-->>C: Data
+    else Cache Miss
+        Cache->>DB: Query
+        DB-->>Cache: Data
+        Cache-->>C: Data
+    end
+```
+```
+
+5. **Example ADR with Diagram (Architecture Decision):**
+
+```markdown
+# ADR-001: Modular Monolith Architecture
+
+## Context and Problem Statement
+Patient scheduling MVP for healthcare platform (100-500 users initially). Need to maximize platform cohesion while enabling future service extraction if scaling requires it.
+
+## Decision Drivers
+- Platform cohesion: Reuse existing auth, audit logging, notifications services
+- Vendor tooling: Leverage Azure App Service (already in use)
+- Open standards: FHIR R4 for patient/appointment data
+- MVP scope: Core scheduling features, defer advanced analytics
+- Scale: 100-500 users initially, potential growth to 10K in 12 months
+
+## Considered Options
+1. Modular Monolith on Azure App Service
+2. Microservices on AKS
+3. Azure Functions (serverless)
+
+### Options Comparison
+
+```mermaid
+graph TB
+    subgraph "Modular Monolith (Chosen)"
+        M1[Scheduling Module]
+        M2[Patient Module]
+        M3[Provider Module]
+        M4[Notifications Module]
+        M1 -->|Internal calls| M2
+        M2 -->|Internal calls| M3
+        M3 -->|Platform service| M4
+    end
+
+    subgraph "Microservices (Alternative)"
+        S1[Scheduling Service]
+        S2[Patient Service]
+        S3[Provider Service]
+        S4[Notification Service]
+        S1 -.->|HTTP/gRPC| S2
+        S2 -.->|HTTP/gRPC| S3
+    end
+
+    style M1 fill:#90EE90
+    style S1 fill:#FFB6C1
+```
+
+**Comparison:**
+- **Modular Monolith**: Better platform cohesion, reuses App Service infrastructure, simpler deployment
+- **Microservices**: Better independent scaling, but more operational complexity and platform integration work
+
+## Decision Outcome
+**Chosen option:** "Modular Monolith on Azure App Service with clean module boundaries"
+
+**Rationale:** Maximizes platform cohesion by reusing existing Azure App Service infrastructure, auth, and notification services. FHIR-compliant modules can be extracted to separate services later if traffic patterns require it.
+
+### Architecture Impact
+
+```mermaid
+graph TB
+    subgraph "Application Structure"
+        API[API Layer]
+        M1[Users Module]
+        M2[Tasks Module]
+        M3[Projects Module]
+        M4[Notifications Module]
+        DB[(PostgreSQL)]
+
+        API --> M1
+        API --> M2
+        API --> M3
+        API --> M4
+
+        M1 --> DB
+        M2 --> DB
+        M3 --> DB
+        M4 --> DB
+    end
+
+    style M1 fill:#90EE90
+    style M2 fill:#90EE90
+    style M3 fill:#90EE90
+    style M4 fill:#90EE90
+```
+
+**Key Changes:**
+- Single deployable application with FHIR-compliant modules
+- Deploys to existing Azure App Service infrastructure
+- Reuses platform auth and notifications services
+- Internal function calls (not HTTP) for module-to-module communication
+
+## Consequences
+
+### Positive
+- Maximum platform cohesion (reuses App Service, auth, notifications, audit logging)
+- Leverages existing Azure PostgreSQL and Redis infrastructure
+- FHIR R4 compliance for patient/appointment data (open standard)
+- Simple deployment (integrates with existing CI/CD pipeline)
+- Refactorable (FHIR modules can be extracted to services later if needed)
+
+### Negative
+- All modules scale together (can't scale Scheduling independently from Patient module)
+- Mitigation: Use Azure Front Door + caching for read-heavy operations, async jobs for background tasks
+
+## Implementation Notes
+- Use FHIR R4 resources for patient, appointment, practitioner data
+- Integrate with platform authentication service (OAuth 2.0)
+- Leverage platform audit logging service for compliance
+- Use platform notification service for appointment reminders
+- Deploy to existing App Service with module-specific database schemas
+```
+
+6. **CRITICAL Rules for ADR Diagrams:**
+   - **Use diagrams to show impact**, not just describe options
+   - **Before/after diagrams** clarify architectural changes
+   - **Options comparison** helps explain why you chose one over another
+   - **Keep diagrams focused** - Only show components relevant to the decision
+   - **Use color** to highlight new/changed components (green for new, yellow for changed)
+   - **Reference kb-adr-library.md** for diagram examples and templates
+
+7. **Time Budget:**
+   - **1-2 ADRs total** (more = scope too complex, break into phases)
+   - Each ADR with diagrams: ~3-5 minutes
+   - Total: 5-10 minutes
+
+8. **Deliverable Format:**
+   - Separate markdown file per ADR: `ADR-001-architecture-choice.md`, `ADR-002-database-selection.md`
+   - OR single file with both ADRs if user prefers
+
+9. **Scope Check:**
+   - **If you're generating 3+ ADRs**, STOP and suggest breaking into implementation phases
+   - Example: "I'm seeing 5 major decisions (architecture, database, caching, messaging, deployment). This suggests the scope is too large for one phase. Should we focus on core architecture + database first, then tackle integration patterns in Phase 2?"
 
 ---
 
@@ -1078,11 +1340,29 @@ Before presenting artifacts, verify:
 
 ## Version History
 
+**v1.6 (platform-cohesion)** - 2025-10-27
+- **Shifted focus from team size/timeline to MVP releases and platform cohesion**
+- Phase 1: Updated requirements gathering to prioritize platform services, vendor tooling, open standards
+- Phase 2: Changed gap identification to focus on platform integration opportunities
+- Phase 2.5: Updated solution overview template with platform/vendor/standards assumptions
+- Pattern matching: Replaced team size/timeline constraints with platform cohesion fit scores
+- Default assumptions: Team has expertise with platform tools (unless evaluating new tools)
+- Removed team size/timeline as primary decision drivers
+- New fit score weights: Platform Cohesion (40%), Vendor Leverage (25%), Scale (20%), Standards (15%)
+
+**v1.5 (adr-diagrams)** - 2025-10-27
+- Enhanced ADR template with strategic diagram guidance (kb-adr-library.md)
+- Added "ADR Generation Guide" section after Phase 5
+- Diagrams included for: Architecture impact, Options comparison, Data flow, Deployment
+- **Limited ADRs to 1-2** (more = scope too complex, break into phases)
+- Updated time estimate: 5-10 minutes (was 10-15 minutes for 3-5 ADRs)
+- Added scope check: If 3+ ADRs needed, suggest breaking into implementation phases
+
 **v1.4 (adr-ready-decisions)** - 2025-10-27
 - Enhanced Phase 3: Capture ADR-ready technology decisions
 - Each approach now includes Key Technology Decisions with rationale, alternatives, tradeoffs
 - ADRs can be generated directly from Phase 3 (no Phase 6 needed)
-- Updated Phase 5 options: Emphasize ADR generation as recommended path (10-15 min)
+- Updated Phase 5 options: Emphasize ADR generation as recommended path
 - Phase 6 (Detailed Component Design) now clearly optional (most teams don't need it)
 
 **v1.3 (technology-research)** - 2025-10-27
