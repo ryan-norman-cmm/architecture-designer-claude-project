@@ -618,16 +618,17 @@ interface ValidationCriteria {
 
 ### Single-Folder Structure with Type Prefixes
 
-All knowledge base files are generated into a single output folder with consistent naming prefixes for easy organization and drag-and-drop into Claude Desktop projects:
+All knowledge base files are generated into a single output folder with consistent naming prefixes for easy organization and drag-and-drop into Claude Desktop projects. Custom instructions are stored at the root level since they are configured in Claude Desktop settings rather than uploaded as files.
 
 ```
 output/
-├── custom-instructions-healthcare-architect.md (2,800 words)
 ├── kb-architecture-patterns.md (~50K tokens)
 ├── kb-technology-selection.md (~50K tokens)
 ├── kb-adr-library.md (~40K tokens)
 ├── kb-anti-patterns.md (~30K tokens)
 └── kb-scaling-strategies.md (~30K tokens)
+
+custom-instructions-healthcare-architect.md (2,800 words) - Root level
 ```
 
 **Naming Convention Benefits:**

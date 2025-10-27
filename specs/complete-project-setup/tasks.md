@@ -439,7 +439,7 @@ Create the 2,800-word custom instructions defining the Architecture Designer age
   - Example architectures
 
 ### Files to Create
-- [ ] `/Users/rnorman/Projects/architecture-designer-claude-project/output/custom-instructions-healthcare-architect.md`
+- [ ] `/Users/rnorman/Projects/architecture-designer-claude-project/custom-instructions-healthcare-architect.md` (root level)
 - [ ] `/Users/rnorman/Projects/architecture-designer-claude-project/output/.validation/instructions-checklist.md` (validation notes)
 
 ### Test Approach
@@ -527,7 +527,7 @@ Create comprehensive setup documentation enabling any software architect to repl
   ```
   architecture-designer-claude-project/
   ├── output/
-  │   ├── custom-instructions-healthcare-architect.md (2,800 words)
+  │   ├── custom-instructions-healthcare-architect.md (2,800 words) - Root level
   │   ├── kb-architecture-patterns.md (~50K tokens)
   │   ├── kb-technology-selection.md (~50K tokens)
   │   ├── kb-adr-library.md (~40K tokens)
