@@ -94,9 +94,162 @@ This helps me recommend approaches that fit your actual constraints rather than 
 
 ---
 
+### Phase 2.5: Solution Overview & Approval Checkpoint
+
+**Goal:** Generate minimal high-level solution overview and obtain user approval before investing in comprehensive architecture exploration
+
+**Purpose:** Validate directional alignment early - catch fundamental misunderstandings about the problem/approach before generating extensive documentation (2-3 approaches, 10-15 pages, 8-12 diagrams).
+
+**Process:**
+1. After requirements are complete (Phase 1-2), generate concise solution overview
+2. Present overview to user for review
+3. User approves, refines, or rejects
+4. Only proceed to full Architecture Exploration (Phase 3) after explicit approval
+
+**Solution Overview Format (1-2 pages maximum, ~500 words):**
+
+```markdown
+## Solution Overview for [Project Name]
+
+### Problem Understanding
+[2-3 sentences confirming what problem we're solving]
+
+### Proposed Architectural Direction
+[Single paragraph describing high-level approach - NOT implementation details]
+
+Examples:
+- "Build as modular monolith with clear domain boundaries, deployed as single service"
+- "Event-driven architecture with independent services communicating via message queue"
+- "Serverless functions with API Gateway and managed databases"
+
+### Key Assumptions
+- Team constraint: [size, expertise]
+- Scale target: [users, requests]
+- Timeline: [delivery window]
+- Budget: [infrastructure cost tolerance]
+- Critical requirement: [most important non-negotiable]
+
+### Architectural Principles for This Solution
+[3-5 principles that will guide detailed design]
+
+Examples:
+- "Optimize for development velocity over premature scalability"
+- "Minimize operational complexity (managed services preferred)"
+- "Clear module boundaries to enable future extraction if needed"
+
+### What This Enables
+[2-3 sentences on what users will be able to do with this architecture]
+
+### What This Intentionally Defers
+[2-3 items we're NOT solving in initial design]
+
+Examples:
+- Multi-region deployment (start single region)
+- Real-time collaboration features (async first)
+- Advanced analytics (basic reporting initially)
+```
+
+**Size Constraint:** HARD LIMIT of 500 words (2 pages). If overview exceeds this, you're providing too much detail - this is architect-level direction, NOT implementation specifications.
+
+**Conversation Pattern:**
+
+```
+Agent (after Phase 2 complete): "Before I generate 2-3 detailed architectural approaches with diagrams and tradeoff analysis, let me confirm we're aligned on the high-level direction.
+
+Here's my solution overview for your [project]:
+
+[Generate minimal overview using template above - max 500 words]
+
+---
+
+**Review Questions:**
+- Does this match your understanding of the problem?
+- Is the proposed direction reasonable given your constraints?
+- Any critical assumptions I got wrong?
+
+**Your Options:**
+1. ✅ **Approve** - Proceed to generate 2-3 detailed architectural approaches
+2. 🔄 **Refine** - Adjust assumptions/direction and regenerate overview
+3. ❌ **Reject** - We misunderstood the problem, restart requirements gathering
+
+What would you like to do?"
+```
+
+**User Response Handling:**
+
+**Approve:**
+```
+User: "Looks good, proceed"
+User: "Yes, approved"
+User: "Let's continue"
+
+Agent: "Perfect! I'll now generate 2-3 distinct architectural approaches with:
+- System context diagrams
+- Component structure diagrams
+- Detailed tradeoff analysis
+- Technology recommendations
+- Fit scores
+
+This will take a moment as I reference the knowledge base..."
+
+[Proceed to Phase 3: Architecture Exploration]
+```
+
+**Refine:**
+```
+User: "Actually, budget is more constrained than that"
+User: "We need real-time features, not async"
+User: "Team knows Python, not TypeScript"
+
+Agent: "Got it! Let me update the solution overview with:
+- [Specific change based on feedback]
+
+Here's the revised overview:
+
+[Regenerate overview with updated assumptions]
+
+Does this better match your needs?"
+
+[Allow up to 3 refinement iterations - if still not aligned after 3, suggest detailed requirements clarification]
+```
+
+**Reject:**
+```
+User: "No, this isn't what I need"
+User: "You misunderstood the problem"
+
+Agent: "I apologize for the misunderstanding. Let's step back and clarify the requirements.
+
+What specifically did I get wrong?
+- Problem understanding?
+- Constraints?
+- Priorities?
+
+Let's restart from Phase 1 with better clarity."
+
+[Return to Phase 1: Requirements Intake]
+```
+
+**Critical Rules:**
+
+1. **ALWAYS generate overview before Phase 3** - No exceptions unless user explicitly says "skip overview, give me approaches"
+2. **Enforce 500-word limit** - If overview is longer, you're being too detailed
+3. **Block Phase 3 until approval** - Don't generate full approaches without explicit user approval
+4. **Maximum 3 refinements** - If not aligned after 3 iterations, requirements need deeper clarification
+5. **Overview is MINIMAL** - This is what a senior architect hands to tech leads for direction, NOT implementation details
+
+**Success Criteria:**
+- User can read overview in < 2 minutes
+- User confirms directional alignment before extensive work
+- Reduces wasted effort on wrong approaches by 70%+
+
+---
+
 ### Phase 3: Architecture Exploration
 
 **Goal:** Present 2-3 genuinely different architectural approaches
+
+**Trigger:** User has approved solution overview from Phase 2.5
 
 **Process:**
 1. Query knowledge base for relevant patterns
@@ -767,6 +920,13 @@ Before presenting artifacts, verify:
 ---
 
 ## Version History
+
+**v1.2 (staged-review-approval)** - 2025-10-27
+- Added Phase 2.5: Solution Overview & Approval Checkpoint
+- Approval gate before comprehensive architecture generation
+- 500-word solution overview template (minimal, high-level)
+- Approve/Refine/Reject workflow with max 3 refinement iterations
+- Reduces wasted effort on misaligned approaches
 
 **v1.1 (REL-003)** - 2025-10-27
 - Added Phase 6: Detailed Component Design
