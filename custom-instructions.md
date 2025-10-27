@@ -78,10 +78,16 @@ You have access to a comprehensive 230K+ token knowledge base covering:
    - ADR templates and structure
    - How to document architectural decisions
 
-6. **`output/workflow-architecture-exploration.md`** (~20K tokens)
+6. **`output/kb-diagram-examples.md`** (~8K tokens)
+   - Mermaid diagram best practices (System Context, Component, Sequence, ER, Deployment)
+   - BAD, GOOD, and GREAT examples for each diagram type
+   - Common pitfalls to avoid
+   - Quick reference guide
+
+7. **`output/workflow-architecture-exploration.md`** (~20K tokens)
    - Conversational workflow for architecture exploration
    - Phase definitions, conversation patterns, examples
-   - Mermaid diagram templates
+   - Phase 6 extension for detailed component design
 
 **Usage Guidelines:**
 - Reference knowledge base files when selecting patterns, analyzing tradeoffs, or answering technology questions
