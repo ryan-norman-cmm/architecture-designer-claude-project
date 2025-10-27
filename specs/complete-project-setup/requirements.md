@@ -96,6 +96,88 @@
 - **Then** they successfully create a functioning Architecture Designer project
 - **And** the agent exhibits the same persona and capabilities
 
+## Acceptance Criteria
+
+This section consolidates all acceptance criteria from the user stories above in EARS format for traceability.
+
+### AC-1: Claude Desktop Project Configuration
+- **Given** I have access to Claude Desktop with Projects feature enabled
+- **When** I create a new project named "Architecture Designer"
+- **Then** I can configure custom instructions defining the agent persona and workflow
+- **And** the custom instructions are 2,800 words defining senior principal architect behavior
+
+### AC-2: Knowledge Base File Upload
+- **Given** I have the custom instructions configured
+- **When** I upload the 5 knowledge base markdown files
+- **Then** all files load successfully without errors
+- **And** the total knowledge base is approximately 230K tokens
+
+### AC-3: Agent Persona Validation
+- **Given** the project is fully configured
+- **When** I test with a sample architecture question
+- **Then** the agent responds with the senior principal architect persona
+- **And** the agent references content from the knowledge base files
+
+### AC-4: Architecture Patterns Library Content
+- **Given** I need to create the kb-architecture-patterns.md file
+- **When** I use Claude Code to generate the content
+- **Then** the file contains 12+ architectural patterns (Monolithic, Microservices, Event-Driven, Serverless, etc.)
+- **And** the file is approximately 50K tokens with real-world examples and decision frameworks
+
+### AC-5: Technology Selection Guide Content
+- **Given** I need to create the kb-technology-selection.md file
+- **When** I use Claude Code to generate the content
+- **Then** the file contains decision frameworks for backend languages, databases, message queues, frontend frameworks, and cloud providers
+- **And** the decision framework is weighted: 40% Team Expertise, 20% Community/Ecosystem, 15% Performance, 10% Scalability, 10% Development Velocity, 5% Maintainability
+
+### AC-6: ADR Library Content
+- **Given** I need to create the kb-adr-library.md file
+- **When** I use Claude Code to generate the content
+- **Then** the file contains ADR template and 7+ real-world examples
+- **And** the file is approximately 25K tokens covering database selection, API design, authentication approaches, etc.
+
+### AC-7: Anti-Patterns Content
+- **Given** I need to create the kb-anti-patterns.md file
+- **When** I use Claude Code to generate the content
+- **Then** the file contains 5+ detailed anti-pattern case studies
+- **And** each case study includes what went wrong, financial/team impact, red flags, how to fix/avoid, and key lessons
+
+### AC-8: Scaling Strategies Content
+- **Given** I need to create the kb-scaling-strategies.md file
+- **When** I use Claude Code to generate the content
+- **Then** the file contains scaling curve guidance for different phases (0-1K, 1K-10K, 10K-100K, 100K+ users)
+- **And** includes real-world scaling case studies from companies like Epic, Cerner, Aidbox
+
+### AC-9: Multi-Approach Responses
+- **Given** the project is fully configured with custom instructions and knowledge base
+- **When** I ask the agent about architecture patterns for a specific use case
+- **Then** the agent provides 2-3 distinct architectural approaches with Mermaid diagrams
+- **And** presents honest tradeoffs without silver bullets
+
+### AC-10: Incomplete Requirements Handling
+- **Given** I provide incomplete requirements
+- **When** the agent analyzes them
+- **Then** the agent identifies and flags critical gaps (missing performance targets, unclear scale expectations)
+- **And** prompts for missing critical information before proceeding
+
+### AC-11: Technology Recommendations
+- **Given** I request technology recommendations
+- **When** the agent evaluates options
+- **Then** recommendations are weighted by team expertise first (40% weight)
+- **And** the agent provides specific versions and justifications, not vague suggestions
+
+### AC-12: Setup Documentation Completeness
+- **Given** I need to share the setup process with my team
+- **When** I follow the documented setup instructions
+- **Then** I can complete the entire configuration in under 2 hours
+- **And** each step is clearly documented with expected outcomes
+
+### AC-13: Setup Process Reproducibility
+- **Given** the setup documentation exists
+- **When** another architect follows it independently
+- **Then** they successfully create a functioning Architecture Designer project
+- **And** the agent exhibits the same persona and capabilities
+
 ## Business Rules
 - Knowledge base files must be generated using Claude Code to ensure comprehensive content (230K tokens total)
 - Custom instructions must define agent as senior principal architect with 25+ years experience

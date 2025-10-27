@@ -642,6 +642,115 @@ custom-instructions-healthcare-architect.md (2,800 words) - Root level
 - `custom-instructions-`: Agent persona and behavior configuration (2,800 words)
 - `kb-`: Knowledge base content files (~230K tokens total)
 
+## Traceability
+
+This section maps requirements → design components → implementation tasks to ensure complete coverage.
+
+### Requirements → Design Components Mapping
+
+| Requirement ID | Acceptance Criteria | Design Component(s) | Implementation Task(s) |
+|---------------|---------------------|---------------------|------------------------|
+| **Story 1** | AC-1, AC-2, AC-3 | Custom Instructions Component | Task 5: Create custom-instructions-healthcare-architect.md |
+| **Story 2** | AC-4 | Architecture Patterns Library (KB1) | Task 1: Generate kb-architecture-patterns.md |
+| **Story 2** | AC-5 | Technology Selection Guide (KB2) | Task 2: Generate kb-technology-selection.md |
+| **Story 2** | AC-6 | ADR Library (KB3) | Task 3: Generate kb-adr-library.md |
+| **Story 2** | AC-7 | Anti-Patterns Case Studies (KB4) | Task 3: Generate kb-anti-patterns.md |
+| **Story 2** | AC-8 | Scaling Strategies (KB5) | Task 4: Generate kb-scaling-strategies.md |
+| **Story 3** | AC-9, AC-10, AC-11 | Custom Instructions Component + All KB Files | Task 5: Custom instructions define persona behavior |
+| **Story 4** | AC-12, AC-13 | Setup Workflow Documentation | Task 6: Document manual setup process |
+
+### Design Component → Task Mapping
+
+| Design Component | Primary Purpose | Task(s) | Deliverable File(s) |
+|------------------|-----------------|---------|---------------------|
+| **Custom Instructions** | Define senior principal architect persona with healthcare expertise | Task 5 | `custom-instructions-healthcare-architect.md` (root level) |
+| **KB1: Architecture Patterns** | Healthcare-focused architectural patterns with compliance | Task 1 | `output/kb-architecture-patterns.md` |
+| **KB2: Technology Selection** | Technology decision frameworks prioritizing Azure/Kafka/GraphQL | Task 2 | `output/kb-technology-selection.md` |
+| **KB3: ADR Library** | Architecture decision records with healthcare examples | Task 3 | `output/kb-adr-library.md` |
+| **KB4: Anti-Patterns** | Healthcare-specific failure case studies with financial impact | Task 3 | `output/kb-anti-patterns.md` |
+| **KB5: Scaling Strategies** | Healthcare system scaling with compliance maintained | Task 4 | `output/kb-scaling-strategies.md` |
+| **Setup Documentation** | Manual setup process documentation | Task 6 | README.md updates, setup guide |
+| **Validation Suite** | Test prompts to validate agent persona and knowledge | Task 7 | Validation test suite |
+
+### Acceptance Criteria Coverage Matrix
+
+| Acceptance Criteria | Covered By | Verification Method |
+|---------------------|------------|---------------------|
+| **AC-1**: Project configuration | Custom Instructions Component | Manual setup verification |
+| **AC-2**: Knowledge base upload | All 5 KB files | File upload success + token count |
+| **AC-3**: Agent persona validation | Custom Instructions + KB files | 20 test prompts (≥95% pass rate) |
+| **AC-4**: Architecture patterns content | KB1 component | Token count verification (~50K) |
+| **AC-5**: Technology selection content | KB2 component | Decision framework validation |
+| **AC-6**: ADR library content | KB3 component | ADR template + 7+ examples |
+| **AC-7**: Anti-patterns content | KB4 component | 5+ case studies with financial impact |
+| **AC-8**: Scaling strategies content | KB5 component | 4 scaling phases documented |
+| **AC-9**: Multi-approach responses | Custom Instructions persona | Test prompt validation |
+| **AC-10**: Incomplete requirements handling | Custom Instructions persona | Validation with incomplete reqs |
+| **AC-11**: Technology recommendations | KB2 + Custom Instructions | Weighted scoring verification |
+| **AC-12**: Setup time <2 hours | Setup Documentation | Timed setup test |
+| **AC-13**: Setup reproducibility | Setup Documentation | Independent setup test |
+
+### Healthcare Focus Areas Coverage
+
+| Focus Area | Design Component | Implementation | Validation |
+|-----------|------------------|----------------|------------|
+| **FHIR Integration** | KB1 (Architecture Patterns), KB2 (Aidbox FHIR) | Aidbox patterns, GraphQL federation | Referenced in responses |
+| **Event Architecture** | KB1 (Event-Driven), KB2 (Confluent Kafka) | Kafka streaming patterns, event sourcing | ADR-002 validation |
+| **Business Process** | KB2 (IBM BAMOE) | Workflow engine integration | Technology selection guide |
+| **HIPAA Compliance** | All KB files, Custom Instructions | PHI encryption, audit logs, access controls | AC-3 persona validation |
+| **SOX Compliance** | KB3 (ADRs), KB4 (Anti-patterns) | Immutable audit trail, event sourcing | Financial system patterns |
+| **SOC 2 Compliance** | KB1 (Security patterns), KB5 (Scaling) | Security controls, disaster recovery | Compliance checklists |
+
+### Task Dependencies
+
+```mermaid
+graph TB
+    T1[Task 1: Architecture Patterns<br/>6-8h]
+    T2[Task 2: Technology Selection<br/>6-8h]
+    T3[Task 3: ADRs & Anti-Patterns<br/>6-8h]
+    T4[Task 4: Scaling Strategies<br/>4-6h]
+    T5[Task 5: Custom Instructions<br/>4-6h]
+    T6[Task 6: Setup Documentation<br/>4-8h]
+    T7[Task 7: Validation Suite<br/>4-6h]
+
+    T1 -.reference.-> T4
+    T1 -.reference.-> T5
+    T2 -.reference.-> T3
+    T2 -.reference.-> T5
+    T1 --> T6
+    T2 --> T6
+    T3 --> T6
+    T4 --> T6
+    T5 --> T6
+    T6 --> T7
+
+    style T1 fill:#b3e5fc
+    style T2 fill:#b3e5fc
+    style T3 fill:#81d4fa
+    style T4 fill:#4fc3f7
+    style T5 fill:#29b6f6
+    style T6 fill:#0288d1
+    style T7 fill:#01579b,color:#fff
+```
+
+**Dependency Notes**:
+- Tasks 1-5 are **parallel** (can run simultaneously)
+- Task 4 references patterns from Task 1
+- Task 5 (Custom Instructions) references content from Tasks 1-2
+- Task 6 (Setup Documentation) requires Tasks 1-5 complete
+- Task 7 (Validation) is the final task, depends on Task 6
+
+### Verification Checklist
+
+- [ ] All 13 acceptance criteria mapped to design components
+- [ ] All 6 design components mapped to implementation tasks
+- [ ] All 7 tasks produce concrete deliverables
+- [ ] Healthcare focus areas covered across all knowledge base files
+- [ ] Compliance requirements (HIPAA, SOX, SOC 2) integrated throughout
+- [ ] Technology stack (Azure, Kafka, GraphQL, Aidbox) prioritized in all files
+- [ ] Setup process documented and reproducible
+- [ ] Validation suite covers persona consistency and knowledge accessibility
+
 ## Implementation Notes
 
 ### Manual Setup Process

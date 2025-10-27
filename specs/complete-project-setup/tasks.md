@@ -8,7 +8,7 @@
 
 ---
 
-## Task 1: Generate Healthcare Architecture Patterns Library
+### Task 1: Generate Healthcare Architecture Patterns Library
 
 **Status:** [ ] Not Started
 **Estimated Time:** 6-8 hours
@@ -78,7 +78,7 @@ Generate the `kb-architecture-patterns.md` file (~50K tokens) containing 12+ arc
 
 ---
 
-## Task 2: Generate Healthcare Technology Selection Guide
+### Task 2: Generate Healthcare Technology Selection Guide
 
 **Status:** [ ] Not Started
 **Estimated Time:** 6-8 hours
@@ -157,7 +157,7 @@ Generate the `kb-technology-selection.md` file (~50K tokens) containing decision
 
 ---
 
-## Task 3: Generate Healthcare ADR Library and Anti-Patterns
+### Task 3: Generate Healthcare ADR Library and Anti-Patterns
 
 **Status:** [ ] Not Started
 **Estimated Time:** 6-8 hours
@@ -261,7 +261,7 @@ Generate two knowledge base files with type prefixes for single folder output:
 
 ---
 
-## Task 4: Generate Healthcare Scaling Strategies
+### Task 4: Generate Healthcare Scaling Strategies
 
 **Status:** [ ] Not Started
 **Estimated Time:** 4-6 hours
@@ -360,7 +360,7 @@ Generate the `scaling-strategies.md` file (~30K tokens) covering healthcare syst
 
 ---
 
-## Task 5: Create Healthcare-Focused Custom Instructions
+### Task 5: Create Healthcare-Focused Custom Instructions
 
 **Status:** [ ] Not Started
 **Estimated Time:** 4-6 hours
@@ -459,7 +459,7 @@ Create the 2,800-word custom instructions defining the Architecture Designer age
 
 ---
 
-## Task 6: Document Manual Setup Process
+### Task 6: Document Manual Setup Process
 
 **Status:** [ ] Not Started
 **Estimated Time:** 2-4 hours
@@ -584,7 +584,7 @@ Create comprehensive setup documentation enabling any software architect to repl
 
 ---
 
-## Task 7: Create Validation Test Suite
+### Task 7: Create Validation Test Suite
 
 **Status:** [ ] Not Started
 **Estimated Time:** 2-4 hours
