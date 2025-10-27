@@ -171,9 +171,20 @@ tool with these requirements:
 - Need to support custom fields per workspace"
 ```
 
-#### 2. Architecture Exploration
+#### 2. Solution Overview & Approval ⭐ NEW
 
-Claude will:
+Claude will first generate a minimal high-level overview (500 words max):
+- Problem understanding confirmation
+- Proposed architectural direction (high-level only)
+- Key assumptions about team, scale, timeline, budget
+- Architectural principles guiding the solution
+- What this enables and what it defers
+
+You'll then approve, refine, or reject before proceeding to detailed exploration.
+
+#### 3. Architecture Exploration
+
+After you approve the overview, Claude will:
 - Analyze requirements and identify key architectural drivers
 - Flag any critical gaps (e.g., "No performance targets specified")
 - Propose 2-3 distinct architectural approaches:
@@ -184,13 +195,13 @@ Claude will:
 - Present honest tradeoffs
 - Make a recommendation with clear rationale
 
-#### 3. Select Approach
+#### 4. Select Approach
 
 ```
 You: "Let's go with Approach A - the modular monolith"
 ```
 
-#### 4. Detailed Design
+#### 5. Detailed Design
 
 Claude will create:
 - **System Context Diagram**: External interactions
@@ -208,7 +219,7 @@ Claude will create:
 - **Deployment Architecture**: Infrastructure, CI/CD pipeline, costs
 - **Monitoring Strategy**: Metrics, logging, alerting
 
-#### 5. Architecture Decision Records
+#### 6. Architecture Decision Records
 
 Claude will generate 3-5 ADRs for major decisions:
 - ADR-001: PostgreSQL as Primary Database
