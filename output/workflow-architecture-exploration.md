@@ -2,7 +2,7 @@
 
 **Purpose:** Enable users to explore 2-3 distinct architectural approaches through conversational interface with visual diagrams, honest tradeoff analysis, and contextual recommendations.
 
-**Version:** v1.6 (platform-cohesion)
+**Version:** v1.7 (workflow-cleanup)
 **Last Updated:** 2025-10-27
 
 ---
@@ -416,28 +416,12 @@ Reference `kb-architecture-patterns.md` for available patterns:
 
 ### Step 2: Filter by Platform Cohesion & Constraints
 
-**Platform Cohesion Constraints:**
-| Platform Maturity | Suitable Patterns | Avoid |
-|-------------------|------------------|-------|
-| New platform (greenfield) | Modular Monolith, Event-Driven, Microservices | Avoid over-engineering for first release |
-| Existing platform (brownfield) | Service-oriented, Event-Driven (integrate), Modular (extend) | Monolithic (hard to integrate) |
-| Mature platform (many services) | Microservices (consistency), Event-Driven (async), API Gateway | Simple monolith (doesn't fit ecosystem) |
+Reference `kb-architecture-patterns.md` for detailed pattern characteristics and constraints.
 
-**Vendor Tooling Leverage:**
-| Vendor Adoption | Suitable Patterns | Recommendations |
-|-----------------|------------------|-----------------|
-| Heavy vendor lock-in | Serverless, Managed PaaS, Vendor-native patterns | Maximize vendor-managed services|
-| Moderate vendor use | Modular Monolith on managed infrastructure, Hybrid | Balance vendor services with custom code |
-| Vendor-agnostic | Containerized services, Open standards, Portable patterns | Focus on Docker, Kubernetes, open APIs |
-
-**Scale Constraints:**
-| User Scale | Suitable Patterns | Avoid |
-|-----------|------------------|-------|
-| <1K users | Monolithic, Serverless, Jamstack | Microservices (premature) |
-| 1K-10K | Monolithic, Modular Monolith, Serverless | Event-Driven (overkill) |
-| 10K-100K | Modular Monolith, Microservices, Serverless | Simple Monolith (scaling limits) |
-| 100K-1M | Microservices, Event-Driven, Modular (extract) | Simple Monolith |
-| 1M+ | Microservices, Event-Driven, SOA | Monolithic |
+**Key Constraint Categories:**
+- **Platform Cohesion**: Greenfield (start simple), Brownfield (integrate), Mature (consistency)
+- **Vendor Tooling**: Heavy adoption (serverless/managed), Moderate (hybrid), Vendor-agnostic (portable)
+- **Scale**: <1K (monolith/serverless), 1K-10K (modular), 10K-100K (modular/micro), 100K+ (microservices/event-driven)
 
 ### Step 3: Calculate Fit Score (0-100)
 
@@ -760,246 +744,26 @@ Let me know!"
 
 ### ADR Generation Guide (From Phase 3 Decisions)
 
-**Goal:** Generate Architecture Decision Records with impactful diagrams from Phase 3 technology decisions
+**Goal:** Generate Architecture Decision Records from Phase 3 technology decisions
 
 **When to Use:** After user selects "Option 1: Generate ADRs" in Phase 5
 
 **Process:**
-
-1. **Identify 1-2 Most Impactful Decisions from Phase 3**
-   - Review selected approach's "Key Technology Decisions"
-   - **Limit to 1-2 ADRs** - If more needed, scope is too complex (break into phases)
-   - **Priority order**: Architecture pattern > Database > Integration pattern > Deployment
-   - Each should have: Decision, Rationale, Alternatives, Tradeoffs
-
-2. **Generate ADRs with Strategic Diagrams**
-   - Use `kb-adr-library.md` template
-   - **ALWAYS include diagrams** for architecture/integration/data decisions
-   - **SKIP diagrams** for simple library/tool choices
+1. **Identify 1-2 Most Impactful Decisions** from selected approach's "Key Technology Decisions"
+2. **Generate ADRs using `kb-adr-library.md` template**
+3. **Include strategic diagrams** for architecture/integration/data decisions (see kb-adr-library.md for diagram placement guide)
 
 **Decision Priority (Pick 1-2):**
-1. **Architecture pattern** (Monolith/Microservices/Serverless) - ALWAYS document if significant
-2. **Database selection** - ALWAYS document if major decision
-3. **Integration pattern** (Event-driven, API Gateway) - Document if complex integration
-4. **Deployment strategy** - Document if multi-region or complex
-5. **Stack/Framework** - RARELY document (usually not architectural)
+1. Architecture pattern (Monolith/Microservices/Serverless)
+2. Database selection
+3. Integration pattern (Event-driven, API Gateway)
+4. Deployment strategy
 
-3. **Diagram Placement by Decision Type:**
+**Time Budget:** 5-10 minutes total (1-2 ADRs maximum)
 
-| Decision Type | Diagram Type | When to Include |
-|--------------|-------------|-----------------|
-| **Architecture pattern** (Monolith/Microservices/Serverless) | Component diagram showing structure | ALWAYS |
-| **Database selection** | Deployment diagram showing replication/sharding | If multi-instance |
-| **Caching layer** | Data flow showing cache integration | ALWAYS |
-| **Integration pattern** (API Gateway, Event-driven) | Sequence diagram showing message flow | ALWAYS |
-| **Stack/Framework choice** | Skip diagram | RARELY (unless unique architecture) |
-| **Security pattern** (Zero-trust, mTLS) | Security boundary diagram | ALWAYS |
-| **Deployment strategy** (Multi-region, Blue-green) | Infrastructure diagram | ALWAYS |
+**Scope Check:** If 3+ ADRs needed, STOP and suggest breaking into implementation phases
 
-4. **ADR Template Sections with Diagrams:**
-
-```markdown
-# ADR-001: [Decision from Phase 3]
-
-## Context and Problem Statement
-[Copy from Phase 3 rationale]
-
-## Decision Drivers
-- [From Phase 3 requirements]
-- [From constraints]
-
-## Considered Options
-- [From Phase 3 alternatives]
-
-### Options Comparison (Diagram)
-**Include for: Architecture, Integration, Data flow decisions**
-
-```mermaid
-graph LR
-    subgraph "Option 1: [Chosen]"
-        O1[Component]
-        O1 -->|Pattern| O2[Result]
-    end
-    subgraph "Option 2: [Alternative]"
-        A1[Component]
-        A1 -.->|Pattern| A2[Result]
-    end
-    style O1 fill:#90EE90
-```
-
-## Decision Outcome
-**Chosen option:** "[From Phase 3]"
-
-### Architecture Impact (Diagram)
-**Include for: Structural changes, new components, integration patterns**
-
-```mermaid
-graph TB
-    subgraph "After This Decision"
-        A1[New Component]
-        A2[Existing System]
-        A3[Integration Layer]
-        A1 --> A3
-        A3 --> A2
-    end
-    style A1 fill:#90EE90
-```
-
-## Consequences
-**Positive:** [From Phase 3 tradeoffs - Pro]
-**Negative:** [From Phase 3 tradeoffs - Con]
-
-### Data Flow Impact (Diagram)
-**Include for: Caching, messaging, API patterns**
-
-```mermaid
-sequenceDiagram
-    participant C as Client
-    participant Cache as Redis Cache
-    participant DB as Database
-    C->>Cache: GET key
-    alt Cache Hit
-        Cache-->>C: Data
-    else Cache Miss
-        Cache->>DB: Query
-        DB-->>Cache: Data
-        Cache-->>C: Data
-    end
-```
-```
-
-5. **Example ADR with Diagram (Architecture Decision):**
-
-```markdown
-# ADR-001: Modular Monolith Architecture
-
-## Context and Problem Statement
-Patient scheduling MVP for healthcare platform (100-500 users initially). Need to maximize platform cohesion while enabling future service extraction if scaling requires it.
-
-## Decision Drivers
-- Platform cohesion: Reuse existing auth, audit logging, notifications services
-- Vendor tooling: Leverage Azure App Service (already in use)
-- Open standards: FHIR R4 for patient/appointment data
-- MVP scope: Core scheduling features, defer advanced analytics
-- Scale: 100-500 users initially, potential growth to 10K in 12 months
-
-## Considered Options
-1. Modular Monolith on Azure App Service
-2. Microservices on AKS
-3. Azure Functions (serverless)
-
-### Options Comparison
-
-```mermaid
-graph TB
-    subgraph "Modular Monolith (Chosen)"
-        M1[Scheduling Module]
-        M2[Patient Module]
-        M3[Provider Module]
-        M4[Notifications Module]
-        M1 -->|Internal calls| M2
-        M2 -->|Internal calls| M3
-        M3 -->|Platform service| M4
-    end
-
-    subgraph "Microservices (Alternative)"
-        S1[Scheduling Service]
-        S2[Patient Service]
-        S3[Provider Service]
-        S4[Notification Service]
-        S1 -.->|HTTP/gRPC| S2
-        S2 -.->|HTTP/gRPC| S3
-    end
-
-    style M1 fill:#90EE90
-    style S1 fill:#FFB6C1
-```
-
-**Comparison:**
-- **Modular Monolith**: Better platform cohesion, reuses App Service infrastructure, simpler deployment
-- **Microservices**: Better independent scaling, but more operational complexity and platform integration work
-
-## Decision Outcome
-**Chosen option:** "Modular Monolith on Azure App Service with clean module boundaries"
-
-**Rationale:** Maximizes platform cohesion by reusing existing Azure App Service infrastructure, auth, and notification services. FHIR-compliant modules can be extracted to separate services later if traffic patterns require it.
-
-### Architecture Impact
-
-```mermaid
-graph TB
-    subgraph "Application Structure"
-        API[API Layer]
-        M1[Users Module]
-        M2[Tasks Module]
-        M3[Projects Module]
-        M4[Notifications Module]
-        DB[(PostgreSQL)]
-
-        API --> M1
-        API --> M2
-        API --> M3
-        API --> M4
-
-        M1 --> DB
-        M2 --> DB
-        M3 --> DB
-        M4 --> DB
-    end
-
-    style M1 fill:#90EE90
-    style M2 fill:#90EE90
-    style M3 fill:#90EE90
-    style M4 fill:#90EE90
-```
-
-**Key Changes:**
-- Single deployable application with FHIR-compliant modules
-- Deploys to existing Azure App Service infrastructure
-- Reuses platform auth and notifications services
-- Internal function calls (not HTTP) for module-to-module communication
-
-## Consequences
-
-### Positive
-- Maximum platform cohesion (reuses App Service, auth, notifications, audit logging)
-- Leverages existing Azure PostgreSQL and Redis infrastructure
-- FHIR R4 compliance for patient/appointment data (open standard)
-- Simple deployment (integrates with existing CI/CD pipeline)
-- Refactorable (FHIR modules can be extracted to services later if needed)
-
-### Negative
-- All modules scale together (can't scale Scheduling independently from Patient module)
-- Mitigation: Use Azure Front Door + caching for read-heavy operations, async jobs for background tasks
-
-## Implementation Notes
-- Use FHIR R4 resources for patient, appointment, practitioner data
-- Integrate with platform authentication service (OAuth 2.0)
-- Leverage platform audit logging service for compliance
-- Use platform notification service for appointment reminders
-- Deploy to existing App Service with module-specific database schemas
-```
-
-6. **CRITICAL Rules for ADR Diagrams:**
-   - **Use diagrams to show impact**, not just describe options
-   - **Before/after diagrams** clarify architectural changes
-   - **Options comparison** helps explain why you chose one over another
-   - **Keep diagrams focused** - Only show components relevant to the decision
-   - **Use color** to highlight new/changed components (green for new, yellow for changed)
-   - **Reference kb-adr-library.md** for diagram examples and templates
-
-7. **Time Budget:**
-   - **1-2 ADRs total** (more = scope too complex, break into phases)
-   - Each ADR with diagrams: ~3-5 minutes
-   - Total: 5-10 minutes
-
-8. **Deliverable Format:**
-   - Separate markdown file per ADR: `ADR-001-architecture-choice.md`, `ADR-002-database-selection.md`
-   - OR single file with both ADRs if user prefers
-
-9. **Scope Check:**
-   - **If you're generating 3+ ADRs**, STOP and suggest breaking into implementation phases
-   - Example: "I'm seeing 5 major decisions (architecture, database, caching, messaging, deployment). This suggests the scope is too large for one phase. Should we focus on core architecture + database first, then tackle integration patterns in Phase 2?"
+**Reference:** See `kb-adr-library.md` for complete templates, diagram examples, and healthcare-specific ADRs
 
 ---
 
@@ -1080,54 +844,7 @@ graph TB
 - **Technology Recommendations**: Use `kb-technology-selection.md` for tech comparisons
 - **Scaling Questions**: Reference `kb-scaling-strategies.md` for growth path guidance
 
----
-
-## Mermaid Diagram Templates
-
-### System Context Diagram Template
-
-```mermaid
-graph TB
-    subgraph "External Systems"
-        User[User/Client]
-        ThirdParty[Third-party Service]
-    end
-
-    subgraph "Your System"
-        App[Application]
-    end
-
-    User -->|API Requests| App
-    App -->|API Calls| ThirdParty
-
-    style App fill:#FFE5EF,stroke:#E70665
-```
-
-### Component Structure Diagram Template
-
-```mermaid
-graph TB
-    subgraph "Presentation Layer"
-        UI[Web UI]
-    end
-
-    subgraph "Application Layer"
-        API[API Gateway]
-        Service[Business Logic]
-    end
-
-    subgraph "Data Layer"
-        DB[(Database)]
-        Cache[(Cache)]
-    end
-
-    UI --> API
-    API --> Service
-    Service --> DB
-    Service --> Cache
-
-    style Service fill:#FFE5EF,stroke:#E70665
-```
+**Diagram Templates:** See `kb-diagram-examples.md` for Mermaid templates and best practices
 
 ---
 
@@ -1270,75 +987,25 @@ Starting with system context..."
 [Generate each artifact at STANDARD level unless user requests different detail]
 ```
 
-### Template References
+**Component Specification Templates:** For detailed component design templates, create a separate `kb-component-design.md` file with:
+- 7-element component specification template (Responsibility, Interfaces, Dependencies, Technology, Scaling, Error Handling, Monitoring)
+- Progressive disclosure levels (High-level, Standard, Detailed, Expert)
+- Quality validation checklist
+- Mermaid diagram templates for sequences and deployment
 
-**Component Specification Template:**
-```markdown
-## Component: [Name]
-
-### 1. Responsibility
-[Single paragraph]
-
-### 2. Interfaces
-- REST API: `[method] /api/[resource]`
-- Events Published: `[event.name]`
-- Events Consumed: `[event.name]`
-
-### 3. Dependencies
-- Internal: [Component] - [Why]
-- External: [Service] - [Protocol]
-
-### 4. Technology Stack
-**Option 1: [Tech A]** ⭐ Recommended
-- Why: [Team fit, proven, cost-effective]
-- Pros: [2-3 advantages]
-- Cons: [1-2 limitations]
-
-**Option 2: [Tech B]** (Alternative)
-- Why: [When to consider]
-- Pros: [Different strengths]
-- Cons: [Tradeoffs]
-
-### 5. Scaling Strategy
-- Approach: [Horizontal/Vertical]
-- Triggers: CPU >70%, Memory >80%
-- Capacity: X req/sec, Y users
-- Limits: [Connection pools, API limits]
-
-### 6. Error Handling
-- [Failure Mode 1]: Detection → Recovery → User Impact
-- [Failure Mode 2]: Detection → Recovery → User Impact
-- Circuit Breaker: [Thresholds]
-- Retry Policy: [Max retries, backoff]
-
-### 7. Monitoring
-- Request Rate: `http_requests_total`
-- Latency: `http_request_duration_seconds` (P95, P99)
-- Error Rate: `http_errors_total`
-- [Custom Metric]: [Specific to component]
-- Alerts: [Critical conditions → Actions]
-```
-
-### Quality Validation
-
-Before presenting artifacts, verify:
-- [ ] System context diagram renders correctly (Mermaid syntax)
-- [ ] All component specs include 7 required elements
-- [ ] 2-3 technology options provided (unless obvious choice)
-- [ ] Tradeoffs explicitly stated
-- [ ] Sequence diagrams include error paths
-- [ ] Cost estimates provided (order of magnitude)
-- [ ] Monitoring metrics are specific (not generic)
-
-### Success Criteria
-
-**Actionability:** ≥70% of users can implement from specs without additional research
-**Completeness:** ≥90% of component specs include all 7 elements
-**Efficiency:** <3 follow-up clarification questions per session
+**Note:** Phase 6 is optional - most teams generate ADRs from Phase 3 and start implementing (5-10 min) rather than spending 1-2 hours on detailed component specs
 
 ---
 
 ## Version History
+
+**v1.7 (workflow-cleanup)** - 2025-10-27
+- **Removed redundancies with knowledge base files** (~400 lines reduction)
+- ADR templates: Now references `kb-adr-library.md` (removed 240-line template duplication)
+- Mermaid diagrams: Now references `kb-diagram-examples.md` (removed duplicate templates)
+- Phase 6 specs: Simplified to reference future `kb-component-design.md` (removed 50-line template)
+- Pattern tables: Now references `kb-architecture-patterns.md` (simplified constraint tables)
+- **Result:** Workflow focused on conversation flow, templates in dedicated knowledge base files
 
 **v1.6 (platform-cohesion)** - 2025-10-27
 - **Shifted focus from team size/timeline to MVP releases and platform cohesion**
