@@ -1,0 +1,30 @@
+{
+  "name": "architecture-exploration-workflow",
+  "phase": "validated",
+  "created_at": "2025-10-27T00:00:00Z",
+  "updated_at": "2025-10-27T16:30:00Z",
+  "validated_at": "2025-10-27T16:30:00Z",
+  "release_id": "REL-002",
+  "category": "MVP",
+  "priority": 9.5,
+  "dependencies": ["REL-001"],
+  "hypothesis": "Users will find value in receiving multiple architectural approaches with explicit tradeoffs rather than single recommended approach",
+  "success_criteria": {
+    "session_completion": "≥60%",
+    "multi_approach_engagement": "≥70%",
+    "requirements_completeness": "≥80%"
+  },
+  "branchName": "spec/architecture-exploration-workflow",
+  "tasks": {
+    "total": 7,
+    "estimated_hours": "22-31",
+    "estimated_days": "3-4"
+  },
+  "validation": {
+    "score": 88,
+    "readiness": "ready_with_minor_fixes",
+    "blocking_issues": 2,
+    "warnings": 4,
+    "report_path": "./validation-report.md"
+  }
+}
