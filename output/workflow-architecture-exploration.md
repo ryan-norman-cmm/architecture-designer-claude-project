@@ -605,7 +605,175 @@ graph TB
 
 ---
 
+---
+
+## Phase 6: Detailed Component Design (REL-003 Extension)
+
+**Trigger:** User selects an architecture and requests implementation specifications
+
+**Goal:** Generate actionable component-level design artifacts
+
+**When to Activate:**
+- User says: "I'd like detailed specs for [approach]"
+- User says: "Generate component design"
+- User says: "Show me the implementation details"
+- After user selects approach in Phase 5
+
+### Progressive Disclosure Levels
+
+Use 4 detail levels to manage complexity:
+
+| Level | Trigger | Content | Words |
+|-------|---------|---------|-------|
+| **HIGH_LEVEL** | Initial request, "overview" | Brief summaries, simple diagrams | <500 |
+| **STANDARD** | "Tell me more", default | Full specs with 7 elements, 2-3 tech options | 800-1500 |
+| **DETAILED** | "Give me details", "implementation guidance" | Complete specs with examples, cost estimates | 1500-2500 |
+| **EXPERT** | "Expert level", "production-ready" | Comprehensive with code snippets, runbooks | 2500+ |
+
+**Default:** Start at STANDARD unless user signals otherwise
+
+### Design Artifacts to Generate
+
+**1. System Context Diagram**
+- Mermaid C4 Context diagram showing system boundary
+- External actors (users, systems, services)
+- Data flows with protocols
+- Textual description of each interaction
+
+**2. Component Specifications** (All 7 Elements Required)
+1. **Responsibility:** Single paragraph describing purpose
+2. **Interfaces:** API contracts, message formats, events
+3. **Dependencies:** Internal components + external systems
+4. **Technology:** 2-3 options with tradeoffs (like Phase 3)
+5. **Scaling:** Horizontal/vertical approach, triggers, limits
+6. **Error Handling:** Failure modes, recovery strategies
+7. **Monitoring:** Specific metrics (golden signals), logs, alerts
+
+**3. Sequence Diagrams**
+- Identify 3-5 critical workflows (core business flows, complex interactions, error scenarios)
+- Mermaid sequence diagrams with error paths
+- Timing constraints and performance targets
+
+**4. Data Architecture**
+- Entity-relationship diagram
+- Storage technology options (2-3 with tradeoffs)
+- Data governance (retention, privacy, compliance)
+- Backup and recovery strategy
+
+**5. Deployment Architecture**
+- Topology diagram (tiers, load balancers, databases)
+- Infrastructure requirements (vCPU, RAM, storage)
+- CI/CD pipeline design
+- Cost estimates (monthly, with scaling projections)
+
+**6. Monitoring Strategy**
+- Golden signals per component (latency, traffic, errors, saturation)
+- Logging structure (JSON format, trace correlation)
+- Alert thresholds (critical, warning)
+- Observability stack options (2-3 with tradeoffs)
+
+### Conversation Pattern
+
+```
+User: "I'd like detailed specs for the Modular Monolith approach"
+
+Agent: "Great! I'll generate implementation specifications for your Modular Monolith.
+
+Recalling context from earlier:
+- Team: 3 engineers (TypeScript)
+- Scale: 100-500 users → 5K in 12 months
+- Timeline: 2 months to MVP
+- Budget: Limited
+
+I'll create these artifacts:
+1. System Context Diagram
+2. Component Specifications (5 modules with all 7 technical elements)
+3. Sequence Diagrams (auth + core operations)
+4. Data Architecture (PostgreSQL schema)
+5. Deployment Architecture (Vercel setup + costs)
+6. Monitoring Strategy (metrics, logging, alerts)
+
+Starting with system context..."
+
+[Generate each artifact at STANDARD level unless user requests different detail]
+```
+
+### Template References
+
+**Component Specification Template:**
+```markdown
+## Component: [Name]
+
+### 1. Responsibility
+[Single paragraph]
+
+### 2. Interfaces
+- REST API: `[method] /api/[resource]`
+- Events Published: `[event.name]`
+- Events Consumed: `[event.name]`
+
+### 3. Dependencies
+- Internal: [Component] - [Why]
+- External: [Service] - [Protocol]
+
+### 4. Technology Stack
+**Option 1: [Tech A]** ⭐ Recommended
+- Why: [Team fit, proven, cost-effective]
+- Pros: [2-3 advantages]
+- Cons: [1-2 limitations]
+
+**Option 2: [Tech B]** (Alternative)
+- Why: [When to consider]
+- Pros: [Different strengths]
+- Cons: [Tradeoffs]
+
+### 5. Scaling Strategy
+- Approach: [Horizontal/Vertical]
+- Triggers: CPU >70%, Memory >80%
+- Capacity: X req/sec, Y users
+- Limits: [Connection pools, API limits]
+
+### 6. Error Handling
+- [Failure Mode 1]: Detection → Recovery → User Impact
+- [Failure Mode 2]: Detection → Recovery → User Impact
+- Circuit Breaker: [Thresholds]
+- Retry Policy: [Max retries, backoff]
+
+### 7. Monitoring
+- Request Rate: `http_requests_total`
+- Latency: `http_request_duration_seconds` (P95, P99)
+- Error Rate: `http_errors_total`
+- [Custom Metric]: [Specific to component]
+- Alerts: [Critical conditions → Actions]
+```
+
+### Quality Validation
+
+Before presenting artifacts, verify:
+- [ ] System context diagram renders correctly (Mermaid syntax)
+- [ ] All component specs include 7 required elements
+- [ ] 2-3 technology options provided (unless obvious choice)
+- [ ] Tradeoffs explicitly stated
+- [ ] Sequence diagrams include error paths
+- [ ] Cost estimates provided (order of magnitude)
+- [ ] Monitoring metrics are specific (not generic)
+
+### Success Criteria
+
+**Actionability:** ≥70% of users can implement from specs without additional research
+**Completeness:** ≥90% of component specs include all 7 elements
+**Efficiency:** <3 follow-up clarification questions per session
+
+---
+
 ## Version History
+
+**v1.1 (REL-003)** - 2025-10-27
+- Added Phase 6: Detailed Component Design
+- Progressive disclosure levels (4 tiers)
+- 6 design artifacts with templates
+- Component specification with 7 required elements
+- Quality validation checklist
 
 **v1.0 (REL-002)** - 2025-10-27
 - Initial workflow release
