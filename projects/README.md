@@ -10,11 +10,13 @@ All projects follow this standardized structure:
 projects/<project-name>/
 ├── project-instructions.md              # Layer 1: Agent Instructions
 │   └── WHO the agent is (personality, philosophy, principles)
-└── output/
+└── files/
     ├── workflow-*.md                    # Layer 2: Workflow Definitions
     │   └── HOW the agent converses (phases, patterns, transitions)
-    └── kb-*.md                          # Layer 3: Knowledge Base Files
-        └── WHAT the agent knows (patterns, frameworks, examples)
+    ├── kb-*.md                          # Layer 3: Knowledge Base Files
+    │   └── WHAT the agent knows (patterns, frameworks, examples)
+    └── template-*.md                    # Reusable templates
+        └── Document formats, response templates
 ```
 
 ### How the Layers Work Together
@@ -53,20 +55,24 @@ Agent Response
 - Response Frameworks: Technology evaluation scoring, tradeoff analysis templates
 - Domain Activation: Healthcare, Financial, E-Commerce, SaaS
 
-**Layer 2: Workflow** (`output/workflow-architecture-exploration.md` - 26K tokens)
+**Layer 2: Workflow** (`files/workflow-architecture-exploration.md` - 51K tokens)
 - 6-phase conversational workflow
 - Phases: Requirements intake → Gap identification → Architecture exploration → Clarification → Selection → Detailed design
 - Progressive disclosure levels: HIGH_LEVEL → STANDARD → DETAILED → EXPERT
 
-**Layer 3: Knowledge Base** (7 files, 230K+ tokens)
+**Layer 3: Knowledge Base** (11 files, 245K+ tokens)
 - `kb-architecture-patterns.md` (78K): 12+ patterns with examples
 - `kb-technology-selection.md` (38K): Tech evaluation frameworks
 - `kb-anti-patterns.md` (18K): Common mistakes to avoid
 - `kb-scaling-strategies.md` (37K): Scaling by growth phase
-- `kb-adr-library.md` (18K): ADR templates and examples
+- `kb-adr-library.md` (23K): ADR templates and examples
 - `kb-diagram-examples.md` (20K): Mermaid best practices
+- `template-comparison-table.md` (2K): Comparison table format
+- `template-learning-snippet.md` (5K): Learning snippet templates
+- `template-progressive-questions.md` (3K): Progressive question patterns
+- `template-checkpoint-format.md` (5K): Review checkpoint templates
 
-**Setup**: Copy `project-instructions.md` into Claude Desktop project settings, upload `output/` files to knowledge base
+**Setup**: Copy `project-instructions.md` into Claude Desktop project settings, upload `files/` to knowledge base
 
 ## Adding New Projects
 
@@ -75,7 +81,7 @@ To add a new Claude Desktop project following the three-layer pattern:
 ### 1. Create Project Structure
 
 ```bash
-mkdir -p projects/<project-name>/output
+mkdir -p projects/<project-name>/files
 cd projects/<project-name>
 ```
 
@@ -90,7 +96,7 @@ Create `project-instructions.md`:
 
 ### 3. Write Layer 2: Workflow Definitions
 
-Create `output/workflow-<name>.md`:
+Create `files/workflow-<name>.md`:
 - Define conversation phases (e.g., intake → exploration → selection)
 - Specify conversation patterns for each phase
 - Define transition logic between phases
@@ -99,12 +105,18 @@ Create `output/workflow-<name>.md`:
 
 ### 4. Write Layer 3: Knowledge Base Files
 
-Create `output/kb-*.md` files:
-- `kb-patterns.md`: Reusable patterns and approaches
-- `kb-frameworks.md`: Decision frameworks and scoring criteria
-- `kb-examples.md`: Real-world case studies
-- `kb-templates.md`: Document templates and formats
-- `kb-anti-patterns.md`: Common mistakes to avoid
+Create knowledge base files following the naming conventions (see `FILE-NAMING-CONVENTIONS.md`):
+
+**Core types:**
+- `kb-*.md`: Domain knowledge (`kb-patterns.md`, `kb-frameworks.md`, `kb-anti-patterns.md`)
+- `template-*.md`: Reusable formats (`template-comparison-table.md`, `template-adr-format.md`)
+
+**Optional types:**
+- `guide-*.md`: Step-by-step tutorials
+- `example-*.md`: Sample conversations or outputs
+- `reference-*.md`: Quick reference sheets
+- `decision-*.md`: Decision frameworks
+- `checklist-*.md`: Validation checklists
 
 ### 5. Update Documentation
 

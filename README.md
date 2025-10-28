@@ -12,11 +12,13 @@ Every Claude Desktop project follows this pattern:
 projects/<project-name>/
 ├── project-instructions.md       # Layer 1: Agent Instructions
 │   └── Personality, principles, response frameworks
-└── output/
+└── files/
     ├── workflow-*.md             # Layer 2: Workflow Definitions
     │   └── Conversation phases, patterns, examples
-    └── kb-*.md                   # Layer 3: Knowledge Base Files
-        └── Patterns, frameworks, examples, templates
+    ├── kb-*.md                   # Layer 3: Knowledge Base Files
+    │   └── Patterns, frameworks, examples
+    └── template-*.md             # Reusable templates
+        └── Document formats, response templates
 ```
 
 **How the layers work together:**
@@ -25,7 +27,9 @@ projects/<project-name>/
 3. **Layer 3** defines WHAT the agent knows (domain knowledge, patterns, examples)
 
 **Current Projects:**
-- **architecture-designer**: Senior Principal Architect agent (230K+ tokens)
+- **architecture-designer**: Senior Principal Architect agent (245K+ tokens)
+
+**File Naming:** All files follow type-based prefixes (`workflow-`, `kb-`, `template-`). See `FILE-NAMING-CONVENTIONS.md`.
 
 ## Repository Structure
 
@@ -34,14 +38,15 @@ projects/<project-name>/
 ├── projects/                              # Claude Desktop projects
 │   └── architecture-designer/             # Architecture Designer project
 │       ├── project-instructions.md        # Agent personality and workflow
-│       └── output/                        # Knowledge base (230K+ tokens)
+│       └── files/                         # Knowledge base (245K+ tokens)
 │           ├── kb-architecture-patterns.md
 │           ├── kb-technology-selection.md
 │           ├── kb-anti-patterns.md
 │           ├── kb-scaling-strategies.md
 │           ├── kb-adr-library.md
 │           ├── kb-diagram-examples.md
-│           └── workflow-architecture-exploration.md
+│           ├── workflow-architecture-exploration.md
+│           └── template-*.md (4 files)
 └── documentation/                         # Product requirements and releases
     ├── product-requirements.md
     └── initiative-releases.md
@@ -60,18 +65,22 @@ A Claude Desktop agent that transforms product requirements into production-read
 - Principles: Present options not mandates, match reality, boring tech wins
 - Framework: Technology evaluation scoring, tradeoff analysis templates
 
-**Layer 2: Workflow** (`output/workflow-architecture-exploration.md`)
+**Layer 2: Workflow** (`files/workflow-architecture-exploration.md`)
 - 6-phase workflow: Requirements → Gap ID → Exploration → Clarification → Selection → Design
 - Conversation patterns for each phase
-- 26K tokens
+- 51K tokens
 
-**Layer 3: Knowledge Base** (7 files, 230K+ tokens)
+**Layer 3: Knowledge Base** (11 files, 245K+ tokens)
 - `kb-architecture-patterns.md` (78K): 12+ patterns with examples
 - `kb-technology-selection.md` (38K): Tech evaluation frameworks
 - `kb-anti-patterns.md` (18K): Common mistakes to avoid
 - `kb-scaling-strategies.md` (37K): Scaling by growth phase
-- `kb-adr-library.md` (18K): ADR templates
+- `kb-adr-library.md` (23K): ADR templates
 - `kb-diagram-examples.md` (20K): Mermaid best practices
+- `template-comparison-table.md` (2K): Comparison table format
+- `template-learning-snippet.md` (5K): Learning snippet templates
+- `template-progressive-questions.md` (3K): Progressive question patterns
+- `template-checkpoint-format.md` (5K): Review checkpoint templates
 
 ## What This Agent Does
 
@@ -113,7 +122,11 @@ honest tradeoffs, and comprehensive documentation.
 
 ### 2. Add Project Instructions
 
-Copy the contents of `projects/architecture-designer/project-instructions.md` into the project's custom instructions field. These instructions define:
+Copy the contents of `projects/architecture-designer/project-instructions.md` into the project's custom instructions field.
+
+**Note on file naming:** All knowledge base files follow standardized naming conventions with type-based prefixes (`workflow-`, `kb-`, `template-`). See `FILE-NAMING-CONVENTIONS.md` for details.
+
+These instructions define:
 
 - Agent personality and philosophy
 - Core workflow (intake → exploration → detailed design)
