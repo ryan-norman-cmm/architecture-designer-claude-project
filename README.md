@@ -72,7 +72,7 @@ A Claude Desktop agent that transforms product requirements into production-read
 - Progressive disclosure with checkpoints
 - 1250+ lines (v3.0)
 
-**Layer 3: Knowledge Base** (12 files, 250K+ tokens)
+**Layer 3: Knowledge Base** (13 files, 252K+ tokens)
 - `kb-architecture-patterns.md` (78K): 12+ patterns with examples
 - `kb-technology-selection.md` (38K): Tech evaluation frameworks
 - `kb-anti-patterns.md` (18K): Common mistakes to avoid

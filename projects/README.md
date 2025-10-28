@@ -62,7 +62,7 @@ Agent Response
 - On-demand approach generation per decision (reduces output by 40%)
 - Progressive disclosure with checkpoints
 
-**Layer 3: Knowledge Base** (12 files, 250K+ tokens)
+**Layer 3: Knowledge Base** (13 files, 252K+ tokens)
 - `kb-architecture-patterns.md` (78K): 12+ patterns with examples
 - `kb-technology-selection.md` (38K): Tech evaluation frameworks
 - `kb-anti-patterns.md` (18K): Common mistakes to avoid

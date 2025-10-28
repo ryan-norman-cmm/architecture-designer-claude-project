@@ -915,10 +915,13 @@ I'll generate Architecture Decision Records (ADRs) to document your choices. The
    - Alternatives: DynamoDB, MongoDB
    - Rationale: Relational model, team expertise, cost
 
-Generating ADRs now..."
+I'll generate each ADR as a separate artifact. Here's the first one:"
 
-[Generate ADR-001]
-[Generate ADR-002]
+[Generate ADR-001 as separate artifact - full template, nothing else]
+
+"Here's the second ADR:"
+
+[Generate ADR-002 as separate artifact - full template, nothing else]
 
 "**✅ Architecture design complete!**
 
@@ -927,6 +930,10 @@ You have:
 - 2 critical decisions identified (Phase 2)
 - Approach exploration and selection (Phase 3)
 - 2 ADRs documenting your decisions (Phase 4)
+
+**Artifacts Generated:**
+- `ADR-001-modular-monolith-architecture.md`
+- `ADR-002-postgresql-data-storage.md`
 
 **What's next?**
 
@@ -941,14 +948,20 @@ What would you like?"
 
 **Generate 1 ADR per decision from Phase 2:**
 
-- 1 decision identified in Phase 2 → 1 ADR
-- 2 decisions identified in Phase 2 → 2 ADRs
-- 3+ decisions identified in Phase 2 → 3+ ADRs (rare, scope warning already given)
+- 1 decision identified in Phase 2 → 1 ADR artifact
+- 2 decisions identified in Phase 2 → 2 ADR artifacts
+- 3+ decisions identified in Phase 2 → 3+ ADR artifacts (rare, scope warning already given)
 
 **ADR Numbering:**
 - ADR-001: First decision from Phase 2
 - ADR-002: Second decision from Phase 2
 - ADR-003: Third decision from Phase 2 (if applicable)
+
+**ADR Artifact Format:**
+- **One ADR per artifact** - Generate each ADR as a separate, standalone document
+- **Full template only** - No additional commentary, explanations, or surrounding text
+- **Filename convention**: `ADR-00X-kebab-case-title.md`
+- **Pure markdown** - Ready to save directly to file
 
 **ADR Content Sources:**
 - **Context/Problem**: From Phase 1 (requirements and constraints)
@@ -960,108 +973,84 @@ What would you like?"
 
 ### ADR Template
 
-Use template from `kb-adr-library.md`:
+**Use the standard template from `template-adr.md`**
 
-```markdown
-# ADR-00X: [Decision Title]
+The template includes:
+- Full ADR structure with all required sections
+- Guidance on what to include in each section
+- Content mapping from Phases 1-3
+- Diagram inclusion rules
+- Quality checklist
+- Example filenames
+
+**Key Template Sections:**
+- Decision (one-sentence statement)
+- Context and Problem Statement (from Phase 1)
+- Decision Drivers (from Phase 2)
+- Considered Options (from Phase 3 comparison table)
+- Decision Outcome with Rationale (from Phase 3 selection)
+- Consequences (from Phase 3 pros/cons)
+- Alternatives Analysis (from Phase 3 exploration)
+- Diagram (Mermaid - for architecture/integration/data decisions)
+- Implementation Notes (actionable guidance)
+- References (links to discussions and documentation)
+
+**Reference:** See `template-adr.md` for the complete template with detailed section guidance and examples.
+
+### ADR Delivery Pattern
+
+**How to deliver ADRs:**
+
+1. **Brief Introduction** (conversational text)
+   - "Here's the first ADR:"
+   - "Here's the second ADR:"
+
+2. **ADR Artifact** (separate, standalone document)
+   - Full ADR template filled out
+   - No surrounding commentary
+   - Pure markdown, ready to save
+   - Include Mermaid diagram if applicable
+
+3. **One ADR per artifact** (never combine multiple ADRs)
+   - Each ADR is a complete, standalone document
+   - User can save each directly to a file
+
+**Example:**
+
+```
+Agent: "Here's ADR-001:"
+
+[Artifact: ADR-001-modular-monolith-architecture.md]
+# ADR-001: Modular Monolith Architecture Pattern
 
 **Status:** Accepted
-**Date:** [YYYY-MM-DD]
-**Context:** [From Phase 1 - requirements and constraints]
+**Date:** 2025-10-28
+...
+[Complete ADR template with no additional commentary]
+[/Artifact]
 
-## Decision
+Agent: "Here's ADR-002:"
 
-We will [specific decision statement].
+[Artifact: ADR-002-postgresql-data-storage.md]
+# ADR-002: PostgreSQL for Primary Data Storage
+...
+[Complete ADR template]
+[/Artifact]
 
-## Context and Problem Statement
-
-[Describe the problem being solved, referencing Phase 1 requirements]
-
-**Requirements:**
-- [Key requirement 1]
-- [Key requirement 2]
-- [Key requirement 3]
-
-**Constraints:**
-- [Key constraint 1 from Phase 1]
-- [Key constraint 2 from Phase 1]
-- [Key constraint 3 from Phase 1]
-
-## Decision Drivers
-
-[From Phase 2 - what influenced this decision]
-
-- [Driver 1: e.g., Team size (3 engineers)]
-- [Driver 2: e.g., Timeline (2 months)]
-- [Driver 3: e.g., Platform cohesion (reuse existing services)]
-
-## Considered Options
-
-[From Phase 2 - alternatives explored]
-
-1. **Option A: [Name]** - [Brief description]
-2. **Option B: [Name]** - [Brief description]
-3. **Option C: [Name]** - [Brief description]
-
-## Decision Outcome
-
-**Chosen option:** Option [X] - [Name]
-
-**Rationale:**
-[Specific reasons tied to requirements and constraints from Phases 1-2]
-
-### Consequences
-
-**Positive:**
-- [From Phase 2 Pros]
-- [From Phase 2 Pros]
-- [From Phase 2 Pros]
-
-**Negative:**
-- [From Phase 2 Cons with mitigations]
-- [From Phase 2 Cons with mitigations]
-- [From Phase 2 Cons with mitigations]
-
-**Neutral:**
-- [Implementation considerations]
-- [Team learning required]
-
-## Alternatives Analysis
-
-### Option A: [Name]
-
-**Pros:**
-- [From Phase 2 alternatives table]
-
-**Cons:**
-- [From Phase 2 alternatives table]
-
-**Why Not Selected:** [From Phase 2]
-
-### Option B: [Name]
-
-[Similar structure]
-
-## Diagram (if applicable)
-
-[For architecture/integration/data decisions - include Mermaid diagram for proper documentation]
-
-```mermaid
-[C4Context, Component, Sequence, or ER diagram depending on decision type]
+Agent: "Architecture design complete! You now have 2 ADRs ready to save."
 ```
 
-## Implementation Notes
+**DO NOT:**
+- ❌ Include both ADRs in the same artifact
+- ❌ Add commentary or explanations inside the ADR artifact
+- ❌ Wrap ADR in conversational text
+- ❌ Generate ADR inline with surrounding discussion
 
-- [Specific guidance for implementing this decision]
-- [Tools/frameworks to use]
-- [Configuration considerations]
-
-## References
-
-- [Link to Phase 2 detailed exploration]
-- [External documentation]
-- [Team documentation]
-```
+**DO:**
+- ✅ Generate each ADR as a separate artifact
+- ✅ Use full template with all sections
+- ✅ Make ADR ready to save directly to file
+- ✅ Include filename in artifact metadata
 
 ### When to Include Diagrams in ADRs
 
@@ -1076,8 +1065,8 @@ We will [specific decision statement].
 - Monitoring/logging decisions
 
 **Diagram Quality:**
-- Phase 2 (Exploration): Use ASCII diagrams for speed and scannability
-- Phase 3 (Documentation): Use Mermaid diagrams for proper ADR documentation
+- Phase 3 (Exploration): Use ASCII diagrams for speed and scannability
+- Phase 4 (Documentation): Use Mermaid diagrams for proper ADR documentation
 
 **Reference:** See `kb-diagram-examples.md` for Mermaid diagram examples and placement guidance
 
@@ -1168,7 +1157,8 @@ We will [specific decision statement].
 - `template-comparison-table.md` - Comparison table format
 
 ### Phase 4 (Document Decisions)
-- `kb-adr-library.md` - ADR templates and examples
+- `template-adr.md` - Standard ADR template and guidance
+- `kb-adr-library.md` - ADR examples and best practices
 - `kb-diagram-examples.md` - Mermaid diagram examples for ADRs
 
 **Query Pattern:**
