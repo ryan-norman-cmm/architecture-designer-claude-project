@@ -1,8 +1,77 @@
-# Architecture Designer - Claude Desktop Project
+# Claude Desktop Projects Repository
 
 ## Overview
 
-The **Architecture Designer** is a specialized Claude Desktop project that transforms product requirements into production-ready system architectures. It acts as a senior principal architect with 25+ years of experience, providing multiple architectural approaches with honest tradeoffs, detailed component designs, and comprehensive technical documentation.
+This repository contains **Claude Desktop project templates** following a standardized **three-layer architecture pattern**. Each project is self-contained with agent instructions, workflow definitions, and knowledge base files.
+
+### Three-Layer Architecture
+
+Every Claude Desktop project follows this pattern:
+
+```
+projects/<project-name>/
+├── project-instructions.md       # Layer 1: Agent Instructions
+│   └── Personality, principles, response frameworks
+└── output/
+    ├── workflow-*.md             # Layer 2: Workflow Definitions
+    │   └── Conversation phases, patterns, examples
+    └── kb-*.md                   # Layer 3: Knowledge Base Files
+        └── Patterns, frameworks, examples, templates
+```
+
+**How the layers work together:**
+1. **Layer 1** defines WHO the agent is (personality, philosophy, principles)
+2. **Layer 2** defines HOW the agent converses (workflow phases, patterns, transitions)
+3. **Layer 3** defines WHAT the agent knows (domain knowledge, patterns, examples)
+
+**Current Projects:**
+- **architecture-designer**: Senior Principal Architect agent (230K+ tokens)
+
+## Repository Structure
+
+```
+.
+├── projects/                              # Claude Desktop projects
+│   └── architecture-designer/             # Architecture Designer project
+│       ├── project-instructions.md        # Agent personality and workflow
+│       └── output/                        # Knowledge base (230K+ tokens)
+│           ├── kb-architecture-patterns.md
+│           ├── kb-technology-selection.md
+│           ├── kb-anti-patterns.md
+│           ├── kb-scaling-strategies.md
+│           ├── kb-adr-library.md
+│           ├── kb-diagram-examples.md
+│           └── workflow-architecture-exploration.md
+└── documentation/                         # Product requirements and releases
+    ├── product-requirements.md
+    └── initiative-releases.md
+```
+
+---
+
+## Architecture Designer Project
+
+A Claude Desktop agent that transforms product requirements into production-ready system architectures.
+
+### Three-Layer Breakdown
+
+**Layer 1: Agent Instructions** (`project-instructions.md`)
+- Persona: Senior Principal Architect with 25+ years experience
+- Principles: Present options not mandates, match reality, boring tech wins
+- Framework: Technology evaluation scoring, tradeoff analysis templates
+
+**Layer 2: Workflow** (`output/workflow-architecture-exploration.md`)
+- 6-phase workflow: Requirements → Gap ID → Exploration → Clarification → Selection → Design
+- Conversation patterns for each phase
+- 26K tokens
+
+**Layer 3: Knowledge Base** (7 files, 230K+ tokens)
+- `kb-architecture-patterns.md` (78K): 12+ patterns with examples
+- `kb-technology-selection.md` (38K): Tech evaluation frameworks
+- `kb-anti-patterns.md` (18K): Common mistakes to avoid
+- `kb-scaling-strategies.md` (37K): Scaling by growth phase
+- `kb-adr-library.md` (18K): ADR templates
+- `kb-diagram-examples.md` (20K): Mermaid best practices
 
 ## What This Agent Does
 
@@ -42,9 +111,9 @@ into detailed, production-ready system architectures with multiple approaches,
 honest tradeoffs, and comprehensive documentation.
 ```
 
-### 2. Add Custom Instructions
+### 2. Add Project Instructions
 
-Copy the **Custom Instructions** section (2,800 words) into the project's custom instructions field. These instructions define:
+Copy the contents of `projects/architecture-designer/project-instructions.md` into the project's custom instructions field. These instructions define:
 
 - Agent personality and philosophy
 - Core workflow (intake → exploration → detailed design)
