@@ -2,7 +2,7 @@
 
 **Purpose:** Enable users to explore 2-3 distinct architectural approaches through conversational interface with visual diagrams, honest tradeoff analysis, and contextual recommendations.
 
-**Version:** v1.7 (workflow-cleanup)
+**Version:** v1.8 (progressive-ux)
 **Last Updated:** 2025-10-27
 
 ---
@@ -10,7 +10,11 @@
 ## Workflow Overview
 
 This workflow implements a **Conversational State Machine Pattern** with:
-- **Progressive Disclosure**: Gather requirements incrementally through natural conversation
+- **Progressive Disclosure**: Information delivered in 50-100 line chunks with user control points
+- **One Question at a Time**: Reduce cognitive load with sequential, contextual questions
+- **Summary-First Tables**: Scannable comparison before detailed exploration
+- **Chunking & Checkpoints**: User controls pace and direction throughout conversation
+- **Inline Learning**: Brief explanations with analogies for technical terms
 - **Pattern Matching Engine**: Select 2-3 genuinely different approaches from knowledge base
 - **Visual-First Communication**: Mermaid diagrams for system context and component structure
 - **Honest Tradeoff Analysis**: No silver bullets - explicit pros and cons for each approach
@@ -37,6 +41,11 @@ This workflow implements a **Conversational State Machine Pattern** with:
 - **MVP Scope**: What's the minimal valuable release? What features can be deferred?
 - **Platform Context**:
   - Existing platform services available for reuse (auth, notifications, file storage, etc.)
+
+> 📚 **Platform Cohesion**
+> How well a new component integrates with your existing platform's services, patterns, and infrastructure. High cohesion means reusing existing auth, notifications, databases, and deployment pipelines instead of creating new ones.
+>
+> *Think of it like:* Adding a new room to your house using the same electrical, plumbing, and HVAC systems you already have, versus building a separate tiny house in your backyard with all new utilities.
   - Integration points with current platform systems
   - Platform standards to follow (API conventions, logging, monitoring, deployment)
   - Shared infrastructure available (databases, message queues, caches, CDN)
@@ -82,27 +91,125 @@ Does this match your understanding? Any corrections or additions?"
 ```
 
 **Conversation Pattern (without provided requirements):**
+
+Use **progressive question pattern** from `kb/templates/progressive-questions.md` - ask ONE question per exchange to reduce cognitive load and provide immediate value.
+
+**Question Sequence (5 core questions):**
+
 ```
 User: "I need to build a task management application..."
 
-Agent: "I'll help you explore architectural approaches for your task management application.
+Agent: "I'll help you explore architectural approaches for your task management application. Let me ask a few questions to understand your needs - this will take ~5 questions.
 
-To provide the most relevant recommendations focused on platform cohesion and reusability:
+🤔 **Question 1 of ~5**
 
-1. **MVP Scope**: What's the minimal valuable release? Which features are must-have vs nice-to-have?
+**What are you building?**
 
-2. **Platform Context**: Do you have an existing platform with services we can reuse? (auth, notifications, storage, etc.)
+*Why this matters:* Different project types (CRUD apps, real-time systems, data pipelines) have very different architectural needs. This helps me recommend patterns that fit your use case.
 
-3. **Vendor Tooling**: What cloud provider or managed services are you already using? (AWS/Azure/GCP, databases, caches, etc.)
+**Examples:**
+- Web application (user-facing features)
+- API service (backend integration)
+- Data processing pipeline
+- Real-time system (chat, notifications)
+- Custom: [describe your project]
 
-4. **Standards**: Any API or integration standards to follow? (REST, GraphQL, FHIR, OpenAPI, OpenTelemetry, etc.)
-
-5. **Scale & Performance**: Expected user scale? Any specific performance or availability requirements?
-
-6. **Special Requirements**: Compliance needs (HIPAA, SOX, GDPR), critical integrations, or domain-specific considerations?
-
-Please share what you know - we'll focus on leveraging your existing platform and vendor tools for maximum cohesion and reusability."
+Your answer:"
 ```
+
+```
+User: "Web application for task management"
+
+Agent: "🤔 **Question 2 of ~5**
+
+**Is this an MVP/first release, or adding to an existing platform?**
+
+*Why this matters:* MVPs can start simple and scale later. Existing platforms need to integrate with current architecture and maintain consistency.
+
+**Examples:**
+- New MVP: Start fresh, optimize for speed
+- Existing platform: Integrate with current services
+- Modernizing legacy: Replace existing system gradually
+
+Your answer:"
+```
+
+```
+User: "Adding to existing platform"
+
+Agent: "🤔 **Question 3 of ~5**
+
+**What existing platform services can we leverage?**
+
+*Why this matters:* Reusing existing services (auth, notifications, storage) maximizes platform cohesion and reduces build time.
+
+**Examples:**
+- Auth: OAuth service, user management
+- Notifications: Email, SMS, push notifications
+- Storage: File storage, object storage, CDN
+- None: Greenfield project, build from scratch
+
+Your answer:"
+```
+
+---
+
+📍 **Checkpoint: Mid-Requirements**
+
+We've covered your project type and platform context.
+
+What would you like to do?
+1. **Continue questions** → 2 more questions about vendor tools and scale
+2. **Skip to recommendations** → Generate approaches with what we have
+3. **Adjust previous answers** → Refine what we discussed
+
+Your choice:
+
+---
+
+```
+User: "Continue questions"
+
+Agent: "🤔 **Question 4 of ~5**
+
+**What cloud provider or managed services are you using?**
+
+*Why this matters:* Leveraging vendor-managed services (databases, caches, queues) reduces operational complexity and takes advantage of existing licenses.
+
+**Examples:**
+- Azure: App Service, PostgreSQL, Redis, Functions
+- AWS: Lambda, RDS, ElastiCache, API Gateway
+- GCP: Cloud Run, Cloud SQL, Memorystore
+- Self-hosted: Docker, Kubernetes, on-premise
+- Flexible: No current commitment
+
+Your answer:"
+```
+
+```
+User: "Azure with PostgreSQL and Redis"
+
+Agent: "🤔 **Question 5 of ~5**
+
+**What's your expected user scale?**
+
+*Why this matters:* Scale influences whether we need distributed architecture or can use simpler patterns.
+
+**Examples:**
+- Startup/POC: < 100 users
+- Small business: 100-1,000 users
+- Growth stage: 1,000-10,000 users
+- Enterprise: 10,000-100,000 users
+- Large scale: 100,000+ users
+
+Your answer:"
+```
+
+**Skip Logic Rules:**
+- If user already provided detailed requirements document → skip to Phase 2
+- If answer can be inferred from previous responses → skip question
+- If user says "I don't know" → use reasonable default and continue
+- Maximum 5 questions before moving to recommendations
 
 ---
 
@@ -123,174 +230,194 @@ Please share what you know - we'll focus on leveraging your existing platform an
 - **NICE TO HAVE**: Performance targets, compliance requirements, domain specifics
 
 **Conversation Pattern:**
+
+Use progressive question pattern if gaps exist - ask ONE clarifying question at a time.
+
 ```
 User: "We're building a patient scheduling system for our healthcare platform."
 
-Agent: "Perfect! To optimize for platform cohesion and reusability, I need to understand:
+Agent: "Perfect! I see you're building patient scheduling for healthcare. Let me ask one clarifying question:
 
-1. **Platform Services**: What existing platform services can we leverage? (Auth, notifications, audit logging, etc.)
+🤔 **Clarification Question**
 
-2. **Vendor Tooling**: What cloud provider and managed services are already in use? (e.g., Azure PostgreSQL, Redis Cache, etc.)
+**What existing platform services can we leverage?**
 
-3. **Open Standards**: Should this follow FHIR for patient data? Any API standards required? (REST, GraphQL, OpenAPI, etc.)
+*Why this matters:* Reusing existing services (auth, notifications, audit logging) maximizes platform cohesion and reduces build time.
 
-4. **Existing Integrations**: What systems does this need to integrate with? Any reusable components from other services?
+**Examples:**
+- Auth: OAuth service, user management, role-based access
+- Notifications: Email, SMS, push notifications
+- Audit: Logging, event tracking, compliance trails
+- None: Greenfield project
 
-This helps me recommend approaches that maximize platform cohesion and minimize reinvention."
+Your answer:"
 ```
+
+```
+User: "We have auth and notifications, building audit new"
+
+Agent: "Got it - reusing auth and notifications. One more question:
+
+🤔 **Clarification Question**
+
+**What cloud provider and managed services are you using?**
+
+*Why this matters:* Leveraging vendor-managed services reduces operational complexity.
+
+**Examples:**
+- Azure: PostgreSQL, Redis, Functions
+- AWS: RDS, ElastiCache, Lambda
+- Self-hosted: Docker, Kubernetes
+
+Your answer:"
+```
+
+**Gap Clarification Rules:**
+- Ask ONE question per exchange (not batched)
+- Use "Why this matters" rationale for context
+- Provide 3-4 example answers
+- Maximum 3 clarifying questions before moving to Phase 2.5
 
 ---
 
-### Phase 2.5: Solution Overview & Approval Checkpoint
+### Phase 2.5: Approach Comparison Table
 
-**Goal:** Generate minimal high-level solution overview and obtain user approval before investing in comprehensive architecture exploration
+**Goal:** Provide scannable overview of 3-5 architecture approaches in under 2 minutes, enabling quick filtering before detailed exploration
 
-**Purpose:** Validate directional alignment early - catch fundamental misunderstandings about the problem/approach before generating extensive documentation (2-3 approaches, 10-15 pages, 8-12 diagrams).
+**Purpose:** Progressive disclosure - give users immediate value and control over direction without overwhelming them with 500+ lines per approach.
 
 **Process:**
-1. After requirements are complete (Phase 1-2), generate concise solution overview
-2. Present overview to user for review
-3. User approves, refines, or rejects
-4. Only proceed to full Architecture Exploration (Phase 3) after explicit approval
+1. After requirements complete (Phase 1-2), generate comparison table
+2. Present table with platform cohesion scores
+3. User selects which approach(es) to explore in detail
+4. Proceed to Phase 3 only for selected approaches
 
-**Solution Overview Format (1-2 pages maximum, ~500 words):**
+**Comparison Table Format:**
+
+Use template from `kb/templates/comparison-table.md`:
 
 ```markdown
-## Solution Overview for [Project Name]
+## Architecture Approaches for [Project Name]
 
-### Problem Understanding
-[2-3 sentences confirming what problem we're solving]
+Based on your requirements for **[brief description]**, here are **[3-5]** approaches optimized for **[key constraint: platform cohesion/vendor leverage/scale/etc.]**:
 
-### Proposed Architectural Direction
-[Single paragraph describing high-level approach - NOT implementation details]
+| Approach | Key Pattern | Best For | Main Tradeoff |
+|----------|------------|----------|---------------|
+| **Modular Monolith** | Single deployment, domain modules | MVP speed, small teams | Harder to scale parts independently |
+| **Microservices** | Independent services, async messaging | Large teams, high scale | Operational complexity, distributed debugging |
+| **Serverless API** | Functions + API Gateway | Variable load, low ops | Vendor lock-in, cold starts |
 
-Examples:
-- "Build as modular monolith with clear domain boundaries, deployed as single service"
-- "Event-driven architecture with independent services communicating via message queue"
-- "Serverless functions with API Gateway and managed databases"
+**Platform Cohesion Scores:**
+- **Modular Monolith**: High (85/100) - Reuses platform auth, notifications, PostgreSQL
+- **Microservices**: Medium (65/100) - New messaging infrastructure needed
+- **Serverless API**: Medium (60/100) - Platform integration via APIs only
 
-### Key Assumptions
-- MVP scope: [minimal release features]
-- Platform services leveraged: [auth, notifications, storage, etc.]
-- Vendor tooling used: [cloud provider, managed services]
-- Open standards: [REST, FHIR, OpenAPI, etc.]
-- Scale target: [users, requests]
-- Critical requirement: [most important non-negotiable]
+---
 
-### Architectural Principles for This Solution
-[3-5 principles that will guide detailed design]
+📍 **Checkpoint: Approach Overview**
 
-Examples:
-- "Maximize platform cohesion - reuse existing services vs reinventing"
-- "Leverage vendor managed services to minimize operational complexity"
-- "Follow open standards (FHIR, OpenAPI) for cross-platform compatibility"
-- "Design for service reusability across future platform releases"
+What would you like to explore?
+1. **See detailed breakdown** of [Highest scoring approach] (diagrams + analysis)
+2. **Compare technologies** across all approaches
+3. **Adjust requirements** and regenerate table
+4. **Explore specific approach** (tell me which one)
 
-### What This Enables
-[2-3 sentences on what users will be able to do with this architecture]
-
-### What This Intentionally Defers
-[2-3 items we're NOT solving in initial design]
-
-Examples:
-- Multi-region deployment (start single region)
-- Real-time collaboration features (async first)
-- Advanced analytics (basic reporting initially)
+Your choice:
 ```
 
-**Size Constraint:** HARD LIMIT of 500 words (2 pages). If overview exceeds this, you're providing too much detail - this is architect-level direction, NOT implementation specifications.
+**Line Limit:** 50-75 lines maximum (fits on one screen)
+
+**Column Width:** ≤80 characters per row (mobile-friendly)
+
+**Approach Count:** 3-5 approaches (fewer = not enough options, more = decision paralysis)
 
 **Conversation Pattern:**
 
 ```
-Agent (after Phase 2 complete): "Before I generate 2-3 detailed architectural approaches with diagrams and tradeoff analysis, let me confirm we're aligned on the high-level direction.
+Agent (after Phase 2 complete): "I've identified 3 architecture approaches that fit your needs. Let me show you a quick comparison so you can decide which to explore further.
 
-Here's my solution overview for your [project]:
+[Generate comparison table using template]
 
-[Generate minimal overview using template above - max 500 words]
+Each approach is scored based on:
+- Platform Cohesion (40%): Reuse of existing platform services
+- Vendor Leverage (25%): Use of Azure managed services
+- Scale Fit (20%): Match for your 1,000-10,000 user target
+- Standards Compliance (15%): FHIR, OpenAPI, OpenTelemetry support
 
----
-
-**Review Questions:**
-- Does this match your understanding of the problem?
-- Is the proposed direction reasonable given your constraints?
-- Any critical assumptions I got wrong?
-
-**Your Options:**
-1. ✅ **Approve** - Proceed to generate 2-3 detailed architectural approaches
-2. 🔄 **Refine** - Adjust assumptions/direction and regenerate overview
-3. ❌ **Reject** - We misunderstood the problem, restart requirements gathering
-
-What would you like to do?"
+What would you like to explore first?"
 ```
 
 **User Response Handling:**
 
-**Approve:**
+**Option 1: Detailed Breakdown**
 ```
-User: "Looks good, proceed"
-User: "Yes, approved"
-User: "Let's continue"
+User: "1" or "Show me Modular Monolith details"
 
-Agent: "Perfect! I'll now generate 2-3 distinct architectural approaches with:
-- System context diagrams
-- Component structure diagrams
-- Detailed tradeoff analysis
-- Technology recommendations
-- Fit scores
+Agent: "I'll generate detailed analysis for the Modular Monolith approach, including:
+- System context diagram
+- Component structure diagram
+- Technology decisions table
+- Tradeoff analysis
+- Fit score breakdown
 
-This will take a moment as I reference the knowledge base..."
+This will use the chunking pattern with checkpoints every 50-100 lines..."
 
-[Proceed to Phase 3: Architecture Exploration]
+[Proceed to Phase 3 for selected approach only]
 ```
 
-**Refine:**
+**Option 2: Technology Comparison**
 ```
-User: "Actually, budget is more constrained than that"
-User: "We need real-time features, not async"
-User: "Team knows Python, not TypeScript"
+User: "2" or "Compare technologies"
 
-Agent: "Got it! Let me update the solution overview with:
-- [Specific change based on feedback]
+Agent: "Here's how technology decisions differ across approaches:
 
-Here's the revised overview:
+| Category | Modular Monolith | Microservices | Serverless |
+|----------|-----------------|---------------|------------|
+| **Database** | PostgreSQL (existing) | PostgreSQL per service | Azure Cosmos DB |
+| **API Style** | REST (in-process) | GraphQL Federation | HTTP triggers |
+| **Caching** | Redis (existing) | Redis + local cache | No caching layer |
 
-[Regenerate overview with updated assumptions]
+[Generate technology decision table from kb/templates/comparison-table.md]
 
-Does this better match your needs?"
-
-[Allow up to 3 refinement iterations - if still not aligned after 3, suggest detailed requirements clarification]
+Which approach interests you most?"
 ```
 
-**Reject:**
+**Option 3: Adjust Requirements**
 ```
-User: "No, this isn't what I need"
-User: "You misunderstood the problem"
+User: "3" or "Change requirements"
 
-Agent: "I apologize for the misunderstanding. Let's step back and clarify the requirements.
+Agent: "What would you like to adjust?
+- Scale expectations
+- Platform services available
+- Vendor tooling preferences
+- Standards requirements
 
-What specifically did I get wrong?
-- Problem understanding?
-- Constraints?
-- Priorities?
+Tell me what changed and I'll regenerate the comparison table."
 
-Let's restart from Phase 1 with better clarity."
+[Return to Phase 2, update requirements, regenerate table]
+```
 
-[Return to Phase 1: Requirements Intake]
+**Option 4: Explore Specific Approach**
+```
+User: "Show me Microservices" or "Explore approach 2"
+
+Agent: "I'll generate detailed analysis for the Microservices approach..."
+
+[Proceed to Phase 3 for selected approach]
 ```
 
 **Critical Rules:**
 
-1. **ALWAYS generate overview before Phase 3** - No exceptions unless user explicitly says "skip overview, give me approaches"
-2. **Enforce 500-word limit** - If overview is longer, you're being too detailed
-3. **Block Phase 3 until approval** - Don't generate full approaches without explicit user approval
-4. **Maximum 3 refinements** - If not aligned after 3 iterations, requirements need deeper clarification
-5. **Overview is MINIMAL** - This is what a senior architect hands to tech leads for direction, NOT implementation details
+1. **Table first, details later** - Never generate full approach details before showing comparison table
+2. **50-75 line limit** - If table exceeds this, reduce approach count or simplify columns
+3. **Platform cohesion scoring required** - Always show fit scores with 1-sentence rationale
+4. **Checkpoint at end** - Always end with checkpoint offering 3-4 contextual options
+5. **User controls detail level** - Generate detailed approach ONLY for what user selects
 
 **Success Criteria:**
-- User can read overview in < 2 minutes
-- User confirms directional alignment before extensive work
-- Reduces wasted effort on wrong approaches by 70%+
+- User sees all options in < 2 minutes (one screen)
+- User can make informed decision without reading 500+ lines
+- Reduces wasted generation by 60%+ (only detail selected approaches)
 
 ---
 
@@ -388,17 +515,47 @@ Now I'll generate 2-3 architectural approaches leveraging these current capabili
 
 ### Phase 3: Architecture Exploration
 
-**Goal:** Present 2-3 genuinely different architectural approaches
+**Goal:** Present detailed analysis for selected approach(es) using progressive disclosure pattern
 
-**Trigger:** User has approved solution overview from Phase 2.5 (and optional Phase 2.75 research complete)
+**Trigger:** User has selected approach from Phase 2.5 comparison table
 
 **Process:**
-1. Query knowledge base for relevant patterns
-2. Select 2-3 approaches ensuring diversity (not variations of same pattern)
-3. Generate system context diagram for each approach
-4. Generate component structure diagram for each approach
-5. Analyze tradeoffs (pros, cons, risks) for each approach
-6. Present approaches with equal visual weight
+1. Generate approach details in 50-100 line chunks
+2. Insert checkpoint after each chunk for user control
+3. User decides: continue, switch approach, or stop
+4. Only generate next chunk if user wants to continue
+
+**Chunking Pattern:**
+
+Use templates:
+- Checkpoints: `kb/templates/checkpoint-format.md`
+- Learning snippets: `kb/templates/learning-snippet.md` (max 1 per 50 lines)
+
+**Chunk 1: Overview + System Context** (~50-75 lines)
+- Approach name and brief description
+- System context diagram (Mermaid)
+- High-level benefits and tradeoffs (3-5 each)
+- → Checkpoint: Continue or switch?
+
+**Chunk 2: Component Structure + Fit Analysis** (~50-75 lines)
+- Component structure diagram (Mermaid)
+- Fit score breakdown (Platform 40%, Vendor 25%, Scale 20%, Standards 15%)
+- Best For / Avoid If guidance
+- → Checkpoint: Continue or done?
+
+**Chunk 3: Technology Decisions** (~50-75 lines)
+- Key technology decisions table (ADR-ready format)
+- Database, API style, caching, deployment decisions
+- Rationale, alternatives, tradeoffs for each
+- → Checkpoint: Explore another approach or proceed to ADRs?
+
+**Maximum per approach: 150-225 lines** (vs current ~250+ lines)
+
+**Detailed Approach Generation:**
+
+Only generate detailed approach analysis after user selects from Phase 2.5 comparison table.
+
+Do NOT generate all approaches upfront - let user control which to explore.
 
 **Pattern Selection Algorithm:**
 
@@ -413,6 +570,21 @@ Reference `kb-architecture-patterns.md` for available patterns:
 - Service-Oriented Architecture (SOA)
 - Jamstack Architecture
 - CQRS + Event Sourcing
+
+> 📚 **Modular Monolith**
+> A single application where all features are tightly integrated but organized into clear domain modules (like Users, Tasks, Projects). Deployed as one unit, but designed with boundaries that allow extracting services later if needed.
+>
+> *Think of it like:* An office building where each department (HR, Sales, Engineering) has its own floor with clear boundaries, but they all share the same elevator, power, and HVAC systems.
+
+> 📚 **Microservices Architecture**
+> Multiple small, independent services that each handle one specific job. Each service can be updated, deployed, and scaled separately without affecting the others. Services communicate over networks (HTTP, messaging).
+>
+> *Think of it like:* A restaurant kitchen with specialized stations (grill, salads, desserts) instead of one chef doing everything. Each station works independently but coordinates to deliver complete meals.
+
+> 📚 **Event-Driven Architecture**
+> Components communicate by publishing events (things that happened) to a message queue, and other components subscribe to events they care about. This decouples services so they don't need to know about each other directly.
+>
+> *Think of it like:* A restaurant order bell system. The server doesn't go find the chef - they ring the bell (publish event), and whoever's available in the kitchen (subscribers) picks up the order and starts cooking.
 
 ### Step 2: Filter by Platform Cohesion & Constraints
 
@@ -487,160 +659,151 @@ For each approach, provide:
 
 **CRITICAL for ADR Generation**: Capture enough decision context in Phase 3 so ADRs can be generated WITHOUT needing Phase 6 (detailed component design). Each technology decision should have clear rationale tied to requirements.
 
-**Example Output:**
+**Example Chunked Output:**
+
 ```
-Based on your requirements (3 engineers, 2-month timeline, task management app, 100-500 users), here are 3 distinct architectural approaches:
+User selected: "Show me Modular Monolith details"
 
 ---
 
+**CHUNK 1: Overview + System Context** (~50 lines)
+
 ## Approach 1: Modular Monolith
 
-[System Context Diagram - Mermaid]
+Single deployment with clear domain boundaries, optimized for your 3-engineer team and 2-month timeline.
 
-[Component Structure Diagram - Mermaid]
+### System Context Diagram
 
-### Tradeoffs
+[Mermaid diagram showing external interactions]
+
+### High-Level Tradeoffs
 
 **Pros:**
 - Simple deployment (single service)
 - Fast development (no distributed systems complexity)
 - Easy debugging (single codebase)
 - Low infrastructure cost ($50-200/month)
-- Team coordination overhead minimal
 
 **Cons:**
 - Harder to scale individual components independently
-- Entire app redeploys for any change (slower iteration at scale)
+- Entire app redeploys for any change
 - Risk of tight coupling if module boundaries not enforced
-- Database becomes bottleneck if not designed well
-- Limited technology diversity (one stack)
-
-**Best For:**
-- Small teams (<10 engineers)
-- Clear domain boundaries
-- Moderate scale (<10K users)
-- Fast time to market
-
-**Avoid If:**
-- Need independent scaling per feature
-- Multiple teams need deployment independence
-- Ultra-high scale (>100K users) expected soon
-
-**Key Technology Decisions:**
-
-1. **Database: PostgreSQL**
-   - **Rationale**: Relational data model (users, projects, tasks with clear relationships), JSONB supports custom fields without schema changes, team likely familiar with SQL
-   - **Alternatives**: MongoDB (document-oriented, but relationships awkward), MySQL (viable but less flexible JSONB)
-   - **Tradeoffs**: Pro - Strong consistency, ACID guarantees; Con - Vertical scaling limits at very high scale
-
-2. **Stack: Next.js (Full-stack)**
-   - **Rationale**: Single codebase for 3-person team, server + client in one framework, fast development velocity
-   - **Alternatives**: Separate React + Node.js (more flexible but slower), Python Django (if team prefers Python)
-   - **Tradeoffs**: Pro - Fast shipping, good DX; Con - Framework lock-in, less flexibility than separate stacks
-
-3. **Caching: Redis**
-   - **Rationale**: Session storage, frequently-accessed projects, rate limiting - all supported out of box
-   - **Alternatives**: In-memory (simplest but doesn't persist), Memcached (viable but less feature-rich)
-   - **Tradeoffs**: Pro - Fast, versatile; Con - Another service to manage, memory costs
-
-**Fit Score:** HIGH (matches team size, timeline, scale)
 
 ---
 
-## Approach 2: Microservices
+📍 **Checkpoint: Architecture Overview**
 
-[System Context Diagram - Mermaid]
+You've seen the system context and high-level tradeoffs for Modular Monolith.
 
-[Component Structure Diagram - Mermaid]
+What's next?
+1. **Continue with details** → Component structure and fit analysis
+2. **Switch to another approach** → Explore Microservices or Serverless
+3. **Ask a question** → Clarify something about this approach
+4. **Skip to ADRs** → You have enough, generate decision records
 
-### Tradeoffs
-
-**Pros:**
-- Independent scaling per service
-- Technology diversity (choose best tool per service)
-- Team autonomy (services owned by different engineers)
-- Resilience (service failures isolated)
-- Clear domain boundaries enforced by architecture
-
-**Cons:**
-- High operational complexity (multiple deployments, monitoring, logging)
-- Distributed systems challenges (network latency, eventual consistency)
-- 60% of engineering time on infrastructure vs features (for small teams)
-- Higher infrastructure cost ($300-800/month minimum)
-- Debugging harder (distributed tracing required)
-
-**Best For:**
-- Large teams (>10 engineers)
-- High scale (>10K users)
-- Independent service scaling needs
-- Long-term product investment
-
-**Avoid If:**
-- Small team (<5 engineers)
-- Tight timeline (<3 months)
-- Limited operational expertise
-- Budget-constrained
-
-**Fit Score:** LOW (team too small, timeline too short)
+Your choice:
 
 ---
 
-## Approach 3: Serverless (AWS Lambda + DynamoDB)
+User: "1" or "Continue"
 
-[System Context Diagram - Mermaid]
+**CHUNK 2: Component Structure + Fit Analysis** (~60 lines)
 
-[Component Structure Diagram - Mermaid]
+### Component Structure Diagram
 
-### Tradeoffs
+[Mermaid diagram showing internal modules]
 
-**Pros:**
-- Zero infrastructure management
-- Auto-scaling built-in
-- Pay only for usage (cost-effective at low scale)
-- Fast deployment
-- High availability by default
+### Fit Score Breakdown
 
-**Cons:**
-- Vendor lock-in (AWS-specific)
-- Cold start latency (300-1000ms)
-- Debugging/testing harder than traditional apps
-- Limited execution time (15 min max per function)
-- Complex state management
+**Overall: HIGH (85/100)**
 
-**Best For:**
-- Unknown scale (0-100K users)
-- Event-driven workflows
-- Cost-sensitive projects
-- Teams familiar with serverless
+- **Platform Cohesion (40%)**: 90/100 - Reuses existing PostgreSQL, Redis, auth services
+- **Vendor Leverage (25%)**: 85/100 - Deploys to Azure App Service (existing license)
+- **Scale Fit (20%)**: 75/100 - Handles 100-500 users easily, scales to 10K
+- **Standards Compliance (15%)**: 80/100 - REST API with OpenAPI, OpenTelemetry
 
-**Avoid If:**
-- Long-running operations (>15 min)
-- Predictable high load (reserved instances cheaper)
-- Team unfamiliar with serverless patterns
-- Need local development parity
+### Best For
 
-**Fit Score:** MEDIUM (good for timeline, unknown scale risk)
+- Small teams (<10 engineers) needing fast iteration
+- Clear domain boundaries (Users, Tasks, Projects modules)
+- Moderate scale (<10K users) with growth headroom
+- Tight timeline (2-month MVP) requiring simple deployment
+
+### Avoid If
+
+- Need independent scaling per feature (use Microservices)
+- Multiple teams needing deployment independence
+- Ultra-high scale (>100K users) expected in next 6 months
 
 ---
 
-## Recommendation
+📍 **Checkpoint: Fit Analysis Complete**
 
-Given your constraints (3 engineers, 2-month timeline, 100-500 users):
+You've seen how this approach scores against your constraints.
 
-I recommend **Approach 1: Modular Monolith** because:
+What would you like to do?
+1. **See technology decisions** → Database, API, caching choices with rationale
+2. **Compare with another approach** → See Microservices or Serverless details
+3. **Ready for ADRs** → Generate decision records for this approach
+4. **Ask questions** → Dive deeper into specific aspects
 
-1. **Team Size Match**: 3 engineers can move fast without distributed systems overhead
-2. **Timeline Fit**: Simplest architecture gets you to production fastest
-3. **Scale Appropriate**: 500 users easily handled by well-designed monolith
-4. **Future Flexibility**: Modular structure allows extracting microservices later if needed
+Your choice:
 
-**Next Steps:**
-1. Define module boundaries (Users, Tasks, Projects, Notifications)
-2. Choose tech stack based on team expertise
-3. Design data model and API contracts
-4. Set up CI/CD and monitoring
+---
 
-Would you like me to elaborate on any approach or help with detailed design for your selected approach?
+User: "1" or "Technology decisions"
+
+**CHUNK 3: Technology Decisions** (~70 lines)
+
+### Technology Decision Table
+
+| Category | Chosen | Why | Alternative | Trade-off |
+|----------|--------|-----|-------------|-----------|
+| **Database** | PostgreSQL (existing) | Relational model fits tasks/projects, JSONB for custom fields | MongoDB | Strong consistency vs schema flexibility |
+| **API Style** | REST | Team familiar, simple client integration | GraphQL | Simplicity vs query flexibility |
+| **Caching** | Redis (existing) | Session storage, rate limiting out-of-box | In-memory | Persistence vs zero dependencies |
+| **Deployment** | Azure App Service | Existing license, auto-scaling, low ops | Kubernetes | Simplicity vs portability |
+
+> 📚 **JSONB (PostgreSQL)**
+> PostgreSQL's binary JSON storage format that lets you store flexible, schema-free data (like MongoDB) while keeping all the benefits of a traditional relational database (ACID transactions, joins, indexes).
+>
+> *Think of it like:* A filing cabinet where most folders have a standard structure, but some folders can hold any format of documents you need without reorganizing the entire cabinet.
+
+> 📚 **Redis Cache**
+> An in-memory data store that acts as a super-fast cache layer between your application and database. It stores frequently-accessed data in RAM so you don't have to query the slower disk-based database every time.
+>
+> *Think of it like:* Keeping your most-used kitchen tools on the counter instead of in the back of a drawer. Same tools, but instant access without digging through storage every time you need them.
+
+### Key Technology Decisions (ADR-Ready)
+
+**1. Database: PostgreSQL**
+- **Rationale**: Relational data model (users, projects, tasks with clear relationships), JSONB supports custom fields without schema changes, team likely familiar with SQL, existing platform service
+- **Alternatives**: MongoDB (document-oriented, but relationships awkward), MySQL (viable but less flexible JSONB)
+- **Tradeoffs**: Pro - Strong consistency, ACID guarantees, platform reuse; Con - Vertical scaling limits at very high scale
+
+**2. Stack: Next.js (Full-stack)**
+- **Rationale**: Single codebase for 3-person team, server + client in one framework, fast development velocity, good Azure deployment story
+- **Alternatives**: Separate React + Node.js (more flexible but slower), Python Django (if team prefers Python)
+- **Tradeoffs**: Pro - Fast shipping, good DX; Con - Framework lock-in, less flexibility than separate stacks
+
+**3. Caching: Redis (existing platform service)**
+- **Rationale**: Session storage, frequently-accessed projects, rate limiting - all supported out of box, already provisioned on platform
+- **Alternatives**: In-memory (simplest but doesn't persist), Memcached (viable but less feature-rich)
+- **Tradeoffs**: Pro - Fast, versatile, platform reuse; Con - Memory costs (mitigated by existing license)
+
+---
+
+📍 **Checkpoint: Approach Exploration Complete**
+
+You've seen the full analysis of Modular Monolith including diagrams, technology decisions, and tradeoffs.
+
+Ready to move forward?
+1. **Select this approach** → Proceed to ADR generation
+2. **Compare with Microservices** → See alternative approach details
+3. **Compare with Serverless** → See another alternative
+4. **Ask questions** → Dive deeper into specific aspects
+
+Your choice:
 ```
 
 ---
@@ -998,6 +1161,38 @@ Starting with system context..."
 ---
 
 ## Version History
+
+**v1.8 (progressive-ux)** - 2025-10-27
+- **Phase 1: Progressive question pattern** (one question per exchange with checkpoints)
+- References `kb/templates/progressive-questions.md` for question format
+- Added mid-requirements checkpoint after Question 3
+- Each question includes "Why this matters" rationale and example answers
+- Added skip logic rules (infer from context, max 5 questions)
+- **Reduces cognitive load:** 6 batched questions → 5 progressive questions with control points
+- **Phase 2.5: Comparison table replaced solution overview**
+- References `kb/templates/comparison-table.md` for table format
+- Shows 3-5 approaches in scannable table (50-75 lines, < 2 min read)
+- Platform cohesion scores with rationale
+- Technology comparison table option
+- Checkpoint with 4 contextual navigation options
+- **Progressive disclosure:** Table first (< 2 min) → user selects → detailed approach (Phase 3)
+- **Phase 3: Chunking & Checkpoints for approach details**
+- References `kb/templates/checkpoint-format.md` for checkpoint format
+- 3 chunks per approach: Overview+Context (50-75 lines), Structure+Fit (50-75 lines), Tech Decisions (50-75 lines)
+- Checkpoint after each chunk with 3-4 navigation options
+- Technology decision tables (scannable format)
+- User controls: continue, switch approach, skip to ADRs, or ask questions
+- **Reduces output:** 250+ lines → 150-225 lines in controlled chunks
+- **Learning snippets added throughout**
+- References `kb/templates/learning-snippet.md` for snippet format
+- Added 5 snippets: Platform Cohesion, Modular Monolith, Microservices, Event-Driven, JSONB, Redis
+- Placed at first mention of technical terms (max 1 per 50 lines)
+- 2-3 sentence explanation + real-world analogy for each term
+- **Consistency pass across all phases**
+- Updated Workflow Overview with new UX patterns
+- Phase 2 now uses progressive questions for gap clarification (max 3 questions)
+- All phases reference appropriate templates (progressive-questions, comparison-table, checkpoint-format, learning-snippet)
+- Consistent terminology: chunking, checkpoints, progressive disclosure
 
 **v1.7 (workflow-cleanup)** - 2025-10-27
 - **Removed redundancies with knowledge base files** (~400 lines reduction)

@@ -1,0 +1,23 @@
+{
+  "feature": "workflow-ux-improvements",
+  "created": "2025-10-27T23:50:00Z",
+  "phase": "implementation",
+  "lastUpdated": "2025-10-27T23:55:00Z",
+  "branchName": "spec/workflow-ux-improvements",
+  "version": "1.0",
+  "dependencies": [
+    "architecture-exploration-workflow",
+    "staged-review-approval"
+  ],
+  "tags": [
+    "ux",
+    "progressive-disclosure",
+    "cognitive-load",
+    "conversational-ui"
+  ],
+  "tasks": {
+    "total": 7,
+    "estimatedHours": "16-24",
+    "approach": "manual-conversational-testing"
+  }
+}
