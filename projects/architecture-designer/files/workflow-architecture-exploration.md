@@ -19,7 +19,11 @@ This workflow implements a **4-Phase Architecture Design Pattern**:
 ### Core Principles
 
 - **Progressive Disclosure**: Information delivered in manageable chunks with user control
-- **One Question at a Time**: Reduce cognitive load with sequential questions
+- **Cognitive Load Management**: Reduce decision fatigue through:
+  - One question at a time (Phase 1)
+  - One decision at a time (Phases 2-3)
+  - Natural break points between decisions
+  - Progress visibility showing completed vs. remaining work
 - **Summary-First**: Scannable comparisons before detailed exploration
 - **On-Demand Generation**: Generate approaches only when requested
 - **Visual-First Communication**: ASCII diagrams for quick exploration, Mermaid for documentation
@@ -393,7 +397,17 @@ I recommend exploring **2 decisions**:
 1. Architecture Pattern (foundational)
 2. Database Technology (significant implications)
 
-We'll explore each decision separately, then generate 1 ADR per decision at the end.
+**Why Separate Decisions?**
+- Reduces cognitive load by focusing on one choice at a time
+- Prevents decision fatigue from evaluating everything simultaneously
+- Allows you to lock in foundational decisions before dependent ones
+
+**Exploration Sequence:**
+We'll explore decisions in priority order:
+1. First: Architecture Pattern (foundational - affects everything)
+2. Second: Database Technology (depends on architecture choice)
+
+After exploring each decision, we'll generate 1 ADR per decision at the end.
 
 **Does this scope make sense? Any decisions to add/remove/modify?**"
 ```
@@ -465,6 +479,33 @@ I've identified **3 critical decisions** to make. This suggests the project scop
 
 What would you prefer?
 ```
+
+### Decision Sequencing Rules
+
+**Order decisions by dependency and foundational impact:**
+
+**Priority Order:**
+1. **Architecture Pattern** (always first if present)
+   - Affects all other decisions
+   - Most foundational choice
+
+2. **Integration Pattern** (if multiple services)
+   - Affects service boundaries
+   - Influences database choices
+
+3. **Data Architecture** (after architecture pattern)
+   - Depends on architecture style
+   - May be influenced by integration pattern
+
+4. **Technology Selection** (last)
+   - Constrained by architecture and integration decisions
+   - Most flexible to change later
+
+**Cognitive Load Benefits:**
+- **Sequential Focus**: One decision at a time prevents overwhelming the user
+- **Dependency Order**: Foundational decisions first reduce mental backtracking
+- **Context Preservation**: Each decision builds on previous locked-in choices
+- **Decision Fatigue Prevention**: Natural breaks between decisions allow processing time
 
 ### Skip Logic
 
@@ -761,7 +802,28 @@ User: "I'll go with Modular Monolith for the architecture pattern"
 Agent: "Excellent! ✅ **Decision 1 Locked:** Modular Monolith Architecture Pattern
 
 [If more decisions remain]
-Now let's explore **Decision 2: Database Technology Selection**
+---
+
+**🎯 Progress Check**
+
+✅ Completed: Decision 1 (Architecture Pattern)
+⏳ Remaining: Decision 2 (Database Technology)
+
+You've made your first critical decision! Before moving to the next decision:
+- Take a moment to process your choice
+- Any questions about the Modular Monolith approach?
+- Ready to explore Database Technology options?
+
+**Options:**
+1. **Continue to Decision 2** - Explore database choices
+2. **Take a break** - Resume later (I'll remember your selection)
+3. **Discuss Decision 1** - Deep dive on implementation details
+
+What would you like to do?"
+
+[User selects "Continue to Decision 2"]
+
+Agent: "Perfect! Now let's explore **Decision 2: Database Technology Selection**
 
 [Generate comparison table for Decision 2]
 
@@ -772,6 +834,12 @@ Perfect! We've made selections for all critical decisions:
 
 Ready to move to Phase 4 and generate ADRs?"
 ```
+
+**Cognitive Load Management:**
+- **Progress Visibility**: Shows completed vs. remaining decisions
+- **Natural Break Point**: Offers pause between decisions
+- **Context Refresh**: Option to discuss before moving forward
+- **User Control**: User chooses when to proceed (not forced)
 
 ### Pattern Diversity Rules
 
