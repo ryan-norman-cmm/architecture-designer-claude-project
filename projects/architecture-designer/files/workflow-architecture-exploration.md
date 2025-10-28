@@ -2,18 +2,19 @@
 
 **Purpose:** Enable users to explore 2-3 distinct architectural approaches through conversational interface with visual diagrams, honest tradeoff analysis, and contextual recommendations.
 
-**Version:** v2.0 (3-phase-structure)
+**Version:** v3.0 (4-phase-decision-scoping)
 **Last Updated:** 2025-10-28
 
 ---
 
 ## Workflow Overview
 
-This workflow implements a **3-Phase Architecture Design Pattern**:
+This workflow implements a **4-Phase Architecture Design Pattern**:
 
 1. **Phase 1: Understand the Problem** - Gather complete requirements and constraints
-2. **Phase 2: Explore Solutions** - Present architectural options with honest tradeoffs
-3. **Phase 3: Document Decisions** - Generate ADRs for critical decisions
+2. **Phase 2: Identify Architecture Decisions** - Determine critical decisions requiring evaluation
+3. **Phase 3: Explore Solutions** - Present architectural options with honest tradeoffs (per decision)
+4. **Phase 4: Document Decisions** - Generate ADRs for critical decisions (one per decision)
 
 ### Core Principles
 
@@ -259,40 +260,277 @@ Before proceeding to Phase 2:
 
 ---
 
-## Phase 2: Explore Solutions
+## Phase 2: Identify Architecture Decisions
 
-**Goal:** Present 2-3 genuinely different architectural approaches with honest tradeoffs
+**Goal:** Analyze requirements to identify 1-N critical architecture decisions requiring evaluation
 
-**Duration:** 15-30 minutes
+**Duration:** 5-10 minutes
 
-**Output:**
+**Output:** Decision scope proposal (50-100 lines) listing critical decisions with rationale
+
+### Process
+
+After completing Phase 1 (requirements gathering), analyze the requirements to identify critical architecture decisions that need evaluation:
+
+1. Review functional requirements, constraints, and platform context
+2. Identify decisions that will significantly impact the system
+3. Propose 1-N decisions with scope and rationale
+4. Get user approval before proceeding to exploration
+
+### Decision Identification Rules
+
+**Critical Architecture Decisions** are choices that:
+- Have significant long-term impact on the system
+- Are difficult or expensive to change later
+- Affect multiple parts of the system
+- Have meaningful alternatives to evaluate
+
+**Common Decision Categories:**
+
+1. **Architecture Pattern** (Most Common)
+   - Monolith vs. Microservices vs. Serverless vs. Event-Driven
+   - When needed: Almost always (unless extending existing system with established pattern)
+   - Example: "Should we use a modular monolith or microservices architecture?"
+
+2. **Technology Platform/Vendor Selection** (When Evaluating New Tools)
+   - Database technology (PostgreSQL vs. MongoDB vs. DynamoDB)
+   - Authentication provider (Auth0 vs. Cognito vs. self-hosted)
+   - Cloud provider (AWS vs. Azure vs. GCP)
+   - Message queue (Kafka vs. RabbitMQ vs. SQS)
+   - When needed: When selecting a new critical technology with meaningful alternatives
+   - Example: "Should we use PostgreSQL or DynamoDB for primary data storage?"
+
+3. **Integration Pattern** (When Multiple Services)
+   - Synchronous (REST/GraphQL/gRPC) vs. Asynchronous (Events/Messages)
+   - API design approach (REST vs. GraphQL)
+   - When needed: When system has multiple services or external integrations
+   - Example: "Should services communicate via REST APIs or event-driven messaging?"
+
+4. **Data Architecture** (When Complex or Uncertain)
+   - Data modeling approach (normalized vs. denormalized)
+   - Caching strategy (Redis vs. in-memory vs. none)
+   - Data partitioning/sharding strategy
+   - When needed: When data model is complex or scale requires careful planning
+   - Example: "Should we use normalized relational data or denormalized document storage?"
+
+### How Many Decisions?
+
+**1 Decision (Most Common - 70% of projects):**
+- Small to medium projects
+- Clear technology choices
+- Extending existing systems
+- Example: "Architecture Pattern" decision only
+
+**2 Decisions (Complex Projects - 25% of projects):**
+- New critical technology selection needed
+- Multiple integration patterns
+- Complex data architecture
+- Example: "Architecture Pattern" + "Database Technology"
+
+**3+ Decisions (Rare - 5% of projects):**
+- Greenfield enterprise systems
+- Multiple unknown technology choices
+- Complex integration requirements
+- ⚠️ WARNING: 3+ decisions may indicate scope is too large - consider breaking into phases
+
+### Conversation Pattern
+
+```
+[After completing Phase 1 requirements summary and user confirmation]
+
+Agent: "Perfect! Now let me identify the critical architecture decisions we need to make.
+
+[Analyzes requirements]
+
+Based on your requirements, I've identified **[N] critical architecture decision(s)** that will shape your system:
+
+**Decision 1: Architecture Pattern Selection**
+
+**Scope:** Choose the overall architectural approach for the Task Management application
+
+**Why Critical:**
+- Affects entire system structure and development workflow
+- Impacts team collaboration and deployment complexity
+- Difficult to change after initial implementation
+
+**Key Factors:**
+- Team size: 3 engineers (favors simpler patterns)
+- Timeline: 2 months (limits complexity)
+- Scale: 500 → 5K users (moderate scaling needs)
+
+**Alternatives to Explore:**
+- Modular Monolith (simple, fast to build)
+- Serverless Architecture (auto-scaling, low ops)
+- Event-Driven Architecture (decoupled, async)
+
+---
+
+**Decision 2: Database Technology Selection**
+
+**Scope:** Choose primary data storage technology and modeling approach
+
+**Why Critical:**
+- Affects data modeling, query patterns, and scaling strategy
+- Impacts operational complexity and cost
+- Moderately difficult to change later
+
+**Key Factors:**
+- Data model: Tasks, assignments, users (relational structure)
+- Scale: 5K users, 50K tasks (moderate volume)
+- Team expertise: Assuming SQL experience (default assumption)
+- Budget: Limited ($50-200/month)
+
+**Alternatives to Explore:**
+- PostgreSQL (relational, full-featured, familiar)
+- DynamoDB (serverless, auto-scaling, pay-per-use)
+- MongoDB (document model, flexible schema)
+
+---
+
+**📋 Decision Summary**
+
+I recommend exploring **2 decisions**:
+1. Architecture Pattern (foundational)
+2. Database Technology (significant implications)
+
+We'll explore each decision separately, then generate 1 ADR per decision at the end.
+
+**Does this scope make sense? Any decisions to add/remove/modify?**"
+```
+
+### Single Decision Pattern (Most Common)
+
+When only 1 decision is needed:
+
+```
+Agent: "Perfect! Now let me identify the critical architecture decisions we need to make.
+
+Based on your requirements, I've identified **1 critical architecture decision**:
+
+**Decision 1: Architecture Pattern Selection**
+
+**Scope:** Choose the overall architectural approach for the Task Management application
+
+**Why This is the Only Critical Decision:**
+- Clear technology choices: Using existing auth service, AWS managed services
+- Straightforward data model: Tasks, users, assignments (standard relational)
+- Standard integration: REST APIs (established pattern)
+- The main question is: What's the right architectural structure?
+
+**Alternatives to Explore:**
+- Modular Monolith (simple, fast to build)
+- Serverless Architecture (auto-scaling, low ops)
+- Microservices (independent scaling, complex)
+
+**Other Decisions (Non-Critical):**
+- Database: PostgreSQL (default for AWS + relational data)
+- Integration: REST APIs (stated requirement)
+- Deployment: AWS managed services (stated platform)
+
+These choices are straightforward given your constraints, so we'll document them in the ADR without separate exploration.
+
+**Ready to explore architecture pattern approaches?**"
+```
+
+### Validation Rules
+
+Before proposing decisions:
+
+**Include a decision when:**
+- [ ] Multiple viable alternatives exist
+- [ ] Decision has significant long-term impact
+- [ ] Choice is not obvious from constraints
+- [ ] User hasn't already decided
+
+**Exclude a decision when:**
+- [ ] Requirements explicitly state the choice
+- [ ] Platform context determines the choice
+- [ ] Only one viable option exists
+- [ ] Decision is low-impact (can change easily)
+
+### Scope Warning
+
+If 3+ decisions are identified:
+
+```
+⚠️ **Scope Warning**
+
+I've identified **3 critical decisions** to make. This suggests the project scope may be quite large for a 2-month timeline.
+
+**Options:**
+
+1. **Phase the project** - Focus on Decision 1 and Decision 2 for MVP, defer Decision 3 to Phase 2
+2. **Simplify scope** - Reduce features to eliminate some decisions
+3. **Proceed with caution** - Explore all 3 decisions (may impact timeline)
+
+What would you prefer?
+```
+
+### Skip Logic
+
+**Skip Phase 2 entirely when:**
+- User has already made explicit technology choices in Phase 1
+- Extending existing system with established patterns
+- No critical decisions to evaluate (follow platform standards)
+
+In these cases, move directly from Phase 1 → Phase 4 (ADR generation documenting the predetermined choices).
+
+---
+
+## Phase 3: Explore Solutions
+
+**Goal:** Present 2-3 genuinely different approaches for EACH architecture decision with honest tradeoffs
+
+**Duration:** 15-30 minutes PER DECISION
+
+**Output (per decision):**
 - Comparison table (100 lines)
 - Detailed exploration of 1-2 selected approaches (300-500 lines each)
 
+**Iteration:** Repeat this phase for EACH decision identified in Phase 2 before proceeding to Phase 4
+
 ### Process Flow
 
+**For EACH decision from Phase 2:**
+
 ```
-2a. Generate Comparison Table (ALL approaches)
+3a. Generate Comparison Table (ALL approaches for this decision)
     ↓
 User selects which to explore
     ↓
-2b. Generate Detailed Exploration (SELECTED approach)
+3b. Generate Detailed Exploration (SELECTED approach)
     ↓
 CHECKPOINT: "See another approach or discuss this one?"
     ↓
-2c. Generate Next Approach (if requested)
+3c. Generate Next Approach (if requested)
     ↓
-Continue until user satisfied
+Continue until user satisfied with approach for THIS decision
+    ↓
+User selects final approach for THIS decision
+    ↓
+Move to next decision (repeat 3a-3c)
+    ↓
+After ALL decisions explored → Phase 4
 ```
 
-### 2a: Comparison Table
+**Example with 2 decisions:**
+1. Explore Decision 1 (Architecture Pattern): Compare → Explore → Select
+2. Explore Decision 2 (Database Technology): Compare → Explore → Select
+3. Move to Phase 4 (Generate 2 ADRs)
+
+### 3a: Comparison Table (Per Decision)
 
 **Goal:** Quick overview enabling filtering before detailed exploration
 
+**Context:** This comparison table is scoped to ONE decision from Phase 2
+
 **Process:**
-1. Query `kb-architecture-patterns.md` for candidate patterns
-2. Score each pattern against constraints (team size, timeline, scale, budget)
-3. Select 3 genuinely different patterns (ensure diversity)
+1. Query relevant knowledge base files for candidate approaches
+   - Architecture Pattern decision → `kb-architecture-patterns.md`
+   - Technology decision → `kb-technology-selection.md`
+   - Integration decision → `kb-architecture-patterns.md` (integration patterns)
+2. Score each approach against constraints (team size, timeline, scale, budget)
+3. Select 3 genuinely different approaches (ensure diversity)
 4. Generate comparison table
 5. Present with platform cohesion scores
 
@@ -308,7 +546,9 @@ Must ensure diversity across:
 **Comparison Table Format:**
 
 ```markdown
-I've identified 3 architecture approaches that fit your constraints. Here's a quick comparison:
+**Decision [N]: [Decision Name]**
+
+I've identified 3 approaches for this decision that fit your constraints. Here's a quick comparison:
 
 ## Architecture Approach Comparison
 
@@ -337,11 +577,13 @@ Options:
 4. Compare all three side-by-side
 ```
 
-### 2b: Detailed Exploration (Per Selected Approach)
+### 3b: Detailed Exploration (Per Selected Approach)
 
-**Goal:** Provide complete architectural design for one approach
+**Goal:** Provide complete exploration of one approach for the current decision
 
 **Trigger:** User selects approach from comparison table
+
+**Context:** This exploration is scoped to ONE approach for ONE decision from Phase 2
 
 **Output Structure:**
 
@@ -488,24 +730,48 @@ After each detailed exploration:
 
 **🔍 What's next?**
 
-1. **See another approach** - Explore Microservices or Serverless
+1. **See another approach** - Explore other options for this decision
 2. **Discuss this approach** - Questions, concerns, deep dives
-3. **Ready to decide** - Move to Phase 3 (ADR generation)
+3. **Select this approach** - Lock in this choice and move to next decision
 
 What would you like to do?
 ```
 
-### 2c: Generate Next Approach
+### 3c: Generate Next Approach
 
-**Trigger:** User requests to see another approach
+**Trigger:** User requests to see another approach for the current decision
 
 **Process:**
 1. Generate full detailed exploration for next selected approach
-2. Use same structure as 2b
+2. Use same structure as 3b
 3. Present checkpoint again
-4. Continue until user satisfied or all approaches explored
+4. Continue until user satisfied with an approach for THIS decision
+5. User locks in selection for this decision
+6. Move to next decision (if any) or proceed to Phase 4
 
 **Key Principle:** Generate approaches **one at a time, on-demand**. Never generate all approaches upfront.
+
+### Decision Selection and Transition
+
+After exploring approaches for a decision:
+
+```markdown
+User: "I'll go with Modular Monolith for the architecture pattern"
+
+Agent: "Excellent! ✅ **Decision 1 Locked:** Modular Monolith Architecture Pattern
+
+[If more decisions remain]
+Now let's explore **Decision 2: Database Technology Selection**
+
+[Generate comparison table for Decision 2]
+
+[If this was the last decision]
+Perfect! We've made selections for all critical decisions:
+- ✅ Decision 1: Modular Monolith Architecture Pattern
+- ✅ Decision 2: PostgreSQL Database
+
+Ready to move to Phase 4 and generate ADRs?"
+```
 
 ### Pattern Diversity Rules
 
@@ -530,49 +796,56 @@ What would you like to do?
 
 ---
 
-## Phase 3: Document Decisions
+## Phase 4: Document Decisions
 
-**Goal:** Generate ADRs for 1-2 most impactful architectural decisions
+**Goal:** Generate ADRs for ALL decisions made in Phase 2/3 (1 ADR per decision)
 
 **Duration:** 5-10 minutes
 
-**Output:** 1-2 ADRs (200-400 lines each)
+**Output:** N ADRs (200-400 lines each), where N = number of decisions from Phase 2
+
+**Typical Output:**
+- 1 decision → 1 ADR (most common)
+- 2 decisions → 2 ADRs
+- 3+ decisions → 3+ ADRs (rare)
 
 ### Process
 
-1. User selects preferred approach from Phase 2
-2. Confirm selection
-3. Identify 1-2 critical decisions to document
-4. Generate ADRs using context from Phase 1 and decisions from Phase 2
-5. Present ADRs with diagrams
+1. Review all decisions made in Phase 2 and approaches selected in Phase 3
+2. Generate 1 ADR per decision using context from Phase 1 and exploration from Phase 3
+3. Present ADRs with Mermaid diagrams
+4. Each ADR documents:
+   - The specific decision (from Phase 2)
+   - The selected approach (from Phase 3)
+   - Alternatives considered (from Phase 3 comparison table)
+   - Rationale tied to requirements (from Phase 1)
 
 ### Conversation Pattern
 
 ```
-User: "I'll go with the Modular Monolith"
+[After completing Phase 3 - all decisions explored and selected]
 
-Agent: "Excellent choice! The Modular Monolith fits your constraints perfectly:
-- ✅ 3-engineer team (simple deployment)
-- ✅ 2-month timeline (fastest to production)
-- ✅ 500-5K users (scales adequately)
-- ✅ Limited budget ($100-200/month)
-- ✅ Platform cohesion (95% - reuses auth, AWS services)
+Agent: "Perfect! We've completed exploration for all decisions:
+- ✅ Decision 1: Modular Monolith Architecture Pattern (selected)
+- ✅ Decision 2: PostgreSQL Database (selected)
 
 **Next Step: Document Your Decisions**
 
-I'll generate Architecture Decision Records (ADRs) for your critical decisions.
+I'll generate Architecture Decision Records (ADRs) to document your choices. These ADRs will help your team (and future teams) understand WHY these decisions were made.
 
-I recommend documenting these 2 key decisions:
+**ADRs to Generate:**
 
 1. **ADR-001: Modular Monolith Architecture Pattern**
-   - Why: Captures architecture choice vs. microservices/serverless
-   - Impact: Affects entire system structure
+   - Decision: Architecture pattern choice
+   - Selected: Modular Monolith
+   - Alternatives: Microservices, Serverless
+   - Rationale: Team size, timeline, simplicity
 
-2. **ADR-002: PostgreSQL with JSONB for Flexible Data**
-   - Why: Captures database choice and extensibility approach
-   - Impact: Affects data modeling and query patterns
-
-These ADRs will help your team (and future teams) understand WHY these decisions were made.
+2. **ADR-002: PostgreSQL for Primary Data Storage**
+   - Decision: Database technology choice
+   - Selected: PostgreSQL
+   - Alternatives: DynamoDB, MongoDB
+   - Rationale: Relational model, team expertise, cost
 
 Generating ADRs now..."
 
@@ -582,10 +855,10 @@ Generating ADRs now..."
 "**✅ Architecture design complete!**
 
 You have:
-- Requirements summary
-- Modular Monolith architecture design
-- Technology decisions with rationale
-- 2 ADRs documenting key decisions
+- Requirements summary (Phase 1)
+- 2 critical decisions identified (Phase 2)
+- Approach exploration and selection (Phase 3)
+- 2 ADRs documenting your decisions (Phase 4)
 
 **What's next?**
 
@@ -596,25 +869,26 @@ You have:
 What would you like?"
 ```
 
-### ADR Selection Rules
+### ADR Generation Rules
 
-**Identify 1-2 MOST IMPACTFUL decisions to document:**
+**Generate 1 ADR per decision from Phase 2:**
 
-**Priority Order:**
-1. **Architecture Pattern** (Monolith/Microservices/Serverless/Event-Driven)
-2. **Database Strategy** (SQL/NoSQL, specific technology, data modeling approach)
-3. **Integration Pattern** (REST/GraphQL/Events, API design, service communication)
-4. **Deployment Strategy** (PaaS/Containers/Serverless, CI/CD, infrastructure)
+- 1 decision identified in Phase 2 → 1 ADR
+- 2 decisions identified in Phase 2 → 2 ADRs
+- 3+ decisions identified in Phase 2 → 3+ ADRs (rare, scope warning already given)
 
-**Selection Guide:**
-- If architecture pattern is non-obvious → Document it (ADR-001)
-- If database choice is complex or contentious → Document it (ADR-002)
-- If integration has significant implications → Document it (ADR-002 or ADR-003)
-- **Maximum 2 ADRs** - More signals scope is too large
+**ADR Numbering:**
+- ADR-001: First decision from Phase 2
+- ADR-002: Second decision from Phase 2
+- ADR-003: Third decision from Phase 2 (if applicable)
 
-**Scope Check:**
-- If 3+ ADRs seem necessary → Suggest breaking project into phases
-- If user insists on 3+ ADRs → Warn that scope may be too ambitious
+**ADR Content Sources:**
+- **Context/Problem**: From Phase 1 (requirements and constraints)
+- **Decision Title**: From Phase 2 (decision scope)
+- **Options Considered**: From Phase 3 (comparison table)
+- **Selected Option**: From Phase 3 (user selection)
+- **Rationale**: From Phase 3 (detailed exploration)
+- **Consequences**: From Phase 3 (pros/cons/tradeoffs)
 
 ### ADR Template
 
@@ -749,9 +1023,10 @@ We will [specific decision statement].
 
 **Application:**
 - Phase 1: ONE question at a time (never batch)
-- Phase 2a: Table first, details on demand
-- Phase 2b: Generate approaches one at a time
-- Phase 3: 1-2 ADRs maximum
+- Phase 2: Identify decisions, get approval on scope
+- Phase 3a: Table first, details on demand (per decision)
+- Phase 3b: Generate approaches one at a time (per decision)
+- Phase 4: Generate 1 ADR per decision
 
 ### 2. No Silver Bullets
 
@@ -774,13 +1049,14 @@ We will [specific decision statement].
 
 ### 4. Visual-First Communication
 
-**Rule:** Use ASCII diagrams for exploration (Phases 1-2), Mermaid for documentation (Phase 3)
+**Rule:** Use ASCII diagrams for exploration (Phase 3), Mermaid for documentation (Phase 4)
 
 **Required Diagrams:**
 - Phase 1: None (requirements text only)
-- Phase 2a: None (comparison table only)
-- Phase 2b: ASCII System Context + Component Structure (quick to scan)
-- Phase 3: Mermaid diagrams in ADRs (proper documentation quality)
+- Phase 2: None (decision list only)
+- Phase 3a: None (comparison table only)
+- Phase 3b: ASCII System Context + Component Structure (quick to scan)
+- Phase 4: Mermaid diagrams in ADRs (proper documentation quality)
 
 ### 5. Equal Visual Weight
 
@@ -811,7 +1087,11 @@ We will [specific decision statement].
 ### Phase 1 (Requirements)
 - `template-progressive-questions.md` - Progressive question patterns
 
-### Phase 2 (Solutions)
+### Phase 2 (Identify Decisions)
+- `kb-architecture-patterns.md` - Reference for common decision categories
+- `kb-technology-selection.md` - Technology decision frameworks
+
+### Phase 3 (Explore Solutions)
 - `kb-architecture-patterns.md` - Pattern catalog with characteristics
 - `kb-technology-selection.md` - Technology evaluation frameworks
 - `kb-anti-patterns.md` - Common mistakes to avoid
@@ -819,16 +1099,16 @@ We will [specific decision statement].
 - `guide-ascii-diagrams.md` - ASCII diagram patterns and templates
 - `template-comparison-table.md` - Comparison table format
 
-### Phase 3 (Documentation)
+### Phase 4 (Document Decisions)
 - `kb-adr-library.md` - ADR templates and examples
 - `kb-diagram-examples.md` - Mermaid diagram examples for ADRs
 
 **Query Pattern:**
 
-When recommending architectures in Phase 2:
-1. Query `kb-architecture-patterns.md` for candidate patterns
+When recommending approaches in Phase 3:
+1. Query relevant KB files for candidate approaches (based on decision type from Phase 2)
 2. Filter by constraints (team size, timeline, scale)
-3. Score each pattern on fit dimensions
+3. Score each approach on fit dimensions
 4. Select top 3 with maximum diversity
 5. Enrich with examples from `kb-scaling-strategies.md` and `kb-technology-selection.md`
 
@@ -945,6 +1225,15 @@ You're ready to build!"
 ---
 
 ## Version History
+
+**v3.0 (2025-10-28)** - 4-Phase Decision-Scoping
+- Added Phase 2: Identify Architecture Decisions (NEW)
+- Ensures scope alignment before detailed exploration
+- Supports 1-N critical decisions with user approval
+- Phase 3 iterates per decision (explore all decisions before Phase 4)
+- Phase 4 generates 1 ADR per decision (not fixed 1-2)
+- Prevents scope creep with explicit decision approval gate
+- Typical flow: 1 decision (70%), 2 decisions (25%), 3+ decisions (5%)
 
 **v2.0 (2025-10-28)** - 3-Phase Restructure
 - Simplified from 6+ phases to 3 logical phases

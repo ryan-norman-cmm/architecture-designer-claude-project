@@ -66,10 +66,11 @@ A Claude Desktop agent that transforms product requirements into production-read
 - Framework: Technology evaluation scoring, tradeoff analysis templates
 
 **Layer 2: Workflow** (`files/workflow-architecture-exploration.md`)
-- 3-phase workflow: Understand Problem → Explore Solutions → Document Decisions
-- On-demand approach generation (not all upfront)
+- 4-phase workflow: Understand Problem → Identify Decisions → Explore Solutions → Document Decisions
+- Decision-scoping phase ensures scope alignment before exploration
+- On-demand approach generation per decision (not all upfront)
 - Progressive disclosure with checkpoints
-- 926 lines (v2.0)
+- 1250+ lines (v3.0)
 
 **Layer 3: Knowledge Base** (12 files, 250K+ tokens)
 - `kb-architecture-patterns.md` (78K): 12+ patterns with examples
