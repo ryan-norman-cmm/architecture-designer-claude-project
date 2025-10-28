@@ -1,212 +1,176 @@
-# ADR Template
+## Overview
 
-**Purpose:** Standard Architecture Decision Record format for Phase 4 documentation
-
-**When to Use:** Generate one ADR per decision identified in Phase 2
-
-**How to Use:**
-- Fill out all sections with content from Phases 1-3
-- Generate as separate artifact (one ADR per artifact)
-- Include Mermaid diagram for architecture/integration/data decisions
-- Use kebab-case filename: `ADR-00X-decision-title.md`
+| **Title** | [Brief title of the decision] |
+|-----------|------------------------|
+| **Business Driver** | [Pain point 1: metric or impact] |
+| **Business Driver** | [Pain point 2: metric or impact] |
+| **Business Driver** | [Pain point 3: metric or impact] |
+| **Business Driver** | [Pain point 4: metric or impact] |
+| **Business Driver** | [Business opportunity and target outcome] |
+| **Strategic Alignment** | **[Strategic Goal 1]**: [How this supports it] |
+| **Strategic Alignment** | **[Strategic Goal 2]**: [How this supports it] |
+| **Strategic Alignment** | **[Strategic Goal 3]**: [How this supports it] |
+| **Strategic Alignment** | **[Strategic Goal 4]**: [How this supports it] |
+| **Scope** | [Include architecture/scope diagram here] |
+| **Status** |   DRAFT  |
+| **Owner** | @[Owner Name] |
+| **Contributors** | @[Contributor 1] |
+| **Contributors** | @[Contributor 2] |
+| **Contributors** | @[Contributor 3] |
+| **Contributors** | @[Contributor 4] |
+| **Priority** | CRITICAL / HIGH / MEDIUM / LOW |
+| **Due Date** | YYYY-MM-DD |
+| **Approval Date** | YYYY-MM-DD |
+| **Decision** |  |
 
 ---
 
-## Template
+## Problem Statement
 
-```markdown
-# ADR-00X: [Decision Title]
+| **Details** | [Content] |
+|---|---|
+| **Need** | [what capability is required with specifics?] |
+| **Challenge** | [What are the key competing requirements or technical options?] |
+| **Decision Required** | [What specific decision must be made?] |
+| **Success Criteria - User Metrics** | [Metric 1]: [Target value] (e.g., Enrollment completion time: <7 minutes) |
+| **Success Criteria - User Metrics** | [Metric 2]: [Target value] |
+| **Success Criteria - User Metrics** | [Metric 3]: [Target value] |
+| **Success Criteria - Technical Metrics** | [Metric 1]: [Target value] (e.g., P99 latency: <2 seconds) |
+| **Success Criteria - Business Metrics** | Launch timeline: [Target date] |
+| **Success Criteria - Business Metrics** | [Metric 2]: [Target value] |
+| **Constraints - Timeline** | [Specific deadline or window - e.g., "2026 launch target (12 weeks from decision)"] |
+| **Constraints - Technical** | [Requirement 1] |
+| **Constraints - Technical** | [Requirement 2] |
+| **Constraints - Technical** | [Requirement 3] |
+| **Constraints - Technical** | [Requirement 4] |
+| **Constraints - Policy** | [Regulatory requirement 1] |
+| **Constraints - Policy** | [Requirement 2] |
+| **Constraints - Policy** | [Requirement 3] |
 
-**Status:** Accepted
-**Date:** [YYYY-MM-DD]
-**Context:** [One sentence summary from Phase 1 requirements]
+---
 
-## Decision
+## Options
 
-We will [specific decision statement - what was chosen].
+### Option 1: [Short Name]
 
-## Context and Problem Statement
+**Overview**
+[High-level description of the approach]
 
-[Describe the problem being solved, referencing Phase 1 requirements]
+**Architecture Diagram**
+[Mermaid Diagrams]
 
-**Requirements:**
-- [Key requirement 1 from Phase 1]
-- [Key requirement 2 from Phase 1]
-- [Key requirement 3 from Phase 1]
+**Key Benefits**
+- [Benefit 1]
+- [Benefit 2]
+- [Benefit 3]
+- [Benefit 4]
+- [Benefit 5]
 
-**Constraints:**
-- [Key constraint 1 from Phase 1 - team size, timeline, budget]
-- [Key constraint 2 from Phase 1]
-- [Key constraint 3 from Phase 1]
+**Key Risks**
+- [Risk 1]
+- [Risk 2]
+- [Risk 3]
+- [Risk 4]
 
-## Decision Drivers
+---
 
-[From Phase 2 - what influenced this decision]
+### Option 2: [Short Name]
 
-- [Driver 1: e.g., Team size (3 engineers)]
-- [Driver 2: e.g., Timeline (2 months to launch)]
-- [Driver 3: e.g., Platform cohesion (reuse existing services)]
-- [Driver 4: e.g., Scale expectations (500 → 5K users)]
+**Overview**
+[High-level description of the approach]
 
-## Considered Options
+**Architecture Diagram**
+[Mermaid Diagrams]
 
-[From Phase 3 comparison table - alternatives explored]
+**Key Benefits**
+- [Benefit 1]
+- [Benefit 2]
+- [Benefit 3]
+- [Benefit 4]
+- [Benefit 5]
 
-1. **Option A: [Name]** - [Brief description from comparison table]
-2. **Option B: [Name]** - [Brief description from comparison table]
-3. **Option C: [Name]** - [Brief description from comparison table]
+**Key Risks**
+- [Risk 1]
+- [Risk 2]
+- [Risk 3]
+- [Risk 4]
+
+---
+
+### Option 3: [Short Name]
+
+**Overview**
+[High-level description of the approach]
+
+**Architecture Diagram**
+[Mermaid Diagrams]
+
+**Key Benefits**
+- [Benefit 1]
+- [Benefit 2]
+- [Benefit 3]
+- [Benefit 4]
+- [Benefit 5]
+
+**Key Risks**
+- [Risk 1]
+- [Risk 2]
+- [Risk 3]
+- [Risk 4]
+
+---
+
+## Evaluation Criteria
+
+| Criterion | Weight | Option 1 | Option 2 | Option 3 |
+|-----------|--------|----------|----------|----------|
+| **[Criteria 1]** | [High/Medium/Low] | 🟡 [Status] | 🟡 [Status] | 🔴 [Status] |
+| **[Criteria 2]** | [High/Medium/Low] | 🟡 [Description] | 🟢 [Description] | 🔴 [Description] |
+| **[Criteria 3]** | [High/Medium/Low] | 🟢 [Low/Med/High] | 🟡 [Low/Med/High] | 🟡 [Low/Med/High] |
+| **[Criteria 4]** | [High/Medium/Low] | 🟢 [Complete] | 🟢 [Complete] | ⚠️ [Partial] |
+
+**Legend:** 🟢 Green (Low risk/high value) | 🟡 Yellow (Medium trade-off) | 🔴 Red (High risk/concern) | ⚠️ Caution (Requires validation)
+
+---
 
 ## Decision Outcome
 
-**Chosen option:** Option [X] - [Name]
-
-**Rationale:**
-
-[Specific reasons tied to requirements and constraints from Phases 1-3. Reference:
-- Why this option fits the requirements
-- How it addresses the constraints
-- Why it scored highest against decision drivers
-- How it aligns with platform context]
-
-### Consequences
-
-**Positive:**
-- [From Phase 3 detailed exploration - Pro 1]
-- [From Phase 3 detailed exploration - Pro 2]
-- [From Phase 3 detailed exploration - Pro 3]
-- [From Phase 3 detailed exploration - Pro 4]
-- [From Phase 3 detailed exploration - Pro 5]
-
-**Negative:**
-- [From Phase 3 detailed exploration - Con 1 with mitigation]
-- [From Phase 3 detailed exploration - Con 2 with mitigation]
-- [From Phase 3 detailed exploration - Con 3 with mitigation]
-
-**Neutral:**
-- [Implementation considerations]
-- [Team learning required]
-- [Migration strategy if replacing existing approach]
-
-## Alternatives Analysis
-
-### Option A: [Name]
-
-**Pros:**
-- [From Phase 3 comparison table or detailed exploration]
-- [List all advantages]
-
-**Cons:**
-- [From Phase 3 comparison table or detailed exploration]
-- [List all disadvantages]
-
-**Why Not Selected:**
-
-[Specific reason from Phase 3 discussion. Reference requirements/constraints that made this option less suitable.]
-
-### Option B: [Name]
-
-**Pros:**
-- [From Phase 3 comparison table or detailed exploration]
-
-**Cons:**
-- [From Phase 3 comparison table or detailed exploration]
-
-**Why Not Selected:**
-
-[Specific reason from Phase 3 discussion]
-
-### Option C: [Name]
-
-[Similar structure - only include if this option was explored in detail]
-
-## Diagram
-
-[Include for architecture pattern, integration pattern, or data architecture decisions]
-
-```mermaid
-[Choose diagram type based on decision:
-- Architecture Pattern → C4Context or Component diagram
-- Integration Pattern → Sequence diagram
-- Data Architecture → ER diagram
-- See kb-diagram-examples.md for examples]
-```
-
-[Skip diagram section for technology selection decisions like database vendor, auth provider, etc.]
-
-## Implementation Notes
-
-[Practical guidance for implementing this decision]
-
-- [Specific tools/frameworks to use]
-- [Configuration considerations]
-- [Migration steps if replacing existing approach]
-- [Testing strategy]
-- [Rollout plan]
-
-## References
-
-- [Link to Phase 3 detailed exploration discussion]
-- [External documentation for chosen technology]
-- [Team documentation or platform standards]
-- [Related ADRs if this decision depends on others]
-```
+| **Selected Option** | **[Option Name]** |
+|---|---|
+| **Justification** | [Key reason 1] |
+| **Justification** | [Key reason 2] |
+| **Justification** | [Key reason 3] |
+| **Justification** | [Key reason 4] |
+| **Justification** | [Key reason 5] |
+| **Justification** | [Key reason 6] |
+| **Justification** | [Key reason 7] |
+| **Justification** | [Key reason 8] |
+| **Stakeholders - Decision Makers** | @[Name] [Title] |
+| **Stakeholders - Decision Makers** | @[Name] [Title] |
+| **Stakeholders - Decision Makers** | @[Name] [Title] |
+| **Stakeholders - Decision Makers** | @[Name] [Title] |
+| **Stakeholders - Consulted** | @[Name] |
+| **Stakeholders - Consulted** | @[Name] |
+| **Stakeholders - Consulted** | @[Name] |
+| **Stakeholders - Informed** | @[Name] |
+| **Stakeholders - Informed** | @[Name] |
 
 ---
 
-## Sections Explained
+## Related Information
 
-### Decision
-One-sentence statement of what was chosen. Clear and unambiguous.
+### Dependencies
 
-### Context and Problem Statement
-Sets the stage - what problem needed solving? Include requirements and constraints from Phase 1.
+| Dependency | Details | Status |
+|------------|---------|--------|
+| [Dependency Name] | [Description and what remains available] | Active / Deprecated |
+| [Dependency Name] | [Description and what remains available] | Active / Deprecated |
 
-### Decision Drivers
-The key factors that influenced the decision. Pulled from Phase 2 decision identification and Phase 1 constraints.
-
-### Considered Options
-List of alternatives from Phase 3 comparison table. Brief descriptions only.
-
-### Decision Outcome
-The chosen option with detailed rationale. This is the "why" - tie back to requirements, constraints, and decision drivers.
-
-### Consequences
-Honest assessment of pros and cons from Phase 3 detailed exploration. Include mitigations for negative consequences.
-
-### Alternatives Analysis
-Deep dive on why each alternative was NOT selected. Pull from Phase 3 comparison table and detailed explorations.
-
-### Diagram
-Visual representation of the decision (if architecture/integration/data). Use Mermaid syntax. See `kb-diagram-examples.md`.
-
-### Implementation Notes
-Practical guidance for teams implementing this decision. Actionable next steps.
+---
 
 ### References
-Links to supporting documentation and related decisions.
 
----
-
-## Example Filenames
-
-- `ADR-001-modular-monolith-architecture.md`
-- `ADR-002-postgresql-data-storage.md`
-- `ADR-003-rest-api-integration.md`
-- `ADR-004-redis-caching-strategy.md`
-
----
-
-## Quality Checklist
-
-Before delivering an ADR, verify:
-
-- [ ] All sections filled out (no placeholders)
-- [ ] Rationale ties back to Phase 1 requirements/constraints
-- [ ] Pros and cons are specific (not vague)
-- [ ] Alternatives analysis explains why NOT selected
-- [ ] Diagram included (if architecture/integration/data decision)
-- [ ] Implementation notes are actionable
-- [ ] Filename uses kebab-case
-- [ ] Generated as separate artifact (not inline)
-- [ ] No surrounding commentary in the artifact
-- [ ] Ready to save directly to file
+| Reference | Link | Type |
+|-----------|------|------|
+| [Reference Title 1] | [URL or internal link] | Documentation / External / Internal |
+| [Reference Title 2] | [URL or internal link] | Documentation / External / Internal |

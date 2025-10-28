@@ -958,7 +958,7 @@ What would you like?"
 - ADR-003: Third decision from Phase 2 (if applicable)
 
 **ADR Artifact Format:**
-- **One ADR per artifact** - Generate each ADR as a separate, standalone document
+- **One ADR per artifact** - Generate each ADR as a separate, standalone Claude artifact
 - **Full template only** - No additional commentary, explanations, or surrounding text
 - **Filename convention**: `ADR-00X-kebab-case-title.md`
 - **Pure markdown** - Ready to save directly to file
