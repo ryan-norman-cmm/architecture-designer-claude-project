@@ -55,10 +55,11 @@ Agent Response
 - Response Frameworks: Technology evaluation scoring, tradeoff analysis templates
 - Domain Activation: Healthcare, Financial, E-Commerce, SaaS
 
-**Layer 2: Workflow** (`files/workflow-architecture-exploration.md` - 51K tokens)
-- 6-phase conversational workflow
-- Phases: Requirements intake → Gap identification → Architecture exploration → Clarification → Selection → Detailed design
-- Progressive disclosure levels: HIGH_LEVEL → STANDARD → DETAILED → EXPERT
+**Layer 2: Workflow** (`files/workflow-architecture-exploration.md` - 926 lines)
+- 3-phase conversational workflow
+- Phases: Understand Problem → Explore Solutions → Document Decisions
+- On-demand approach generation (reduces output by 40%)
+- Progressive disclosure with checkpoints
 
 **Layer 3: Knowledge Base** (11 files, 245K+ tokens)
 - `kb-architecture-patterns.md` (78K): 12+ patterns with examples

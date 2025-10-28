@@ -66,9 +66,10 @@ A Claude Desktop agent that transforms product requirements into production-read
 - Framework: Technology evaluation scoring, tradeoff analysis templates
 
 **Layer 2: Workflow** (`files/workflow-architecture-exploration.md`)
-- 6-phase workflow: Requirements → Gap ID → Exploration → Clarification → Selection → Design
-- Conversation patterns for each phase
-- 51K tokens
+- 3-phase workflow: Understand Problem → Explore Solutions → Document Decisions
+- On-demand approach generation (not all upfront)
+- Progressive disclosure with checkpoints
+- 926 lines (v2.0)
 
 **Layer 3: Knowledge Base** (11 files, 245K+ tokens)
 - `kb-architecture-patterns.md` (78K): 12+ patterns with examples
