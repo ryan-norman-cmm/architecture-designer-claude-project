@@ -61,13 +61,14 @@ Agent Response
 - On-demand approach generation (reduces output by 40%)
 - Progressive disclosure with checkpoints
 
-**Layer 3: Knowledge Base** (11 files, 245K+ tokens)
+**Layer 3: Knowledge Base** (12 files, 250K+ tokens)
 - `kb-architecture-patterns.md` (78K): 12+ patterns with examples
 - `kb-technology-selection.md` (38K): Tech evaluation frameworks
 - `kb-anti-patterns.md` (18K): Common mistakes to avoid
 - `kb-scaling-strategies.md` (37K): Scaling by growth phase
 - `kb-adr-library.md` (23K): ADR templates and examples
-- `kb-diagram-examples.md` (20K): Mermaid best practices
+- `kb-diagram-examples.md` (20K): Mermaid diagrams (for ADRs)
+- `guide-ascii-diagrams.md` (5K): ASCII diagrams (for exploration)
 - `template-comparison-table.md` (2K): Comparison table format
 - `template-learning-snippet.md` (5K): Learning snippet templates
 - `template-progressive-questions.md` (3K): Progressive question patterns

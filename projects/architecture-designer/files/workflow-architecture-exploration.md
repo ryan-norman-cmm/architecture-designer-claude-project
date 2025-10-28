@@ -21,7 +21,7 @@ This workflow implements a **3-Phase Architecture Design Pattern**:
 - **One Question at a Time**: Reduce cognitive load with sequential questions
 - **Summary-First**: Scannable comparisons before detailed exploration
 - **On-Demand Generation**: Generate approaches only when requested
-- **Visual-First Communication**: Mermaid diagrams for clarity
+- **Visual-First Communication**: ASCII diagrams for quick exploration, Mermaid for documentation
 - **Honest Tradeoffs**: No silver bullets - explicit pros and cons
 - **Context-Driven**: Decisions based on stated constraints, not theory
 
@@ -354,7 +354,23 @@ Options:
 
 ## System Context Diagram
 
-[Mermaid C4 Context diagram showing system boundary, external actors, data flows]
+[ASCII diagram showing system boundary, external actors, data flows]
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                  System Context                          │
+├─────────────────────────────────────────────────────────┤
+│                                                           │
+│   [User] ─────HTTPS────> [Task Management App]          │
+│                                 │                         │
+│                                 ├──OAuth──> [Auth0]      │
+│                                 │                         │
+│                                 ├──HTTPS──> [PostgreSQL] │
+│                                 │                         │
+│                                 └──SMTP───> [SendGrid]   │
+│                                                           │
+└─────────────────────────────────────────────────────────┘
+```
 
 ## Key Architectural Decisions
 
@@ -380,7 +396,25 @@ Options:
 
 ## Component Structure
 
-[Mermaid component diagram showing internal architecture]
+[ASCII diagram showing internal architecture]
+
+```
+┌──────────────────────────────────────────────────────┐
+│         Task Management App                          │
+├──────────────────────────────────────────────────────┤
+│                                                       │
+│  ┌──────────┐    ┌──────────┐    ┌──────────┐      │
+│  │   API    │───>│ Business │───>│   Data   │      │
+│  │  Layer   │    │  Logic   │    │  Layer   │      │
+│  └──────────┘    └──────────┘    └──────────┘      │
+│       │               │                │             │
+│       v               v                v             │
+│  [REST API]      [Task Mgmt]    [PostgreSQL]        │
+│                  [User Mgmt]                         │
+│                  [Notifications]                     │
+│                                                       │
+└──────────────────────────────────────────────────────┘
+```
 
 **Components:**
 - **[Component 1]**: [Responsibility - 1 sentence]
@@ -668,7 +702,11 @@ We will [specific decision statement].
 
 ## Diagram (if applicable)
 
-[For architecture/integration/data decisions - include relevant diagram from Phase 2]
+[For architecture/integration/data decisions - include Mermaid diagram for proper documentation]
+
+```mermaid
+[C4Context, Component, Sequence, or ER diagram depending on decision type]
+```
 
 ## Implementation Notes
 
@@ -685,7 +723,7 @@ We will [specific decision statement].
 
 ### When to Include Diagrams in ADRs
 
-**INCLUDE diagrams for:**
+**INCLUDE Mermaid diagrams for:**
 - Architecture pattern decisions (system context, component structure)
 - Integration pattern decisions (sequence diagrams, data flow)
 - Data architecture decisions (entity-relationship diagrams)
@@ -695,7 +733,11 @@ We will [specific decision statement].
 - Deployment details (infrastructure diagrams)
 - Monitoring/logging decisions
 
-**Reference:** See `kb-adr-library.md` for diagram examples and placement guidance
+**Diagram Quality:**
+- Phase 2 (Exploration): Use ASCII diagrams for speed and scannability
+- Phase 3 (Documentation): Use Mermaid diagrams for proper ADR documentation
+
+**Reference:** See `kb-diagram-examples.md` for Mermaid diagram examples and placement guidance
 
 ---
 
@@ -732,12 +774,13 @@ We will [specific decision statement].
 
 ### 4. Visual-First Communication
 
-**Rule:** ALWAYS provide Mermaid diagrams for system context and component structure
+**Rule:** Use ASCII diagrams for exploration (Phases 1-2), Mermaid for documentation (Phase 3)
 
 **Required Diagrams:**
-- Phase 2a: None (table only)
-- Phase 2b: System Context + Component Structure (per approach)
-- Phase 3: Diagrams in ADRs for architecture/integration/data decisions
+- Phase 1: None (requirements text only)
+- Phase 2a: None (comparison table only)
+- Phase 2b: ASCII System Context + Component Structure (quick to scan)
+- Phase 3: Mermaid diagrams in ADRs (proper documentation quality)
 
 ### 5. Equal Visual Weight
 
@@ -773,12 +816,12 @@ We will [specific decision statement].
 - `kb-technology-selection.md` - Technology evaluation frameworks
 - `kb-anti-patterns.md` - Common mistakes to avoid
 - `kb-scaling-strategies.md` - Scaling approaches by size
-- `kb-diagram-examples.md` - Mermaid diagram best practices
+- `guide-ascii-diagrams.md` - ASCII diagram patterns and templates
 - `template-comparison-table.md` - Comparison table format
 
 ### Phase 3 (Documentation)
 - `kb-adr-library.md` - ADR templates and examples
-- `kb-diagram-examples.md` - Diagram examples for ADRs
+- `kb-diagram-examples.md` - Mermaid diagram examples for ADRs
 
 **Query Pattern:**
 
