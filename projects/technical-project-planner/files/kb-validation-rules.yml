@@ -1,0 +1,246 @@
+# Technology Epic Validation Rules
+
+structural_validation:
+  epic_id_format:
+    rule: "Epic ID must match pattern: (TECH|PLATFORM|FRONTEND|BACKEND|QA)-EPIC-[0-9]{3}"
+    severity: error
+    example_valid: "TECH-EPIC-001"
+    example_invalid: "EPIC-001"
+
+  team_ownership:
+    rule: "Exactly one team must own the epic"
+    severity: error
+    valid_teams: [Backend, Frontend, Platform, QA, Mobile, Data, Security]
+    example_valid: "team: Backend"
+    example_invalid: "team: Backend, Frontend"
+
+  delivery_estimate_range:
+    rule: "Delivery estimate must be 1-3 weeks"
+    severity: error
+    pattern: "^[1-3](-[1-3])? weeks?$"
+    example_valid: "2 weeks"
+    example_invalid: "4 weeks"
+
+  product_epic_reference:
+    rule: "Must reference valid product epic ID"
+    severity: error
+    pattern: "^PROD-EPIC-[0-9]{3}$"
+
+traceability_validation:
+  deliverables_trace_to_trd:
+    rule: "Each deliverable must trace to TRD component"
+    severity: warning
+    check: "Verify deliverable mentioned in TRD technical_details"
+
+  effort_traces_to_ted:
+    rule: "Effort breakdown must reference TED categories"
+    severity: error
+    check: "Total effort should match sum of relevant TED category subtotals"
+
+  risks_trace_to_trd:
+    rule: "Risks should reference TRD risksMitigations section"
+    severity: warning
+    check: "At least 50% of risks from TRD"
+
+dependency_validation:
+  no_circular_dependencies:
+    rule: "Epic cannot depend on epic that depends on it (directly or indirectly)"
+    severity: error
+    check: "Build dependency graph, detect cycles"
+
+  prerequisite_epic_exists:
+    rule: "Prerequisite epic IDs must reference valid epics"
+    severity: error
+    check: "All epic_id in prerequisites exist in epic set"
+
+  blocking_status_alignment:
+    rule: "If prerequisite is blocking=true, must have status != deployed"
+    severity: warning
+    explanation: "Blocking dependencies should be resolved before epic starts"
+
+  dependencies_on_us_reciprocal:
+    rule: "If Epic A lists Epic B in dependencies_on_us, Epic B should list Epic A in prerequisites"
+    severity: warning
+    check: "Cross-reference dependency declarations"
+
+  external_dependency_owner:
+    rule: "External dependencies must have clear owner"
+    severity: error
+    check: "External dependency has owner field populated"
+
+scope_validation:
+  deliverables_specific:
+    rule: "Deliverables must be concrete and specific"
+    severity: warning
+    antipatterns:
+      - "Build [feature]"  # Too vague
+      - "Implement [area]"  # Too vague
+      - "Setup [thing]"  # Too vague
+    good_patterns:
+      - "PA submission orchestration service (Node.js)"
+      - "FHIR Task resource CRUD operations"
+      - "CoverMyMeds ePA API integration adapter"
+
+  acceptance_criteria_measurable:
+    rule: "Acceptance criteria must be measurable/testable"
+    severity: warning
+    check: "Contains concrete values, percentages, or pass/fail conditions"
+    good_examples:
+      - "API responds within 3s for 95% of requests"
+      - "All endpoints covered by integration tests"
+    bad_examples:
+      - "API is fast"
+      - "Good test coverage"
+
+  excluded_scope_has_target:
+    rule: "Excluded scope must reference where it's deferred"
+    severity: warning
+    check: "Each excluded item has â†’ reference"
+    example: "Bulk submission â†’ TECH-EPIC-008"
+
+  no_overlapping_deliverables:
+    rule: "Deliverables should not overlap between team epics in same product epic"
+    severity: error
+    check: "Compare deliverables across Backend/Frontend/Platform epics"
+
+sizing_validation:
+  effort_calculation_valid:
+    rule: "Total effort weeks must equal sum of breakdown"
+    severity: error
+    formula: "total_weeks = Î£(breakdown values)"
+    tolerance: 0.5  # Allow 0.5 week rounding
+
+  delivery_estimate_reasonable:
+    rule: "Delivery estimate should align with effort and team size"
+    severity: warning
+    formula: "delivery_weeks â‰ˆ CEILING(total_weeks Ã· engineer_weeks_per_calendar_week)"
+    tolerance_factor: 1.5  # Allow up to 50% variance
+
+  team_composition_specified:
+    rule: "Team composition must be specified"
+    severity: error
+    check: "team_composition array has at least 1 entry"
+
+  sizing_flags:
+    - condition: delivery_estimate > 3 weeks
+      severity: error
+      message: "Epic exceeds 3 week delivery limit - flag for product re-slicing"
+
+    - condition: total_weeks > 20
+      severity: warning
+      message: "Total effort >20 weeks seems large - verify calculation"
+
+    - condition: delivery_estimate < 1 week
+      severity: warning
+      message: "Epic <1 week delivery - consider combining with related epic"
+
+quality_validation:
+  definition_of_done_populated:
+    rule: "Must have at least 3 definition of done criteria"
+    severity: error
+    minimum_items: 3
+
+  testing_approach_specified:
+    rule: "Must specify at least one testing approach"
+    severity: error
+    check: "testing_approach has at least 1 key-value pair"
+
+  monitoring_for_user_facing:
+    rule: "User-facing epics should have monitoring metrics"
+    severity: warning
+    applies_to: [Backend, Frontend]
+    check: "validation.monitoring section populated"
+
+  risks_identified:
+    rule: "Must identify at least 1 risk"
+    severity: warning
+    minimum_items: 1
+    explanation: "All epics have risks - if none identified, likely incomplete analysis"
+
+team_specific_validation:
+  backend_requirements:
+    - field: technical_details.services
+      required: true
+      severity: error
+      message: "Backend epic must define services"
+
+    - field: technical_details.fhir_resources
+      required: false
+      severity: info
+      message: "Backend epic should define FHIR resources if applicable"
+
+  frontend_requirements:
+    - field: technical_details.components
+      required: true
+      severity: error
+      message: "Frontend epic must define components"
+
+    - field: validation.testing_approach.accessibility
+      required: true
+      severity: error
+      message: "Frontend epic must specify accessibility testing approach"
+
+  platform_requirements:
+    - field: technical_details.monitoring
+      required: true
+      severity: error
+      message: "Platform epic must define monitoring setup"
+
+    - field: technical_details.feature_flags
+      required: false
+      severity: info
+      message: "Platform epic should define feature flags if applicable"
+
+metadata_validation:
+  required_fields:
+    - field: metadata.product_epic_sequence
+      severity: error
+
+    - field: metadata.tech_epic_sequence
+      severity: error
+
+    - field: metadata.jira_epic_link
+      severity: warning
+      allow_template: true
+
+    - field: metadata.created
+      severity: error
+      format: "YYYY-MM-DD"
+
+    - field: metadata.last_updated
+      severity: error
+      format: "YYYY-MM-DD"
+
+  date_logic:
+    rule: "last_updated >= created"
+    severity: error
+
+# Validation execution order
+validation_sequence:
+  1: structural_validation
+  2: traceability_validation
+  3: dependency_validation
+  4: scope_validation
+  5: sizing_validation
+  6: quality_validation
+  7: team_specific_validation
+  8: metadata_validation
+
+# Validation output format
+validation_report:
+  structure: |
+    Validation Results:
+
+    âœ“ [Passed checks count] checks passed
+    âš ï¸  [Warning count] warnings
+    âŒ [Error count] errors
+
+    Errors (must fix):
+    - [Error 1]
+    - [Error 2]
+
+    Warnings (should review):
+    - [Warning 1]
+    - [Warning 2]
+
+    Passed: [list of passed check categories]

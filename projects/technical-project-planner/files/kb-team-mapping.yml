@@ -1,0 +1,107 @@
+# TED Category to Team Mapping
+category_ownership:
+  securityAuthentication:
+    primary_team: Backend
+    components:
+      oauth2Scopes: Backend
+      roleBasedAccessControls: Backend
+
+  serviceDependencies:
+    internalServicesFHIR: Backend
+    internalServicesNonFHIR: Backend
+    externalIntegrationsOutgoing: Backend
+    externalIntegrationsIncoming: Backend
+    subgraphQueries: Backend
+    subgraphMutations: Backend
+
+  healthcareStandards:
+    primary_team: Backend
+    components:
+      fhirResourceProfiles: Backend
+
+  workflowOrchestration:
+    primary_team: Backend
+    components:
+      bpmWorkflows: Backend
+
+  eventsNotifications:
+    primary_team: Backend
+    components:
+      eventPublishersFHIR: Backend
+      eventPublishersNonFHIR: Backend
+      eventConsumers: Backend
+      notificationDelivery: Backend  # or separate Notifications team
+
+  uiTechnicalRequirements:
+    screens: Frontend
+    components: Frontend
+    documentGeneration: Backend  # Server-side generation
+
+  performanceScale:
+    performanceOptimizations: Backend
+    dataMigrationArchival: Backend
+
+  testingQuality:
+    featureE2ETests: QA
+    smokeTests: QA
+    monitoringAlerting: Platform
+
+  platformCapabilities:
+    primary_team: Platform
+    components:
+      platformServicesSetup: Platform
+
+# Effort Calculation Rules
+effort_calculation:
+  # Standard team composition
+  team_sizes:
+    Backend:
+      standard: 2 senior engineers + 1 QA
+      engineer_weeks_per_calendar_week: 4  # 2 engineers Ã— 2 weeks
+
+    Frontend:
+      standard: 1-2 engineers + 1 QA
+      engineer_weeks_per_calendar_week: 2-4
+
+    Platform:
+      standard: 1 platform engineer
+      engineer_weeks_per_calendar_week: 2
+
+  # Delivery estimate formula
+  delivery_formula: |
+    Delivery Weeks = CEILING(Total Effort Weeks Ã· Engineer Weeks per Calendar Week)
+
+    Example:
+    - Backend epic: 8 effort weeks
+    - Team: 2 senior engineers
+    - Delivery: CEILING(8 Ã· 4) = 2 calendar weeks
+
+  # Buffer allocation
+  buffers:
+    integration_testing: 0.2  # 20% of dev time
+    deployment: 0.1  # 10% of total time
+
+# Sizing validation rules
+sizing_rules:
+  maximum_delivery_weeks: 3
+  minimum_delivery_weeks: 1
+
+  flag_for_product_review:
+    - condition: delivery_weeks > 3
+      message: "Product Epic not thin enough - requires re-slicing"
+
+    - condition: total_effort_weeks > 20
+      message: "Epic too large - consider splitting technical scope"
+
+  team_capacity_assumptions:
+    Backend:
+      max_concurrent_epics: 2
+      context_switching_penalty: 0.3  # 30% overhead if >1 epic
+
+    Frontend:
+      max_concurrent_epics: 2
+      context_switching_penalty: 0.3
+
+    Platform:
+      max_concurrent_epics: 3
+      context_switching_penalty: 0.2  # Platform work often independent
