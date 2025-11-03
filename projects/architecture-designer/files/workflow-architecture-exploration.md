@@ -862,6 +862,17 @@ Ready to move to Phase 4 and generate ADRs?"
 4. **Operational Complexity**: Simple vs. Moderate vs. Complex
 5. **Best Use Case**: Speed vs. Scale vs. Flexibility
 
+### Validation Checklist
+
+Before moving from Phase 3 to Phase 4:
+- [ ] User has explored at least one approach in detail
+- [ ] User has selected an approach for each decision from Phase 2
+- [ ] All approach explorations included both pros AND cons
+- [ ] Cost estimates provided for selected approaches
+- [ ] Fit assessment completed (team, timeline, scale, budget, platform cohesion)
+- [ ] User confirmed satisfaction with selected approaches
+- [ ] Ready to document decisions in ADRs
+
 ---
 
 ## Phase 4: Document Decisions
@@ -1069,6 +1080,19 @@ Agent: "Architecture design complete! You now have 2 ADRs ready to save."
 - Phase 4 (Documentation): Use Mermaid diagrams for proper ADR documentation
 
 **Reference:** See `kb-diagram-examples.md` for Mermaid diagram examples and placement guidance
+
+### Validation Checklist
+
+Before completing Phase 4:
+- [ ] Generated 1 ADR per decision from Phase 2
+- [ ] Each ADR includes decision statement and context
+- [ ] Considered options documented with pros/cons
+- [ ] Selected option clearly stated with rationale
+- [ ] Consequences (positive and negative) documented
+- [ ] Mermaid diagrams included (for architecture/integration/data decisions)
+- [ ] Implementation notes provided
+- [ ] All ADRs delivered as separate artifacts
+- [ ] User confirmed architecture design is complete
 
 ---
 

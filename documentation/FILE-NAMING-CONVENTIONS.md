@@ -20,11 +20,12 @@ All files within a project's `files/` directory follow a **type-based prefix pat
 
 | Prefix | Purpose | Layer | Examples |
 |--------|---------|-------|----------|
+| `agent-` | Agent-specific instructions and behaviors | Layer 1 | `agent-requirements-analyst.md`, `agent-decomposition.md` |
 | `guide-` | Step-by-step guides and tutorials | Layer 3 | `guide-getting-started.md`, `guide-advanced-patterns.md` |
 | `example-` | Standalone example conversations or outputs | Layer 3 | `example-architecture-session.md`, `example-design-output.md` |
 | `reference-` | Quick reference sheets and cheatsheets | Layer 3 | `reference-decision-criteria.md`, `reference-pattern-quick-lookup.md` |
 | `decision-` | Decision frameworks and scoring rubrics | Layer 3 | `decision-technology-scoring.md`, `decision-pattern-selection.md` |
-| `checklist-` | Validation checklists and quality gates | Layer 3 | `checklist-architecture-review.md`, `checklist-design-complete.md` |
+| `checklist-` | Validation checklists and quality gates | Layer 3 | `checklist-architecture-review.md`, `checklist-architecture-review.md` |
 
 ## Naming Convention Rules
 
@@ -74,6 +75,33 @@ Use common abbreviations sparingly and consistently:
 - `e2e-` (end-to-end) ✅
 
 ## File Organization by Type
+
+### Layer 1: Agent Files (`agent-*.md`)
+
+Agent files define specialized sub-agent identities and behaviors:
+
+```
+files/
+├── agent-requirements-analyst.md      # Requirements extraction agent
+├── agent-decomposition.md             # Release decomposition agent
+├── agent-validation.md                # Validation agent (Marty Cagan)
+└── agent-option-explorer.md           # Alternative strategy agent
+```
+
+**Content structure:**
+1. Agent identity and role
+2. Core competencies and expertise
+3. Behavioral instructions
+4. Domain-specific context
+5. Methodology and approach
+6. Quality standards
+
+**When to use:**
+- Multi-agent workflows where specialized sub-agents handle distinct phases
+- Workflows requiring different expertise levels or domains per phase
+- Systems with validation, generation, and exploration agents
+
+**Note:** Agent files are specific to projects using multi-agent patterns. Single-agent projects typically document personality in `project-instructions.md`.
 
 ### Layer 2: Workflow Files (`workflow-*.md`)
 
@@ -139,6 +167,9 @@ files/
 Use these patterns to filter files by type:
 
 ```bash
+# All agent files
+ls files/agent-*.md
+
 # All workflow files
 ls files/workflow-*.md
 
@@ -152,6 +183,7 @@ ls files/template-*.md
 ls files/{kb,template}-*.md
 
 # Count files by type
+echo "Agents: $(ls files/agent-*.md 2>/dev/null | wc -l)"
 echo "Workflows: $(ls files/workflow-*.md 2>/dev/null | wc -l)"
 echo "Knowledge Base: $(ls files/kb-*.md 2>/dev/null | wc -l)"
 echo "Templates: $(ls files/template-*.md 2>/dev/null | wc -l)"
@@ -164,6 +196,7 @@ When adding files to an existing project:
 ### 1. Determine File Type
 
 Ask:
+- Is this a sub-agent definition? → `agent-`
 - Is this a conversation flow? → `workflow-`
 - Is this domain knowledge? → `kb-`
 - Is this a reusable format? → `template-`

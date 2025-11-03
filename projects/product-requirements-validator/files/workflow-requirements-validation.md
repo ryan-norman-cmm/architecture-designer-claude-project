@@ -100,6 +100,13 @@ Proposed Solution: [1 sentence solution overview]
 - "Correct" → Move to User Roles
 - Changes → Update and re-present
 
+**Validation Checklist**:
+- [ ] Initiative name extracted from BRD
+- [ ] Core problem is 1 sentence from BRD (not elaborated)
+- [ ] Proposed solution is 1 sentence from BRD (not elaborated)
+- [ ] No assumptions added beyond BRD statements
+- [ ] User explicitly approved before proceeding
+
 ---
 
 ## 2. User Roles (all at once)
@@ -124,6 +131,14 @@ Frequency: [Usage frequency or "Not specified"]
 
 **After all roles**: "Any roles missing?"
 
+**Validation Checklist**:
+- [ ] All user roles extracted from BRD
+- [ ] Each role assigned correct network category
+- [ ] Responsibilities listed are from BRD (not inferred)
+- [ ] Volume/frequency data extracted or marked "Not specified"
+- [ ] No duplicate or overlapping roles
+- [ ] User confirmed all roles captured
+
 ---
 
 ## 3. UI Screens/Components (all at once)
@@ -142,6 +157,14 @@ Used By: [User types]
 
 **After all screens**: "Any screens/components missing?"
 
+**Validation Checklist**:
+- [ ] All UI screens/components extracted from BRD
+- [ ] Each screen has clear purpose stated
+- [ ] User types accessing each screen documented
+- [ ] Data elements and actions listed from BRD
+- [ ] Cross-referenced to user roles (Stage 2)
+- [ ] User confirmed all screens captured
+
 ---
 
 ## 4. Workflows (all at once)
@@ -158,6 +181,14 @@ Success: [What indicates completion]
 **Ask**: "Accurate? Any changes to steps?"
 
 **After all workflows**: "Any workflows missing?"
+
+**Validation Checklist**:
+- [ ] All workflows extracted from BRD
+- [ ] Each workflow has trigger and success criteria
+- [ ] Steps are from BRD (not inferred)
+- [ ] Decision points documented
+- [ ] Cross-referenced to user roles (Stage 2) and screens (Stage 3)
+- [ ] User confirmed all workflows captured
 
 ---
 
@@ -177,6 +208,15 @@ INTERNAL CMM SERVICES
 
 **Ask**: "Internal services correct? Any changes?"
 
+**Validation Checklist**:
+- [ ] All internal CMM services identified from BRD
+- [ ] Each service has clear data/action description
+- [ ] Service dependencies documented
+- [ ] Cross-referenced to workflows (Stage 4)
+- [ ] User confirmed all services captured
+
+---
+
 ## 6. External Integrations (all at once)
 
 **Present**:
@@ -192,6 +232,13 @@ EXTERNAL PARTNERS
 ```
 
 **Ask**: "External integrations correct? Any changes?"
+
+**Validation Checklist**:
+- [ ] All external partners identified from BRD
+- [ ] Data exchange patterns documented (what we send/receive)
+- [ ] Integration criticality noted
+- [ ] Cross-referenced to workflows (Stage 4)
+- [ ] User confirmed all integrations captured
 
 ---
 
@@ -209,6 +256,14 @@ Who Gets Notified: [Roles]
 
 **After all events**: "Any notifications missing?"
 
+**Validation Checklist**:
+- [ ] All notification events extracted from BRD
+- [ ] Trigger conditions documented
+- [ ] Recipients (roles) identified
+- [ ] Notification methods noted (email/SMS/in-app)
+- [ ] Cross-referenced to workflows and roles
+- [ ] User confirmed all notifications captured
+
 ---
 
 ## 8. Scope & Priority (all at once)
@@ -221,6 +276,14 @@ Who Gets Notified: [Roles]
 
 **Ask**: "MVP scope correct? Any changes?"
 ```
+
+**Validation Checklist**:
+- [ ] MVP requirements clearly identified from BRD
+- [ ] Should Have items documented
+- [ ] Could Have items documented
+- [ ] Won't Have items with rationale
+- [ ] Scope filtering rules applied (MVP/Phase 1/In Scope)
+- [ ] User confirmed scope priorities
 
 ---
 
@@ -260,6 +323,14 @@ Next Steps:
 ```
 
 **Ask**: "Ready for product requirements generation?"
+
+**Validation Checklist**:
+- [ ] All 8 validation stages completed (1-8)
+- [ ] Cross-references between sections validated
+- [ ] "Not specified" items documented
+- [ ] "TBD" items documented
+- [ ] Gaps explicitly identified
+- [ ] User ready to proceed to PRD generation
 
 ---
 
@@ -308,6 +379,17 @@ Critical for Stage 10:
 **Changes**:
 - "Update [section] with: [change]"
 - "Go back to [section] to fix [issue]"
+
+**Validation Checklist**:
+- [ ] Complete PRD generated using template-product-requirements.md
+- [ ] All validated facts from Stages 1-9 incorporated
+- [ ] Section instructions and template guidance REMOVED
+- [ ] Problem & Solution section complete (multi-paragraph)
+- [ ] All tables populated (User Roles, Workflows, Services, etc.)
+- [ ] Assumptions and Success Metrics included
+- [ ] Cross-references accurate throughout document
+- [ ] Presentation-ready for stakeholders
+- [ ] User approved final PRD
 
 ---
 

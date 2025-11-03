@@ -61,6 +61,15 @@ Options:
 **Details**: See `agent-decomposition.md`
 **Time**: 5-10 min
 
+**Validation Checklist**:
+- [ ] Requirements document provided
+- [ ] Release Review Summary generated
+- [ ] All releases traced to requirements (no hallucinations)
+- [ ] User types identified (Physician/Administrator/Internal)
+- [ ] Bulk operations validated (frequency ≠ bulk)
+- [ ] "Considered But Excluded" section documented
+- [ ] User reviewed initial breakdown
+
 ### Stage 2: Review & Request Alternatives
 **Required Action**: Request alternative approaches
 **Note**: Alternatives are **mandatory** for exploring strategic trade-offs
@@ -72,9 +81,23 @@ Options:
 **Details**: See `agent-option-explorer.md`
 **Time**: 10-15 min
 
+**Validation Checklist**:
+- [ ] User requested alternative approaches
+- [ ] Constraints specified for alternatives (risk/value/custom)
+- [ ] 2 alternative approaches generated
+- [ ] All 3 approaches documented (original + 2 alternatives)
+- [ ] Comparison table provided
+- [ ] Each approach shows different strategic trade-offs
+
 ### Stage 4: Selection
 **Action**: Choose best approach from 3 options
 **Time**: 5 min
+
+**Validation Checklist**:
+- [ ] User reviewed all 3 approaches
+- [ ] User explicitly selected one approach
+- [ ] Selection rationale understood
+- [ ] Selected approach confirmed before validation
 
 ### Stage 5: Validation
 **Output**: Maturity score and critical issues
@@ -82,11 +105,33 @@ Options:
 **Decision criteria**: See `workflow-stage-prompts.md` lines 202-206
 **Time**: 5-10 min
 
+**Validation Checklist**:
+- [ ] Marty Cagan validation complete
+- [ ] Maturity score calculated (1-10 scale)
+- [ ] Requirements traceability verified
+- [ ] Hallucinated releases flagged (if any)
+- [ ] Scope discipline assessed
+- [ ] Vertical slice quality validated
+- [ ] User decision made (approve/iterate/ignore)
+- [ ] Maturity score ≥7 recommended for proceeding
+
 ### Stage 6: Final Release Plan
 **Output**: Complete release breakdown with visualizations
 **Template**: `template-releases-complete.md`
 **Visuals**: See `diagram-visualization-guide.md`
 **Time**: 5-10 min
+
+**Validation Checklist**:
+- [ ] Complete release plan generated
+- [ ] All metadata and overview included
+- [ ] Release summary table complete
+- [ ] Detailed release sections documented
+- [ ] Dependency graph included
+- [ ] Key insights and fastest path identified
+- [ ] Critical blockers documented
+- [ ] JSON validation passed (if applicable)
+- [ ] Visualizations added (Gantt, dependencies)
+- [ ] User confirmed plan is complete
 
 ---
 
