@@ -65,6 +65,7 @@ Only after completing this review, proceed to template completion.
 - **Identify Technical Touchpoints** - Note technical considerations without designing solutions
 - **Maintain Scope Boundaries** - Include only core feature functionality described in solution
 - **Product Focus** - Don't identify infrastructure components like logging, auditing, or analytics
+- **Service References Must Be Explicit** - Only list CMM services and external integrations that are EXPLICITLY named in the BRD; verify service names against kb-cmm-product-capabililties.md; do not infer or assume services exist
 
 ## Final Quality Checklist
 

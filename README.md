@@ -1,1047 +1,1192 @@
-# Claude Desktop Projects Repository
+# Claude Desktop Project Templates
 
-## Overview
+**Version:** 1.0 | **Last Updated:** November 2025 | **For:** CMM Product Managers & Engineers
 
-This repository contains **Claude Desktop project templates** following a standardized **three-layer architecture pattern**. Each project is self-contained with agent instructions, workflow definitions, and knowledge base files.
+A collection of specialized Claude Desktop project templates that accelerate product development from requirements to delivery. Each project follows a proven **three-layer architecture** for maximum effectiveness.
 
-### Three-Layer Architecture
+---
 
-Every Claude Desktop project follows this pattern:
+## 🚀 Quick Start
 
+### What This Is
+
+Six ready-to-use Claude Desktop projects that transform how you work:
+
+| When You Need To... | Use This Project | Time Saved |
+|---------------------|------------------|------------|
+| **Design system architectures** | `architecture-designer` | Weeks → Hours |
+| **Validate product requirements** | `product-requirements-validator` | Days → Hours |
+| **Break initiatives into releases** | `product-releases-creator` | Days → Hours |
+| **Create technical specifications** | `technical-requirements-creator` | Days → Hours |
+| **Estimate development effort** | `technical-solution-estimator` | Days → Hours |
+| **Plan epic delivery** | `technical-project-planner` | Days → Hours |
+
+### Installation (3 Minutes)
+
+1. **Open Claude Desktop** → Click "+" → "New Project"
+2. **Copy project instructions** from `projects/<project-name>/project-instructions.md` into Custom Instructions
+3. **Upload knowledge base files** from `projects/<project-name>/files/` to Project Knowledge
+4. **Start using** - Type your first request!
+
+**Full setup guide:** See [Installation Instructions](#installation-instructions) below
+
+---
+
+## 📊 Project Comparison
+
+Choose the right project for your task:
+
+| Project | Role | Best For | Input | Output | Knowledge Base Size |
+|---------|------|----------|-------|--------|---------------------|
+| **architecture-designer** | Senior Principal Architect | System architecture, technology selection, scaling strategy | Product requirements, constraints | Architecture diagrams, component specs, ADRs, tech recommendations | 252K tokens (13 files) |
+| **product-requirements-validator** | Requirements Analyst | Validating completeness of BRDs | Business requirements document | Structured PRD with gaps identified | 15K tokens (4 files) |
+| **product-releases-creator** | Release Strategist | Breaking initiatives into smallest testable releases | Product requirements | Release breakdown with MVP priorities | 45K tokens (12 files) |
+| **technical-requirements-creator** | Technical Requirements Analyst | Transforming PRDs into technical specs | Product requirements | Technical specifications with FHIR mappings, API designs | 25K tokens (6 files) |
+| **technical-solution-estimator** | Solution Estimator | Estimating development effort | Technical requirements | Hour estimates with risk analysis | 18K tokens (5 files) |
+| **technical-project-planner** | Project Planner | Breaking epics into developer tasks | Technical requirements | Epic delivery plan with tasks and dependencies | 12K tokens (5 files) |
+
+**Maturity Indicators:**
+- **architecture-designer**: ⭐⭐⭐ Stable (v3.0)
+- **product-releases-creator**: ⭐⭐⭐ Stable (v2.0)
+- **product-requirements-validator**: ⭐⭐ Beta
+- **technical-requirements-creator**: ⭐⭐ Beta
+- **technical-solution-estimator**: ⭐⭐ Beta
+- **technical-project-planner**: ⭐⭐ Beta
+
+---
+
+## 📁 Repository Structure
+
+```
+architecture-designer-claude-project/
+├── projects/                           # 6 Claude Desktop projects
+│   ├── architecture-designer/         # System architecture design (252K tokens)
+│   ├── product-releases-creator/      # Initiative decomposition (45K tokens)
+│   ├── product-requirements-validator/# PRD validation (15K tokens)
+│   ├── technical-requirements-creator/# Technical specifications (25K tokens)
+│   ├── technical-solution-estimator/  # Effort estimation (18K tokens)
+│   └── technical-project-planner/     # Epic delivery planning (12K tokens)
+├── documentation/                      # Product requirements and releases
+│   ├── product-requirements.md
+│   └── initiative-releases.md
+├── README.md                           # This file
+├── CLAUDE.md                           # Claude Code configuration
+└── .gitignore
+```
+
+**Each Project Contains:**
 ```
 projects/<project-name>/
-├── project-instructions.md       # Layer 1: Agent Instructions
-│   └── Personality, principles, response frameworks
-└── files/
-    ├── workflow-*.md             # Layer 2: Workflow Definitions
-    │   └── Conversation phases, patterns, examples
-    ├── kb-*.md                   # Layer 3: Knowledge Base Files
-    │   └── Patterns, frameworks, examples
-    └── template-*.md             # Reusable templates
-        └── Document formats, response templates
-```
-
-**How the layers work together:**
-1. **Layer 1** defines WHO the agent is (personality, philosophy, principles)
-2. **Layer 2** defines HOW the agent converses (workflow phases, patterns, transitions)
-3. **Layer 3** defines WHAT the agent knows (domain knowledge, patterns, examples)
-
-**Current Projects:**
-- **architecture-designer**: Senior Principal Architect agent (245K+ tokens)
-
-**File Naming:** All files follow type-based prefixes (`workflow-`, `kb-`, `template-`). See `FILE-NAMING-CONVENTIONS.md`.
-
-## Repository Structure
-
-```
-.
-├── projects/                              # Claude Desktop projects
-│   └── architecture-designer/             # Architecture Designer project
-│       ├── project-instructions.md        # Agent personality and workflow
-│       └── files/                         # Knowledge base (245K+ tokens)
-│           ├── kb-architecture-patterns.md
-│           ├── kb-technology-selection.md
-│           ├── kb-anti-patterns.md
-│           ├── kb-scaling-strategies.md
-│           ├── kb-adr-library.md
-│           ├── kb-diagram-examples.md
-│           ├── workflow-architecture-exploration.md
-│           └── template-*.md (4 files)
-└── documentation/                         # Product requirements and releases
-    ├── product-requirements.md
-    └── initiative-releases.md
+├── project-instructions.md            # Layer 1: Agent personality and principles
+└── files/                             # Layer 2 & 3: Workflows and knowledge
+    ├── workflow-*.md                  # Conversation flows and phases
+    ├── kb-*.md                        # Domain knowledge and patterns
+    ├── template-*.md                  # Reusable document templates
+    └── guide-*.md                     # Step-by-step tutorials
 ```
 
 ---
 
-## Architecture Designer Project
+## 🏗️ Three-Layer Architecture
 
-A Claude Desktop agent that transforms product requirements into production-ready system architectures.
+Every project follows this proven pattern:
 
-### Three-Layer Breakdown
+### **Layer 1: Agent Instructions** (`project-instructions.md`)
+**WHO the agent is**
+- Personality and communication style
+- Core principles and philosophy
+- Response frameworks
+- Domain expertise
 
-**Layer 1: Agent Instructions** (`project-instructions.md`)
-- Persona: Senior Principal Architect with 25+ years experience
-- Principles: Present options not mandates, match reality, boring tech wins
-- Framework: Technology evaluation scoring, tradeoff analysis templates
+### **Layer 2: Workflow Definitions** (`files/workflow-*.md`)
+**HOW the agent converses**
+- Conversation phases (intake → exploration → delivery)
+- Transition logic between phases
+- Quality gates and checkpoints
+- Example conversations
 
-**Layer 2: Workflow** (`files/workflow-architecture-exploration.md`)
-- 4-phase workflow: Understand Problem → Identify Decisions → Explore Solutions → Document Decisions
-- Decision-scoping phase ensures scope alignment before exploration
-- On-demand approach generation per decision (not all upfront)
-- Progressive disclosure with checkpoints
-- 1250+ lines (v3.0)
+### **Layer 3: Knowledge Base** (`files/kb-*.md`, `template-*.md`, `guide-*.md`)
+**WHAT the agent knows**
+- Domain knowledge and patterns
+- Decision frameworks
+- Real-world examples
+- Reusable templates
 
-**Layer 3: Knowledge Base** (13 files, 252K+ tokens)
-- `kb-architecture-patterns.md` (78K): 12+ patterns with examples
-- `kb-technology-selection.md` (38K): Tech evaluation frameworks
-- `kb-anti-patterns.md` (18K): Common mistakes to avoid
-- `kb-scaling-strategies.md` (37K): Scaling by growth phase
-- `kb-adr-library.md` (23K): ADR templates
-- `kb-diagram-examples.md` (20K): Mermaid diagrams (for ADRs)
-- `guide-ascii-diagrams.md` (5K): ASCII diagrams (for exploration)
-- `template-comparison-table.md` (2K): Comparison table format
-- `template-learning-snippet.md` (5K): Learning snippet templates
-- `template-progressive-questions.md` (3K): Progressive question patterns
-- `template-checkpoint-format.md` (5K): Review checkpoint templates
-
-## What This Agent Does
-
-### Core Capabilities
-
-1. **Requirements Analysis**
-   - Extracts key architectural drivers from requirements
-   - Identifies performance, scale, and complexity considerations
-   - Flags critical gaps or unrealistic expectations
-
-2. **Architecture Exploration**
-   - Proposes 2-3 genuinely different architectural approaches
-   - Creates visual Mermaid diagrams for each approach
-   - Provides honest tradeoffs (no silver bullets)
-   - Makes contextual recommendations based on team, timeline, and constraints
-
-3. **Detailed Design**
-   - Component architecture with clear responsibilities
-   - Technology stack recommendations with specific versions
-   - Data flow diagrams for critical paths
-   - Deployment and scaling strategies
-   - Monitoring and observability plans
-
-4. **Architecture Decision Records (ADRs)**
-   - Documents major architectural decisions
-   - Captures context, rationale, and tradeoffs
-   - Tracks alternatives considered and why they were rejected
-
-## Project Setup
-
-### 1. Create New Claude Project
+### How Layers Work Together
 
 ```
-Project Name: Architecture Designer
-Description: Expert architecture design agent that transforms requirements
-into detailed, production-ready system architectures with multiple approaches,
-honest tradeoffs, and comprehensive documentation.
+User Input
+    ↓
+Layer 1 (project-instructions.md)
+    ├─ Agent determines response approach
+    ├─ References Layer 2 for conversation flow
+    │       ↓
+    │   Layer 2 (workflow-*.md)
+    │       ├─ Identifies current phase
+    │       ├─ Determines next steps
+    │       └─ References Layer 3 for content
+    │               ↓
+    │           Layer 3 (kb-*.md, template-*.md)
+    │               ├─ Queries patterns
+    │               ├─ Retrieves examples
+    │               └─ Returns domain knowledge
+    │               ↓
+    └─ Synthesizes response following Layer 1 principles
+        ↓
+Agent Response
 ```
 
-### 2. Add Project Instructions
+---
 
-Copy the contents of `projects/architecture-designer/project-instructions.md` into the project's custom instructions field.
+## 📖 Installation Instructions
 
-**Note on file naming:** All knowledge base files follow standardized naming conventions with type-based prefixes (`workflow-`, `kb-`, `template-`). See `FILE-NAMING-CONVENTIONS.md` for details.
+### Prerequisites
 
-These instructions define:
+- **Claude Desktop** application installed
+- **Projects feature** enabled (check Settings → Features)
+- **Token limit awareness**: Claude Desktop supports 200K tokens per project, with automatic RAG mode for larger knowledge bases
 
-- Agent personality and philosophy
-- Core workflow (intake → exploration → detailed design)
-- Communication guidelines
-- Quality standards and checklists
+### Step-by-Step Setup
 
-### 3. Upload Knowledge Base Files
+<details>
+<summary><strong>🎯 Architecture Designer (Recommended First Project)</strong></summary>
 
-Create and upload these 5 markdown files to the project's knowledge base:
+**Time:** 5 minutes | **Files:** 1 instructions + 13 knowledge base files
 
-#### File 1: `architecture-patterns-library.md` (~50K tokens)
-**Purpose**: Comprehensive catalog of architectural patterns
+**Step 1: Create Project**
+1. Open Claude Desktop → Click "+" button → "New Project"
+2. **Project Name:** `Architecture Designer`
+3. **Description:** `Expert system architecture design from requirements to implementation-ready specifications`
 
-**Contents:**
-- 12+ architectural patterns with detailed descriptions
-- When to use / avoid each pattern
-- Technology stack options for each
-- Scaling strategies and real-world examples
-- Visual diagrams and decision frameworks
+**Step 2: Add Custom Instructions**
+1. Copy entire contents of `projects/architecture-designer/project-instructions.md`
+2. Paste into Custom Instructions field
+3. Save
 
-**Key Patterns Covered:**
-- Monolithic Architecture
-- Microservices Architecture
-- Event-Driven Architecture
-- Serverless Architecture
-- Layered, Hexagonal, CQRS, Event Sourcing
-- API Gateway, BFF, Strangler Fig, Circuit Breaker
+**Step 3: Upload Knowledge Base Files**
 
-#### File 2: `technology-selection-guide.md` (~50K tokens)
-**Purpose**: Decision frameworks for selecting technologies
+Upload all 13 files from `projects/architecture-designer/files/`:
 
-**Contents:**
-- Backend language selection (Node.js, Python, Go, Java, Rust, C#)
-- Database selection (PostgreSQL, MongoDB, MySQL, Redis, DynamoDB)
-- Message queue / event streaming (RabbitMQ, Kafka, SQS, NATS)
-- Frontend frameworks (React, Vue, Angular, Svelte, Next.js)
-- Cloud providers (AWS, Azure, GCP, DigitalOcean)
-- DevOps tools and monitoring solutions
+**Core Knowledge (5 files, ~200K tokens):**
+- `kb-architecture-patterns.md` (78K tokens) - 12+ architectural patterns
+- `kb-technology-selection.md` (38K tokens) - Technology evaluation frameworks
+- `kb-anti-patterns.md` (18K tokens) - Common mistakes to avoid
+- `kb-scaling-strategies.md` (37K tokens) - Scaling by growth phase
+- `kb-adr-library.md` (23K tokens) - Architecture Decision Record examples
+- `kb-diagram-examples.md` (20K tokens) - Mermaid diagram best practices
 
-**Decision Framework:**
-- 40% Team Expertise (most important)
-- 20% Community/Ecosystem
-- 15% Performance Requirements
-- 10% Scalability Needs
-- 10% Development Velocity
-- 5% Long-term Maintainability
+**Workflow & Templates (7 files, ~35K tokens):**
+- `workflow-architecture-exploration.md` (15K tokens) - Main conversation workflow
+- `guide-ascii-diagrams.md` (5K tokens) - ASCII diagram patterns
+- `template-adr.md` (2K tokens) - ADR template
+- `template-comparison-table.md` (2K tokens) - Comparison table format
+- `template-learning-snippet.md` (5K tokens) - Learning snippet templates
+- `template-progressive-questions.md` (3K tokens) - Progressive question patterns
+- `template-checkpoint-format.md` (5K tokens) - Review checkpoint templates
 
-#### File 3: `adr-library.md` (~40K tokens)
-**Purpose**: Architecture Decision Record templates and examples
+**Step 4: Verify Setup**
 
-**Contents:**
-- ADR template with all sections
-- 10-15 real-world ADR examples covering:
-  - Database selection decisions
-  - API design choices (REST vs GraphQL vs gRPC)
-  - Authentication approaches
-  - Microservices vs monolith decisions
-  - Caching strategies
-  - Deployment platform choices
-  - Monitoring and observability selections
+Test with: *"I need to design an architecture for a SaaS application with 5 developers and a 3-month timeline. Can you help?"*
 
-**ADR Structure:**
-- Context and problem statement
-- Decision and rationale
-- Consequences (positive and negative)
-- Alternatives considered
-- Implementation notes
+**Expected Response:**
+- Agent introduces itself as Senior Principal Architect
+- Asks clarifying questions about team, scale, budget
+- References knowledge base patterns
 
-#### File 4: `anti-patterns-case-studies.md` (~30K tokens)
-**Purpose**: Learn from real-world mistakes
+**✅ Success Criteria:**
+- Agent responds with architect persona
+- Asks for missing requirements (performance, scale, features)
+- References architectural patterns from knowledge base
 
-**Contents:**
-- 15+ detailed anti-pattern case studies including:
-  - Premature Microservices (startup with 8 engineers, 12 services)
-  - The Distributed Monolith (shared database, synchronous coupling)
-  - Resume-Driven Development (rewriting working stack)
-  - The God Service, Event Chain Hell, Over-Engineering
-  - The Scalability Cliff, Cargo Cult Architecture
+</details>
 
-**Each Case Study Includes:**
-- What went wrong and why
-- Financial and team impact
-- Red flags that indicated problems
-- How to fix or avoid
-- Key lessons learned
+<details>
+<summary><strong>📋 Product Requirements Validator</strong></summary>
 
-#### File 5: `scaling-strategies.md` (~30K tokens)
-**Purpose**: Practical scaling guidance
+**Time:** 3 minutes | **Files:** 1 instructions + 4 knowledge base files
 
-**Contents:**
-- Scaling curve: What to do at each phase (0-1K, 1K-10K, 10K-100K, 100K-1M users)
-- Bottleneck identification frameworks
-- Capacity planning techniques
-- Cost optimization strategies
-- Real-world scaling case studies (Shopify, Netflix, Instagram, Stack Overflow)
-- When to actually scale vs premature optimization
+**Step 1: Create Project**
+1. Claude Desktop → "+" → "New Project"
+2. **Name:** `Requirements Validator`
+3. **Description:** `Validate and structure business requirements documents`
 
-**Key Frameworks:**
-- Performance optimization decision trees
-- Database scaling strategies
-- Caching layer design
-- Load balancing approaches
+**Step 2: Add Custom Instructions**
+- Copy `projects/product-requirements-validator/project-instructions.md`
+- Paste into Custom Instructions
 
-### Knowledge Base Size
+**Step 3: Upload Knowledge Base (4 files, ~15K tokens)**
+- `workflow-requirements-validation.md` - 10-stage validation workflow
+- `workflow-state.md` - State tracking patterns
+- `workflow-stage-prompts.md` - Stage-specific prompts
+- `agent-requirements-analyst.md` - Analysis methodology
+- `kb-cmm-product-capabililties.md` - Platform capabilities
+- `template-product-requirements.md` - PRD template
 
-**Total: ~230K tokens** across 5 files
+**Step 4: Verify**
 
-Claude Projects support up to 200K tokens normally, with automatic RAG (Retrieval-Augmented Generation) mode for larger knowledge bases. The system will automatically use RAG when needed for efficient retrieval.
+Test: *"Analyze this BRD: [paste requirements]"*
 
-## How to Use
+**Expected:** Agent starts Stage 1 with document intake review
 
-### Typical Workflow
+</details>
 
-#### 1. Provide Requirements
+<details>
+<summary><strong>🔄 Product Releases Creator</strong></summary>
 
+**Time:** 4 minutes | **Files:** 1 instructions + 12 knowledge base files
+
+**Step 1: Create Project**
+1. Name: `Releases Creator`
+2. Description: `Break initiatives into smallest testable releases`
+
+**Step 2: Add Custom Instructions**
+- Copy `projects/product-releases-creator/project-instructions.md`
+
+**Step 3: Upload Knowledge Base (12 files, ~45K tokens)**
+
+**Workflow Files:**
+- `workflow-release-decomposition.md` - Main decomposition workflow
+- `workflow-state.md` - State tracking
+- `workflow-stage-prompts.md` - Stage prompts
+
+**Knowledge Base:**
+- `kb-user-type-standards.md` - User type definitions
+- `kb-healthcare-glossary.md` - Healthcare terminology
+- `kb-best-practices.md` - Release decomposition best practices
+
+**Templates:**
+- `template-releases-complete.md` - Final output format
+- `template-release-review.md` - Review template
+- `template-option-comparison.md` - Alternative comparison
+- `template-release-diagrams.md` - Diagram formats
+- `template-report-card.md` - Maturity scoring
+
+**Agents:**
+- `agent-decomposition.md` - Decomposition methodology
+- `agent-option-explorer.md` - Alternative exploration
+- `agent-validation.md` - Validation rules
+
+**Step 4: Verify**
+
+Test: *"Please decompose these requirements: [paste PRD]"*
+
+**Expected:** Agent starts release decomposition workflow
+
+</details>
+
+<details>
+<summary><strong>⚙️ Technical Requirements Creator</strong></summary>
+
+**Time:** 3 minutes | **Files:** 1 instructions + 6 knowledge base files
+
+**Step 1:** Create project `Technical Requirements`
+
+**Step 2:** Copy `projects/technical-requirements-creator/project-instructions.md`
+
+**Step 3:** Upload 6 files (~25K tokens):
+- `workflow-requirements-analysis.md` - 8-step analysis workflow
+- `workflow-state.md`, `workflow-stage-prompts.md`
+- `template-technical-requirements.md` - Technical spec template
+- `template-workflow-specification.md` - Workflow specification format
+- `kb-cmm-product-capabililties.md` - Platform capabilities
+- `kb-fhir-resources.md` - FHIR resource mappings
+- `guide-fhir-resource-mapping.md` - FHIR mapping guide
+
+**Step 4:** Test: *"Create technical requirements from this PRD: [paste]"*
+
+</details>
+
+<details>
+<summary><strong>📊 Technical Solution Estimator</strong></summary>
+
+**Time:** 3 minutes | **Files:** 1 instructions + 5 knowledge base files
+
+**Step 1:** Create project `Solution Estimator`
+
+**Step 2:** Copy `projects/technical-solution-estimator/project-instructions.md`
+
+**Step 3:** Upload 5 files (~18K tokens):
+- `workflow-estimation-analysis.md` - Estimation methodology
+- `workflow-state.md`, `workflow-stage-prompts.md`
+- `template-technical-estimates.md` - Estimate output format
+- `template-component-estimate.md` - Component-level estimates
+- `kb-cmm-product-capabililties.md` - Platform capabilities
+- `guide-platform-capabilities.md` - Platform capability guide
+
+**Step 4:** Test: *"Estimate effort for: [paste technical requirements]"*
+
+</details>
+
+<details>
+<summary><strong>📅 Technical Project Planner</strong></summary>
+
+**Time:** 3 minutes | **Files:** 1 instructions + 5 knowledge base files
+
+**Step 1:** Create project `Project Planner`
+
+**Step 2:** Copy `projects/technical-project-planner/project-instructions.md`
+
+**Step 3:** Upload 5 files (~12K tokens):
+- `workflow-epic-decomposition.md` - Epic breakdown workflow
+- `workflow-state.md`, `workflow-stage-prompts.md`
+- `template-epic-delivery.md` - Epic delivery format
+- `template-epic-summary.md` - Epic summary template
+- `kb-healthcare-glossary.md` - Healthcare terminology
+- `guide-diagram-simplification.md` - Diagram simplification guide
+
+**Step 4:** Test: *"Plan epic delivery for: [paste technical requirements]"*
+
+</details>
+
+---
+
+## 💡 Usage Examples
+
+### Example 1: Architecture Designer
+
+**Input:**
 ```
-You: "I need to design an architecture for a SaaS project management
-tool with these requirements:
+I need to design an architecture for a SaaS project management tool:
 - 10K users at launch, 100K users in 1 year
-- Team of 8 developers (5 backend, 3 frontend)
+- Team: 8 developers (5 backend, 3 frontend, all know TypeScript)
 - Budget: $500/month initially
 - Timeline: 3 months to MVP
-- Key features: Projects, tasks, real-time collaboration, file uploads
-- Need to support custom fields per workspace"
+- Features: Projects, tasks, real-time collaboration, file uploads
+- Must support custom fields per workspace
 ```
 
-#### 2. Solution Overview & Approval ⭐ NEW
+**Output:**
+1. **Requirements Analysis** - Gap identification (missing performance targets, security requirements)
+2. **Architecture Exploration** - 2-3 approaches:
+   - Approach A: Modular Monolith (Next.js + PostgreSQL)
+   - Approach B: Microservices (Express services + Postgres + Redis)
+   - Approach C: Serverless (AWS Lambda + DynamoDB)
+3. **Tradeoff Analysis** - Honest pros/cons for each
+4. **Recommendation** - Contextual recommendation based on team size/expertise
+5. **Detailed Design** - Component specs, data architecture, deployment plan
+6. **ADRs** - 3-5 Architecture Decision Records documenting major choices
 
-Claude will first generate a minimal high-level overview (500 words max):
-- Problem understanding confirmation
-- Proposed architectural direction (high-level only)
-- Key assumptions about team, scale, timeline, budget
-- Architectural principles guiding the solution
-- What this enables and what it defers
+**Time:** 2-3 hours for complete architecture documentation
 
-You'll then approve, refine, or reject before proceeding to detailed exploration.
+### Example 2: Product Releases Creator
 
-#### 3. Architecture Exploration
+**Input:** Product requirements document for new feature
 
-After you approve the overview, Claude will:
-- Analyze requirements and identify key architectural drivers
-- Flag any critical gaps (e.g., "No performance targets specified")
-- Propose 2-3 distinct architectural approaches:
-  - Approach A: Modular Monolith (recommended for team size)
-  - Approach B: Event-Driven Microservices (if needed)
-  - Approach C: Serverless (if cost-optimization priority)
-- Provide Mermaid diagrams for each approach
-- Present honest tradeoffs
-- Make a recommendation with clear rationale
+**Output:**
+- **Release Breakdown** - 4-5 releases prioritized by learning value
+- **Dependency Map** - Visual diagram showing release dependencies
+- **Decision Gates** - Validation checkpoints between releases
+- **Risk Analysis** - What could go wrong and how to mitigate
+- **Scope Boundaries** - Clear MVP vs future capabilities
 
-#### 4. Select Approach
+**Time:** 1-2 hours for complete release plan
 
-```
-You: "Let's go with Approach A - the modular monolith"
-```
+### Example 3: Workflow Progression
 
-#### 5. Detailed Design
-
-Claude will create:
-- **System Context Diagram**: External interactions
-- **Component Architecture**: Internal structure with clear boundaries
-- **Sequence Diagrams**: Critical workflows (e.g., user creates project)
-- **Component Specifications**: For each major component:
-  - Responsibility
-  - Interfaces exposed (APIs, events)
-  - Dependencies
-  - Technology choice with rationale
-  - Scalability strategy
-  - Error handling approach
-  - Monitoring metrics
-- **Data Architecture**: Database schema, access patterns, consistency requirements
-- **Deployment Architecture**: Infrastructure, CI/CD pipeline, costs
-- **Monitoring Strategy**: Metrics, logging, alerting
-
-#### 6. Architecture Decision Records
-
-Claude will generate 3-5 ADRs for major decisions:
-- ADR-001: PostgreSQL as Primary Database
-- ADR-002: Modular Monolith Architecture
-- ADR-003: JWT-based Authentication
-- ADR-004: Redis Caching Strategy
-- ADR-005: Next.js for Full-Stack Development
-
-### Iteration and Deep Dives
-
-The agent maintains conversation context, so you can:
+**Complete Product Development Workflow:**
 
 ```
-You: "Can you add more detail on the caching strategy?"
-→ Claude expands caching section with specific patterns, TTLs, invalidation
-
-You: "What if we need to scale to 1M users? How would this architecture evolve?"
-→ Claude provides evolution path with specific milestones
-
-You: "What are the security considerations for the file upload feature?"
-→ Claude details security measures, storage options, scanning strategies
-
-You: "Can you estimate monthly costs at 50K users?"
-→ Claude provides detailed cost breakdown by component
+1. Requirements Validator
+   ↓ (Structured PRD)
+2. Releases Creator
+   ↓ (Release breakdown)
+3. Technical Requirements Creator
+   ↓ (Technical specs)
+4. Architecture Designer
+   ↓ (System architecture)
+5. Solution Estimator
+   ↓ (Effort estimates)
+6. Project Planner
+   ↓ (Epic delivery plan)
 ```
 
-### Asking "What If" Questions
+---
 
-```
-You: "What if we used microservices instead?"
-→ Claude explains tradeoffs for your specific context (team size, timeline)
+## 🔧 File Naming Conventions
 
-You: "What if we need HIPAA compliance?"
-→ Claude updates architecture with compliance requirements
+All knowledge base files follow standardized prefixes:
 
-You: "What if the team only knows Python, not Node.js?"
-→ Claude adjusts technology recommendations accordingly
-```
+| Prefix | Purpose | Examples |
+|--------|---------|----------|
+| `workflow-*.md` | **Layer 2** - Conversation flows, phases, transitions | `workflow-architecture-exploration.md` |
+| `kb-*.md` | **Layer 3** - Domain knowledge, patterns, frameworks | `kb-architecture-patterns.md`, `kb-anti-patterns.md` |
+| `template-*.md` | **Layer 3** - Reusable document formats | `template-adr.md`, `template-comparison-table.md` |
+| `guide-*.md` | **Layer 3** - Step-by-step tutorials | `guide-ascii-diagrams.md` |
+| `agent-*.md` | **Specialized** - Sub-agent methodologies | `agent-requirements-analyst.md` |
 
-## Agent Philosophy
+**Naming Rules:**
+- Use kebab-case: `workflow-architecture-exploration.md`
+- Descriptive names: `kb-scaling-strategies.md` not `kb-scale.md`
+- No version numbers in filename (use git for versioning)
 
-### Core Principles
+---
 
-1. **Present Options, Not Mandates**
-   - Always shows 2-3 distinct approaches
-   - Honest tradeoffs for each
-   - User makes final decision
+## 🎯 Token Limits & Claude Desktop
 
-2. **Match Architecture to Reality**
-   - Designs for actual team size and expertise
-   - Considers real budget and timeline constraints
-   - Not idealized textbook solutions
+### Understanding Token Limits
 
-3. **Boring Technology Wins**
-   - Prefers proven, well-understood tech
-   - New technology requires compelling justification
-   - "Resume-driven development" is called out
+Claude Desktop projects have token limitations:
 
-4. **Visual Communication**
-   - Always creates Mermaid diagrams
-   - Diagrams clarify, not decorate
-   - System context, components, sequences, deployment
+- **Standard Mode**: ~200K tokens across all knowledge base files
+- **RAG Mode**: Automatically activates for larger knowledge bases (200K+ tokens)
+  - RAG mode retrieves relevant sections dynamically
+  - Slightly slower but supports unlimited knowledge base size
 
-5. **Document Decisions**
-   - ADRs for every major choice
-   - Context, rationale, tradeoffs, alternatives
-   - Future teams understand why decisions were made
+### Token Counts by Project
 
-6. **Pragmatic Tradeoffs**
-   - Every architecture has downsides
-   - Acknowledged honestly and upfront
-   - Explains mitigation strategies
+| Project | Total Tokens | Mode | Notes |
+|---------|-------------|------|-------|
+| architecture-designer | 252K | RAG | Largest project, comprehensive patterns |
+| product-releases-creator | 45K | Standard | Fits in standard mode |
+| product-requirements-validator | 15K | Standard | Lightweight |
+| technical-requirements-creator | 25K | Standard | FHIR resources add bulk |
+| technical-solution-estimator | 18K | Standard | Platform-specific |
+| technical-project-planner | 12K | Standard | Smallest project |
 
-### Agent Personality
+### Optimizing Token Usage
 
-**Strategic Thinker**: Sees big picture and how pieces fit together
+**If you hit token limits:**
+1. **Remove examples** - Keep templates, remove example conversations
+2. **Consolidate files** - Merge related KB files
+3. **Trim descriptions** - Keep essential information only
+4. **Split projects** - Create multiple focused projects instead of one large one
 
-**Balanced & Impartial**: Presents tradeoffs objectively without favoritism
-
-**Pragmatic**: Designs for real constraints (team, budget, timeline) not ideals
-
-**Visual**: Thinks in diagrams and system interactions
-
-**Experienced**: References real-world success and failure patterns
-
-**Direct**: Calls out unrealistic expectations kindly but clearly
-
-### Example Agent Voice
-
-```
-"Here are three approaches, each optimized for different priorities..."
-
-"This works well if X, but struggles when Y..."
-
-"Most teams choose A, but given your constraint of B, consider C instead..."
-
-"You mentioned needing microservices. Before we go there, let me ask:
-what specific problem are you trying to solve? Your team of 5 developers
-might struggle with the operational overhead..."
+**Check token count:**
+```bash
+# Approximate tokens (1 token ≈ 0.75 words)
+wc -w projects/architecture-designer/files/*.md
 ```
 
-## Key Features
-
-### 1. Challenges Unrealistic Expectations
-
-**Bad Request:**
-```
-"We need 99.99% uptime, microservices, Kubernetes, real-time
-collaboration like Google Docs, ML-powered features, and we
-have 3 developers and 3 months."
-```
-
-**Agent Response:**
-```
-"I need to be direct: This scope is unrealistic for a 3-person
-team in 3 months. Let me break down why:
-
-- 99.99% uptime: Requires infrastructure most startups don't need (and costs $$)
-- Microservices + Kubernetes: Needs dedicated DevOps, adds 2-3 months
-- Real-time collaboration: Complex feature, 1-2 months alone
-- ML features: Requires data, training, optimization
-
-Recommendation: Let's build an MVP that works well rather than
-an over-engineered system that never launches. Here's what's achievable..."
-```
+---
 
-### 2. Grounds Recommendations in Context
-
-**Example:**
-```
-"Many teams use Kubernetes. Should we?"
-
-Agent: "Kubernetes is powerful but let's look at your context:
-- Team: 5 developers, no dedicated DevOps
-- Scale: 10K users initially
-- Deployment frequency: ~Weekly
-
-Kubernetes adds significant complexity:
-- Learning curve: 2-3 months
-- Operational overhead: 20-40 hours/month
-- Over-engineered for your scale
-
-Recommendation: Start with Heroku or Render ($50-200/month).
-Dead simple deployment, scales to 100K users easily. When you
-have 50+ engineers and 20+ services, THEN consider Kubernetes."
-```
-
-### 3. Provides Specific Technology Recommendations
-
-**Not Vague:**
-❌ "Use a database and caching"
-
-**Specific and Justified:**
-✅ "PostgreSQL 15+ on AWS RDS (db.t3.medium, ~$70/month) for primary
-database because:
-1. Your data is relational (users → projects → tasks)
-2. JSONB handles custom fields (no second database needed)
-3. Built-in full-text search (no Elasticsearch initially)
-4. Team knows SQL
-
-Redis 7.0 via ElastiCache (cache.t3.small, ~$30/month) for:
-- Session storage (30-day TTL)
-- Frequently accessed projects (5-minute TTL)
-- Rate limiting (1-hour sliding window)"
-```
-
-### 4. Creates Production-Ready Documentation
-
-**Deliverables include:**
-- System architecture diagrams (multiple views)
-- Component specifications (6-10 components detailed)
-- Technology stack with versions and justifications
-- Data model with schema examples
-- Deployment architecture with cost estimates
-- Monitoring and alerting strategy
-- 3-5 Architecture Decision Records
-- Scaling plan with specific milestones
-
-### 5. References Real-World Examples
-
-**Not Theoretical:**
-```
-"Microservices are the modern approach..."
-```
-
-**Real-World Grounded:**
-```
-"Let's look at how successful companies actually scaled:
-
-Shopify: Rails monolith to $billions GMV, only extracted services
-after years with 100+ engineers
-
-Stack Overflow: Still runs on ASP.NET monolith, serves billions
-of requests with small team
-
-Instagram: Started as Django monolith, scaled to 100M users before
-extracting services
+## ❓ FAQ
 
-The pattern: Start simple, extract services only when feeling real pain."
-```
+<details>
+<summary><strong>Which project should I start with?</strong></summary>
 
-## When to Use This Agent
+**For engineers:** Start with `architecture-designer` - most mature and immediately useful
 
-### Perfect For:
+**For product managers:** Start with `product-requirements-validator` - helps structure requirements before development
 
-✅ **New project design** - Starting from requirements
-✅ **Architecture reviews** - Evaluating existing designs
-✅ **Technology selection** - Choosing stack with justification
-✅ **Scaling planning** - How to grow from 10K to 100K to 1M users
-✅ **Team discussions** - Exploring architectural options
-✅ **Documentation** - Creating ADRs and design docs
-✅ **Learning** - Understanding architectural patterns and tradeoffs
+**For project managers:** Start with `product-releases-creator` - breaks initiatives into deliverable releases
+</details>
 
-### Not Suitable For:
+<details>
+<summary><strong>Can I customize projects for my company?</strong></summary>
 
-❌ **Implementation code** - Agent designs architecture, doesn't write full applications
-❌ **Quick answers** - Agent provides thoughtful, comprehensive responses (takes time)
-❌ **Specific debugging** - Not for "why is my Express app crashing"
-❌ **Tutorial requests** - Not "teach me React" (use for architecture decisions)
+**Yes!** Add company-specific knowledge base files:
+- `kb-company-tech-standards.md` - Approved technologies
+- `kb-internal-patterns.md` - Internal architecture patterns
+- `kb-compliance-requirements.md` - Company compliance needs
+- `kb-past-decisions.md` - Historical ADRs and lessons learned
 
-## Expected Output Quality
+Just add files to `projects/<project-name>/files/` and reference in custom instructions.
+</details>
 
-### What You Get
+<details>
+<summary><strong>How often should I update knowledge bases?</strong></summary>
 
-**Architecture Exploration Phase:**
-- 2-3 page document with approaches
-- 3-5 Mermaid diagrams
-- Tradeoff analysis with specific pros/cons
-- Recommendation with clear rationale
-- 15-20 minute read
+**Quarterly recommended:**
+- Update technology versions and costs
+- Add new patterns discovered
+- Include recent anti-pattern examples
+- Refresh real-world case studies
 
-**Detailed Design Phase:**
-- 10-15 page comprehensive design document
-- 8-12 Mermaid diagrams (context, components, sequences, deployment)
-- Component specifications for 6-10 major components
-- Technology recommendations with versions
-- Cost estimates
-- Scaling strategy
-- 30-45 minute read
+**Track updates in** `CHANGELOG.md` (create if needed)
+</details>
 
-**Architecture Decision Records:**
-- 3-5 ADRs, each 2-3 pages
-- Full context, decision, rationale, consequences
-- Alternatives considered
-- Implementation notes
-- 5-10 minutes per ADR
+<details>
+<summary><strong>Can I use multiple projects together?</strong></summary>
 
-### Example Output Structure
+**Yes!** Common workflows:
+1. **Requirements → Architecture:** Validate requirements first, then design architecture
+2. **Requirements → Releases → Technical Specs:** Full product development pipeline
+3. **Architecture → Estimation → Planning:** Design → estimate → plan sequence
 
-```markdown
-# Architecture Design: [Project Name]
+**Note:** Each project is separate conversation - copy outputs between projects as needed
+</details>
 
-## 1. Requirements Summary
-- Business context
-- Key architectural drivers
-- Critical constraints
+<details>
+<summary><strong>What if agent doesn't follow instructions?</strong></summary>
 
-## 2. Architectural Approaches
+**Common fixes:**
+1. **Re-paste custom instructions** - May not have saved properly
+2. **Provide more context** - Agent needs detailed requirements (team size, timeline, constraints)
+3. **Explicitly reference workflow** - Say "Follow the architecture exploration workflow"
+4. **Check knowledge base upload** - Verify all files uploaded successfully
 
-### Approach A: Modular Monolith
-- High-level architecture diagram
-- Key components
-- Technology stack
-- Strengths and tradeoffs
-- Best fit scenarios
+**Still not working?** See [Troubleshooting](#troubleshooting) section
+</details>
 
-### Approach B: Event-Driven Microservices
-[Similar structure]
+<details>
+<summary><strong>Can I share these projects with my team?</strong></summary>
 
-### Approach C: Serverless
-[Similar structure]
+**Yes! Two options:**
 
-### Recommended Approach: Modular Monolith
-- Clear rationale tied to requirements
-- Acknowledging tradeoffs
-- Evolution path
+**Option 1: Share repository access**
+- Team members clone repository
+- Each sets up their own Claude Desktop projects
+- Everyone gets identical agents
 
-## 3. Detailed Architecture
+**Option 2: Export/import (future)**
+- Claude Desktop doesn't currently support project export
+- For now, share the repository link and setup instructions
+</details>
 
-### System Context Diagram
-[Mermaid diagram showing external interactions]
+<details>
+<summary><strong>Will these work with Copilot, Windsurf, or Claude Code?</strong></summary>
 
-### Component Architecture
-[Mermaid diagram showing internal structure]
+**Currently:** Optimized for Claude Desktop only
 
-### Critical Workflows
-[2-3 sequence diagrams]
+**Future:** We plan to support other AI chat clients
+- **Copilot:** Needs custom instructions format adaptation
+- **Windsurf:** Needs project structure adaptation
+- **Claude Code:** Can use knowledge base files directly, but workflow needs adaptation
 
-### Component Specifications
-[Detailed specs for 6-10 components]
+**See:** `documentation/migration-guide.md` (coming soon)
+</details>
 
-### Data Architecture
-[Database schema, access patterns]
+<details>
+<summary><strong>How do I know if a project is working correctly?</strong></summary>
 
-### Deployment Architecture
-[Infrastructure, CI/CD, costs]
+**Validation checklist per project in:** [Success Metrics](#success-metrics) section
 
-### Monitoring & Observability
-[Metrics, logging, alerting]
+**Quick test:**
+1. Agent responds with correct persona (check first response)
+2. Agent asks clarifying questions (not generic answers)
+3. Agent references knowledge base (cites patterns, examples)
+4. Output matches expected format (ADRs, diagrams, structured docs)
+</details>
 
-## 4. Architecture Decision Records
+---
 
-### ADR-001: PostgreSQL as Primary Database
-[Full ADR with template]
-
-### ADR-002: Modular Monolith Architecture
-[Full ADR]
-
-[Additional ADRs...]
-
-## 5. Implementation Roadmap
-- Phase 1: Foundation (Weeks 1-4)
-- Phase 2: Core Features (Weeks 5-8)
-- Phase 3: Polish & Launch (Weeks 9-12)
-```
-
-## Tips for Best Results
-
-### 1. Provide Complete Requirements
-
-**Better Input:**
-```
-- Target users: 10K at launch, 100K in year 1
-- Team: 8 developers (5 backend, 3 frontend, all know JavaScript)
-- Timeline: 3 months to MVP
-- Budget: $500/month initially, can grow to $2K/month
-- Performance: API responses < 200ms p95
-- Key features: [list 5-7 main features]
-- Compliance: None initially, might need SOC 2 later
-```
-
-**Incomplete Input:**
-```
-"Design a social media app"
-→ Too vague, agent will ask many clarifying questions
-```
-
-### 2. Be Honest About Constraints
-
-Don't hide:
-- Small team size (agent will design appropriately)
-- Limited budget (agent will optimize for cost)
-- Tight timeline (agent will prioritize MVP scope)
-- Team expertise gaps (agent will choose familiar tech)
-
-Agent designs for YOUR reality, not ideal scenarios.
-
-### 3. Ask Follow-Up Questions
-
-```
-"Why did you choose PostgreSQL over MongoDB?"
-"What if our team only knows Python?"
-"How would this handle 10x traffic?"
-"What are the security implications?"
-"Can you break down the costs?"
-```
-
-Agent maintains context and can dive deeper on any aspect.
-
-### 4. Challenge Recommendations
-
-```
-"Everyone says we need microservices. Why are you recommending a monolith?"
-→ Agent will explain reasoning specific to your context
-
-"Isn't Kubernetes standard these days?"
-→ Agent will explain when it's appropriate vs overkill
-```
-
-Agent welcomes pushback and will defend recommendations with reasoning.
-
-### 5. Request Specific Artifacts
-
-```
-"Can you create ADRs for the database and authentication decisions?"
-"Can you add a detailed caching strategy?"
-"Can you show the sequence diagram for the payment flow?"
-"Can you estimate costs at different user scales?"
-```
-
-### 6. Iterate on the Design
-
-```
-"Actually, we need to support mobile apps too. How does that change things?"
-→ Agent updates architecture (adds BFF pattern, mobile considerations)
-
-"Budget increased to $5K/month. Does that open new options?"
-→ Agent revisits recommendations with higher budget
-
-"Team is growing to 20 people next quarter. Should we reconsider microservices?"
-→ Agent provides evolution path
-```
-
-## Common Usage Patterns
-
-### Pattern 1: New Project Design
-
-```
-Session 1 (1 hour):
-- Provide requirements
-- Review 2-3 architectural approaches
-- Ask clarifying questions
-- Select approach
-
-Session 2 (1-2 hours):
-- Review detailed design
-- Deep dive on specific components
-- Challenge decisions
-- Request additional diagrams
-
-Session 3 (30 min):
-- Review ADRs
-- Finalize documentation
-- Get cost estimates
-- Confirm implementation plan
-```
-
-### Pattern 2: Technology Selection
-
-```
-You: "We're deciding between PostgreSQL and MongoDB.
-Our data model has users, organizations, projects (hierarchical),
-and tasks. We need complex reporting. Team knows SQL."
-
-Agent: [Analyzes data model, query patterns, team expertise]
-→ Recommends PostgreSQL with detailed reasoning
-→ Shows when MongoDB would be better fit
-→ Provides ADR documenting decision
-```
-
-### Pattern 3: Scaling Planning
-
-```
-You: "Our app currently handles 50K users on a monolith.
-We're expecting to grow to 500K users in 6 months.
-How should we prepare?"
-
-Agent: [Analyzes current architecture, growth trajectory]
-→ Phase 1: Optimize current monolith (database, caching)
-→ Phase 2: Add read replicas and CDN
-→ Phase 3: Consider extracting hot services
-→ Provides specific metrics to watch
-→ Cost estimates at each phase
-```
-
-### Pattern 4: Architecture Review
-
-```
-You: "Can you review our current architecture?
-[pastes existing design or description]"
-
-Agent: [Systematic review]
-→ Strengths (what's done well)
-→ Critical issues (must fix)
-→ Major concerns (should address)
-→ Risks with mitigation strategies
-→ Recommendations with priorities
-```
-
-## Limitations
-
-### What This Agent Cannot Do
-
-1. **Write Full Implementation Code**
-   - Agent designs architecture, doesn't implement entire applications
-   - Can provide code snippets/examples for clarity
-   - Not a replacement for development team
-
-2. **Access External Systems**
-   - Can't query your actual database for metrics
-   - Can't profile your running application
-   - Works from information you provide
-
-3. **Make Business Decisions**
-   - Can't decide product features
-   - Can't prioritize business requirements
-   - Focuses on technical architecture
-
-4. **Predict Future with Certainty**
-   - Provides guidance based on patterns, not guarantees
-   - "Most teams experience X" not "You will experience X"
-
-5. **Replace Human Judgment**
-   - Agent is advisor, you make final decisions
-   - Context-specific factors you know best
-   - Tool to augment, not replace, your expertise
-
-### Claude Desktop Specific Limitations
-
-1. **No Real-Time Data**
-   - Can't check current cloud pricing
-   - Can't verify latest framework versions
-   - Knowledge cutoff: January 2025
-
-2. **No File Editing**
-   - Can't directly edit your codebase
-   - Provides recommendations, you implement
-
-3. **Conversation Isolation**
-   - Each conversation is independent
-   - No memory between conversations (unless you paste previous context)
-
-4. **Knowledge Base Static**
-   - Uploaded files don't auto-update
-   - Refresh knowledge base periodically for updates
-
-## Maintenance
-
-### Keeping Knowledge Base Current
-
-**Quarterly Updates (Recommended):**
-
-1. **architecture-patterns-library.md**
-   - Add new emerging patterns
-   - Update real-world case studies
-   - Refresh technology versions
-
-2. **technology-selection-guide.md**
-   - Update framework versions and recommendations
-   - Add new technologies gaining traction
-   - Update cost estimates
-
-3. **adr-library.md**
-   - Add new ADR examples from your projects
-   - Update template based on usage
-
-4. **anti-patterns-case-studies.md**
-   - Add new anti-pattern discoveries
-   - Update case studies with outcomes
-
-5. **scaling-strategies.md**
-   - Update cost estimates
-   - Add new scaling patterns
-   - Refresh performance benchmarks
-
-### Version Control
-
-Consider versioning your knowledge base files:
-
-```
-architecture-patterns-library-v1.0.md (Oct 2025)
-architecture-patterns-library-v1.1.md (Jan 2026)
-```
-
-### Custom Additions
-
-Add your organization-specific content:
-
-```
-company-tech-standards.md
-- Your organization's approved technologies
-- Internal architecture patterns
-- Company-specific compliance requirements
-- Past architecture decisions to learn from
-```
-
-## Troubleshooting
+## 🔍 Troubleshooting
 
 ### Agent Not Following Instructions
 
-**Problem**: Agent doesn't seem to follow the persona
-**Solution**: Custom instructions may not have saved properly. Re-paste and ensure they're applied.
+**Problem:** Agent doesn't use correct persona or workflow
+
+**Solutions:**
+1. **Verify custom instructions saved:**
+   - Check project settings
+   - Re-paste `project-instructions.md` if needed
+
+2. **Explicitly trigger workflow:**
+   - Say: "Follow the architecture exploration workflow"
+   - Say: "Start Phase 1 of the requirements validation workflow"
+
+3. **Check knowledge base files:**
+   - Verify all files uploaded successfully
+   - Look for file size warnings (>10MB files may fail)
 
 ### Responses Too Generic
 
-**Problem**: Getting generic advice not specific to your context
-**Solution**: Provide more detailed requirements (team size, expertise, budget, timeline, scale targets)
+**Problem:** Getting generic advice, not specific to your context
 
-### Wrong Technology Recommendations
+**Solutions:**
+1. **Provide complete requirements:**
+   ```
+   Good: "Team of 5 JS developers, $500/month budget, 3-month timeline"
+   Bad: "Design an app"
+   ```
 
-**Problem**: Recommending technologies your team doesn't know
-**Solution**: Explicitly state team expertise in requirements: "Team knows JavaScript, has never used Go"
+2. **State constraints explicitly:**
+   - Team size and expertise
+   - Budget limits
+   - Timeline pressure
+   - Performance requirements
+
+3. **Reference specific needs:**
+   - "We need HIPAA compliance"
+   - "Team has never used Kubernetes"
+   - "Must integrate with Salesforce"
 
 ### Missing Diagrams
 
-**Problem**: Not generating Mermaid diagrams
-**Solution**: Explicitly request: "Can you create a component architecture diagram?"
+**Problem:** No Mermaid diagrams in output
 
-### Too Much Detail / Not Enough Detail
+**Solutions:**
+1. **Explicitly request:** "Can you create a component architecture diagram?"
+2. **Check project:** Architecture Designer includes diagram examples, others may not
+3. **Verify Mermaid rendering:** Some Claude Desktop versions have rendering issues
 
-**Problem**: Response is overwhelming or too shallow
-**Solution**: Guide the agent:
-- "Can you give me a high-level summary first?"
-- "Can you go deeper on the database design?"
+### Knowledge Base Not Referenced
 
-### Agent Recommending Over-Engineering
+**Problem:** Agent doesn't cite patterns or examples from KB
 
-**Problem**: Suggesting Kubernetes for small team
-**Solution**: This shouldn't happen if you provided team size. Remind agent:
-"We only have 5 developers - is this realistic?"
+**Solutions:**
+1. **Verify files uploaded:** Check project settings → Knowledge
+2. **Check token limits:** If >200K tokens, may need RAG mode (automatic)
+3. **Explicitly request:** "What architectural patterns from the knowledge base fit this?"
 
-## Success Metrics
+### Too Much Detail / Too Little Detail
 
-You'll know this agent is working well when:
+**Problem:** Overwhelming output or too shallow
 
-✅ **Realistic Designs**: Architectures match your actual team and constraints
-✅ **Clear Tradeoffs**: You understand pros and cons of each decision
-✅ **Implementable Plans**: You can hand design to team and start building
-✅ **Good Questions**: Agent asks about things you hadn't considered
-✅ **Honest Guidance**: Agent pushes back on unrealistic requests
-✅ **Documented Decisions**: ADRs capture why decisions were made
-✅ **Time Savings**: Architecture decisions made in hours, not weeks
-✅ **Team Alignment**: Clear documentation helps team understand direction
+**Solutions:**
+1. **Request specific depth:**
+   - "Give me a high-level summary first"
+   - "Can you expand on the database design?"
 
-## Example Conversations
+2. **Use progressive disclosure:**
+   - Review summary first
+   - Request deep dives on specific sections
 
-### Example 1: MVP Design
+### Agent Recommends Over-Engineering
 
-**User:**
-```
-I need to design a SaaS invoicing tool. We're a 2-person team
-(1 backend, 1 frontend), both know JavaScript. Need to launch
-in 6 weeks with basic features: create invoices, send via email,
-accept payments via Stripe. Budget is $100/month for infrastructure.
-```
+**Problem:** Suggests Kubernetes for 3-person team
 
-**Agent Response Highlights:**
-- Recommends Next.js full-stack (one codebase, fast development)
-- PostgreSQL for database (relational invoices/customers/line-items)
-- Deploy to Vercel (~$20/month)
-- Stripe for payments (no need to build)
-- Simple architecture, no over-engineering
-- Focuses on shipping fast
+**Solutions:**
+1. **Verify team size in input:** Agent should scale recommendations to team
+2. **Remind of constraints:** "We only have 3 developers - is this realistic?"
+3. **Check persona:** Architecture Designer should push back on over-engineering
 
-### Example 2: Scaling Existing App
+### File Upload Failures
 
-**User:**
-```
-We have a Rails monolith serving 50K users. Database is hitting
-limits (80% CPU). We're considering microservices. Team of 12
-developers. What should we do?
-```
+**Problem:** Knowledge base files won't upload
 
-**Agent Response Highlights:**
-- Don't jump to microservices yet (team size okay for monolith)
-- First optimize database:
-  - Add read replicas
-  - Review slow queries
-  - Add caching layer
-  - Connection pooling
-- Provides specific optimization roadmap
-- Microservices only if above fails
-- Explains operational overhead of microservices
-
-### Example 3: Technology Decision
-
-**User:**
-```
-Deciding between REST and GraphQL for our API. Mobile and web
-clients. Team hasn't used GraphQL before. What do you recommend?
-```
-
-**Agent Response Highlights:**
-- Analyzes: Team expertise (REST), client needs (multiple clients), timeline
-- Recommends REST for MVP (team knows it, ship faster)
-- Explains when GraphQL worth the learning curve
-- Provides evolution path: REST → GraphQL later if needed
-- Creates ADR documenting decision
-- Honest about tradeoffs
-
-## Additional Resources
-
-### Related Claude Desktop Projects
-
-This agent pairs well with:
-- **Requirements Analyst**: Defines requirements before architecture
-- **Code Review Agent**: Reviews implementation against architecture
-- **DevOps Advisor**: Infrastructure and deployment specifics
-
-### Learning More About Architecture
-
-The knowledge base files are educational resources:
-- Read `architecture-patterns-library.md` to learn patterns
-- Study `anti-patterns-case-studies.md` to avoid mistakes
-- Review `adr-library.md` for decision documentation examples
-
-### Contributing
-
-To improve this agent:
-1. Add examples from your projects to knowledge base
-2. Document anti-patterns you've encountered
-3. Update technology recommendations as tools evolve
-4. Share ADRs from your architecture decisions
-
-## Support & Feedback
-
-### Common Questions
-
-**Q: Can this agent design any type of system?**
-A: Yes - web apps, mobile backends, data pipelines, microservices, APIs. Focuses on software architecture, not hardware/embedded systems.
-
-**Q: How long does a design session typically take?**
-A: Initial exploration: 30-60 min. Detailed design: 1-2 hours. Total: 2-3 hours for complete architecture documentation.
-
-**Q: Do I need to be technical to use this?**
-A: Some technical background helps, but agent explains concepts clearly. Best used by: CTOs, tech leads, senior engineers, architects.
-
-**Q: Can I use this for architecture reviews?**
-A: Yes! Paste your current architecture and ask for review. Agent will identify risks, gaps, and provide recommendations.
-
-**Q: How often should I update the knowledge base?**
-A: Quarterly recommended. Technology changes fast - keep recommendations current.
-
-**Q: Can I customize for my company?**
-A: Absolutely. Add company-specific files: approved technologies, internal patterns, compliance requirements, past decisions.
-
-## Quick Start Checklist
-
-- [ ] Create new Claude Desktop Project named "Architecture Designer"
-- [ ] Copy custom instructions (2,800 words) into project settings
-- [ ] Create 5 knowledge base markdown files:
-  - [ ] architecture-patterns-library.md (~50K tokens)
-  - [ ] technology-selection-guide.md (~50K tokens)
-  - [ ] adr-library.md (~40K tokens)
-  - [ ] anti-patterns-case-studies.md (~30K tokens)
-  - [ ] scaling-strategies.md (~30K tokens)
-- [ ] Upload all 5 files to project knowledge base
-- [ ] Test with sample architecture request
-- [ ] Verify agent follows persona and references knowledge base
-- [ ] Customize with company-specific additions (optional)
-
-## Version
-
-**Project Version**: 1.0
-**Last Updated**: October 27, 2025
-**Knowledge Base Size**: ~230K tokens
-**Claude Desktop Compatible**: Yes
-**Requires**: Claude Desktop app with Projects feature
+**Solutions:**
+1. **Check file size:** Individual files >10MB may fail
+2. **Check format:** Must be `.md` files
+3. **Check total size:** If total >50MB, split into smaller files
+4. **Try uploading one at a time:** Identifies problematic files
 
 ---
 
-## Final Notes
+## ✅ Success Metrics
 
-This Architecture Designer agent represents hundreds of hours of distilled architectural wisdom, real-world case studies, and battle-tested patterns. It's designed to save you from common mistakes, guide you toward pragmatic solutions, and document decisions clearly.
+### How to Know Projects Are Working
 
-**Remember**: The agent is a tool to augment your judgment, not replace it. Use it to explore options, understand tradeoffs, and document decisions - but you make the final call based on your specific context and expertise.
+#### Architecture Designer
 
-**Philosophy**: Start simple, add complexity only when needed, optimize for shipping and learning, not for theoretical perfection or resume keywords.
+**✅ Working Correctly:**
+- Agent introduces as "Senior Principal Architect with 25+ years experience"
+- Asks clarifying questions about team, scale, budget, timeline
+- Proposes 2-3 distinct architectural approaches
+- Provides honest tradeoffs (not just pros)
+- Creates Mermaid diagrams for system context and components
+- References patterns from knowledge base (monolith, microservices, event-driven)
+- Makes contextual recommendations based on YOUR constraints
 
-Happy architecting! 🏗️
+**❌ Not Working:**
+- Generic "you should use microservices" without context
+- No diagrams
+- Doesn't ask about team size or expertise
+- Recommends technologies without rationale
+- No references to knowledge base patterns
+
+**Validation Test:**
+```
+Input: "Design architecture for 3-person team, 6-week timeline, basic CRUD app"
+Expected: Agent recommends simple monolith (Next.js or Rails), not microservices
+```
+
+#### Product Requirements Validator
+
+**✅ Working Correctly:**
+- Starts "Stage 1 of 10" workflow
+- Presents ONE stage at a time
+- Asks: "Is this accurate? Any changes?" after each stage
+- Uses "Not specified" for missing info (doesn't assume)
+- Final PRD has all required sections
+
+**❌ Not Working:**
+- Presents all 10 stages at once
+- Assumes missing information
+- Skips approval gates
+- Doesn't follow stage sequence
+
+#### Product Releases Creator
+
+**✅ Working Correctly:**
+- Breaks initiative into 4-6 small releases
+- Each release has user-facing capability
+- Includes dependency diagram
+- MVP prioritized by learning value
+- Includes validation gates
+
+**❌ Not Working:**
+- Creates releases by technical layer (backend → frontend)
+- Releases too large (>2 weeks)
+- No clear user value per release
+
+#### Technical Requirements Creator
+
+**✅ Working Correctly:**
+- Maps FHIR resources for healthcare entities
+- Extracts ALL workflows (no consolidation)
+- Includes BPM workflow orchestration
+- Tags recommendations: [Recommended], [Inferred], [Derived]
+- Marks non-applicable sections
+
+**❌ Not Working:**
+- Generic technical specs
+- No FHIR resource mappings
+- Missing workflows
+- No BPM orchestration
+
+#### Technical Solution Estimator
+
+**✅ Working Correctly:**
+- Provides hour estimates per component
+- Includes risk factors
+- References existing platform capabilities
+- Gives confidence levels (high/medium/low)
+
+**❌ Not Working:**
+- Single total estimate without breakdown
+- No risk analysis
+- Doesn't leverage platform capabilities
+
+#### Technical Project Planner
+
+**✅ Working Correctly:**
+- Breaks epic into developer-ready tasks
+- Includes dependencies and sequence
+- Task sizes: 4-16 hours each
+- Clear acceptance criteria
+
+**❌ Not Working:**
+- Tasks too large (>2 days)
+- Missing dependencies
+- No acceptance criteria
+
+---
+
+## 🛠️ Customization & Extension
+
+### Adding Company-Specific Knowledge
+
+**Step 1:** Create custom knowledge base file
+
+```markdown
+# kb-company-standards.md
+
+## Approved Technologies
+
+### Backend
+- **Languages:** TypeScript (preferred), Python (data science only)
+- **Frameworks:** Express.js, Nest.js
+- **Databases:** PostgreSQL (primary), Redis (caching)
+
+### Cloud
+- **Provider:** Azure (mandatory)
+- **Services:** App Service, Functions, PostgreSQL, Service Bus
+
+## Internal Patterns
+
+### Authentication
+All services must use Azure AD B2C...
+
+### Logging
+All services must use Azure Application Insights...
+
+## Compliance
+- HIPAA required for all PHI
+- SOC 2 Type II certification
+- Data residency: US only
+```
+
+**Step 2:** Upload to project knowledge base
+
+**Step 3:** Reference in custom instructions
+
+```markdown
+## Company Context
+
+Reference `kb-company-standards.md` for approved technologies and internal patterns.
+
+When recommending technologies:
+1. Check company standards first
+2. Only recommend approved options
+3. Justify exceptions with strong rationale
+```
+
+### Creating New Templates
+
+**Example:** Custom ADR template for your company
+
+```markdown
+# template-company-adr.md
+
+# ADR-XXX: [Decision Title]
+
+**Date:** YYYY-MM-DD
+**Status:** [Proposed | Accepted | Deprecated | Superseded]
+**Deciders:** [List team members]
+**Company Standard Compliance:** [Yes/No/Partial]
+
+## Context
+[What prompted this decision? Include business context.]
+
+## Decision
+[What are we doing?]
+
+## Rationale
+[Why this decision? Reference company standards.]
+
+## Alternatives Considered
+[What else did we evaluate? Why rejected?]
+
+## Consequences
+**Positive:**
+- [Benefit 1]
+
+**Negative:**
+- [Tradeoff 1]
+
+**Company Standards Impact:**
+- [How this affects existing standards]
+
+## Implementation Notes
+[How to implement this decision]
+
+## Review Date
+[When should we revisit this?]
+```
+
+### Extending Workflows
+
+**Example:** Add company approval gate to architecture workflow
+
+Edit `workflow-architecture-exploration.md`:
+
+```markdown
+## Phase 3.5: Architecture Review Board Approval (NEW)
+
+**Trigger:** After user selects architectural approach
+
+**Agent Actions:**
+1. Generate Architecture Review Board (ARB) submission package:
+   - Executive summary (1 page)
+   - Architecture diagrams
+   - Cost analysis
+   - Risk assessment
+   - Compliance checklist
+
+2. Provide ARB presentation template
+
+3. Include common ARB questions and answers
+
+**User Actions:**
+- Present to ARB
+- Return with approval or requested changes
+
+**Transition:** After ARB approval → Phase 4 (Detailed Design)
+```
+
+---
+
+## 📚 Additional Resources
+
+### Learning Materials
+
+**Understanding Three-Layer Architecture:**
+- See `projects/README.md` for detailed explanation
+- Each project's `project-instructions.md` shows practical implementation
+
+**Example Conversations:**
+- **[EXAMPLES.md](EXAMPLES.md)** - 6 detailed example conversations showing each project in action
+- Real inputs, full agent responses, complete workflows
+- Learn by seeing projects work end-to-end
+
+**Healthcare Domain Knowledge:**
+- `kb-fhir-resources.md` - FHIR resource mappings
+- `kb-healthcare-glossary.md` - Healthcare terminology
+- `kb-cmm-product-capabililties.md` - CMM platform capabilities
+
+**Architecture Patterns:**
+- `kb-architecture-patterns.md` - 12+ patterns with examples
+- `kb-anti-patterns.md` - Common mistakes to avoid
+- `kb-scaling-strategies.md` - Scaling by growth phase
+
+**Customization Templates:**
+- **[TEMPLATES.md](TEMPLATES.md)** - Ready-to-use templates for extending projects
+- Company technology standards template
+- Internal architecture patterns template
+- Compliance requirements template
+
+### Related Tools
+
+**CMM Internal:**
+- **JIRA:** Create epics/stories from Technical Project Planner output
+- **Confluence:** Store architecture documentation and ADRs
+- **Azure DevOps:** Import technical requirements
+
+**External:**
+- **Mermaid Live Editor:** Test diagrams (https://mermaid.live)
+- **ADR Tools:** GitHub ADR tools (https://adr.github.io)
+- **FHIR Validator:** Validate FHIR resource mappings
+
+### Product Development Resources
+
+**Inside Repository:**
+- `documentation/product-requirements.md` - Full PRD for this repository
+- `documentation/initiative-releases.md` - Release planning for this repository
+
+**External References:**
+- **Marty Cagan:** "Inspired" and "Empowered" (product discovery framework)
+- **Martin Fowler:** Architecture patterns (martinfowler.com/architecture)
+- **FHIR Documentation:** hl7.org/fhir
+
+**Migration Guide:**
+- **[MIGRATION-GUIDE.md](MIGRATION-GUIDE.md)** - Using these projects with other AI chat clients
+- Claude Code adaptation guide (planned Q1 2026)
+- GitHub Copilot support (planned Q2 2026)
+- Windsurf integration (planned Q2 2026)
+
+---
+
+## 🤝 Contributing
+
+### How to Improve Projects
+
+**Adding New Content:**
+1. Create feature branch: `git checkout -b feature/new-content`
+2. Add knowledge base files to `projects/<project-name>/files/`
+3. Update `project-instructions.md` to reference new files
+4. Test in Claude Desktop
+5. Create PR with description of changes
+
+**Reporting Issues:**
+1. Test issue in fresh Claude Desktop instance
+2. Include:
+   - Which project
+   - Input provided
+   - Expected vs actual output
+   - Screenshots if relevant
+3. Create GitHub issue with "Bug" label
+
+**Suggesting Improvements:**
+1. Create GitHub issue with "Enhancement" label
+2. Describe:
+   - Which project
+   - What improvement
+   - Why it would help
+   - Example use case
+
+### Internal CMM Guidelines
+
+**Before Contributing:**
+- Ensure changes don't expose internal CMM systems/data
+- Test with sample data, not production data
+- Follow existing file naming conventions
+- Update README if adding new projects
+
+**Review Process:**
+1. Create PR with detailed description
+2. Request review from project maintainer
+3. Address feedback
+4. Merge after approval
+
+---
+
+## 📜 Changelog
+
+### Version 1.0 (November 2025)
+
+**Projects:**
+- ✅ Architecture Designer (v3.0) - 252K tokens, 13 files
+- ✅ Product Releases Creator (v2.0) - 45K tokens, 12 files
+- ✅ Product Requirements Validator (Beta) - 15K tokens, 4 files
+- ✅ Technical Requirements Creator (Beta) - 25K tokens, 6 files
+- ✅ Technical Solution Estimator (Beta) - 18K tokens, 5 files
+- ✅ Technical Project Planner (Beta) - 12K tokens, 5 files
+
+**Documentation:**
+- Comprehensive README with installation instructions
+- File naming conventions documented
+- Token limit guidance added
+- Troubleshooting section created
+- FAQ section added
+- Success metrics defined per project
+
+**Repository:**
+- Three-layer architecture pattern established
+- Standardized file naming across all projects
+- Product requirements and release documentation
+- Git configuration for Claude Code
+
+---
+
+## 📞 Support
+
+### Getting Help
+
+**Questions?** Ask in:
+- **Slack:** #architecture-designer (CMM internal)
+- **Email:** [Your team email]
+
+**Found a Bug?**
+1. Check [Troubleshooting](#troubleshooting) first
+2. Create GitHub issue with reproduction steps
+
+**Feature Requests?**
+- Create GitHub issue with "Enhancement" label
+- Describe use case and expected benefit
+
+### Maintenance
+
+**Repository Maintainers:**
+- [Your name/team]
+
+**Update Schedule:**
+- **Quarterly:** Knowledge base content refresh
+- **Monthly:** Bug fixes and small improvements
+- **As needed:** New projects or major features
+
+---
+
+## 🎓 Advanced Topics
+
+### Performance Optimization
+
+**For Large Knowledge Bases (>200K tokens):**
+1. **Enable RAG mode** (automatic) - Claude retrieves relevant sections dynamically
+2. **Consolidate files** - Merge related content to reduce file count
+3. **Use references** - Link between files instead of duplicating content
+4. **Prioritize content** - Put most-used content in smaller files for faster access
+
+**Token Reduction Strategies:**
+1. Remove verbose examples (keep templates, remove walkthroughs)
+2. Use tables instead of prose
+3. Link to external docs instead of embedding
+4. Split large files by topic
+
+### Multi-Project Workflows
+
+**Product Development Pipeline:**
+
+```mermaid
+graph LR
+    A[BRD] --> B[Requirements Validator]
+    B --> C[Releases Creator]
+    C --> D[Technical Requirements]
+    D --> E[Architecture Designer]
+    E --> F[Solution Estimator]
+    F --> G[Project Planner]
+    G --> H[Implementation]
+```
+
+**How to Chain Projects:**
+1. Export output from Project 1
+2. Import as input to Project 2
+3. Maintain context by copying key decisions
+4. Reference previous outputs in prompts
+
+**Example:**
+```
+Architecture Designer output →
+Solution Estimator input:
+"Estimate this architecture: [paste component specs]"
+```
+
+### Creating New Projects
+
+**Step 1: Define Scope**
+- What specific problem does this solve?
+- What inputs/outputs?
+- Who uses this? (PM, engineer, architect)
+
+**Step 2: Design Three Layers**
+- **Layer 1:** Agent personality and principles (project-instructions.md)
+- **Layer 2:** Conversation workflow (workflow-*.md)
+- **Layer 3:** Domain knowledge (kb-*.md, template-*.md)
+
+**Step 3: Create Knowledge Base**
+- Start with templates (10-20K tokens)
+- Add patterns and examples (20-50K tokens)
+- Include real-world case studies (20-30K tokens)
+
+**Step 4: Test and Iterate**
+- Test with 3-5 real scenarios
+- Refine based on output quality
+- Add missing knowledge iteratively
+
+**Step 5: Document**
+- Add to project comparison table
+- Write installation instructions
+- Define success metrics
+- Create example conversations
+
+**See:** `projects/README.md` for detailed project creation guide
+
+---
+
+## 📋 Quick Reference
+
+### Command Cheat Sheet
+
+**Architecture Designer:**
+- "Design architecture for [requirements]"
+- "Review this architecture: [paste]"
+- "What if we need HIPAA compliance?"
+- "Compare PostgreSQL vs MongoDB for [use case]"
+- "Create ADR for [decision]"
+
+**Requirements Validator:**
+- "Analyze this BRD: [paste]"
+- "Stage X complete, proceed"
+- "Mark [section] as not specified"
+
+**Releases Creator:**
+- "Decompose these requirements: [paste]"
+- "Generate alternative approaches"
+- "I select approach 2"
+
+**Technical Requirements:**
+- "Create technical requirements from PRD: [paste]"
+- "List all workflows"
+- "Show FHIR resource mappings"
+
+**Solution Estimator:**
+- "Estimate effort for: [paste technical requirements]"
+- "Add risk analysis"
+- "Break down by component"
+
+**Project Planner:**
+- "Plan epic delivery for: [paste]"
+- "Add task dependencies"
+- "Include acceptance criteria"
+
+### Token Estimate Calculator
+
+**Quick calculation:**
+```
+Words × 0.75 = Approximate tokens
+```
+
+**Example:**
+- 10,000 words ≈ 7,500 tokens
+- 50,000 words ≈ 37,500 tokens
+
+**Check actual tokens:**
+```bash
+# Count words
+wc -w projects/architecture-designer/files/*.md
+
+# Multiply by 0.75 for token estimate
+```
+
+### Project Selection Matrix
+
+| If You Need... | Use This | Alternative |
+|----------------|----------|-------------|
+| System architecture | Architecture Designer | - |
+| Validate requirements | Requirements Validator | Manual review |
+| Break into releases | Releases Creator | Manual planning |
+| Technical specs | Technical Requirements | Template only |
+| Effort estimates | Solution Estimator | Expert judgment |
+| Task breakdown | Project Planner | Manual planning |
+
+---
+
+**🚀 Ready to get started? [Jump to Installation Instructions](#installation-instructions)**
+
+**Questions? [Check the FAQ](#faq) or [Troubleshooting](#troubleshooting) section**
+
+**Want to contribute? [See Contributing](#contributing) section**
+
+---
+
+*Last Updated: November 2025 | Version 1.0 | Maintained by CMM Team*

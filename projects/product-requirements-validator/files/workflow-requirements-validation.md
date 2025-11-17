@@ -194,50 +194,93 @@ Success: [What indicates completion]
 
 ## 5. Services (all at once)
 
+<!--
+AI AGENT INSTRUCTION:
+Only list CMM services that are EXPLICITLY named in the BRD.
+Reference kb-cmm-product-capabililties.md to verify service names exist in the CMM platform.
+Do NOT infer or assume services exist if they are not explicitly mentioned in the BRD.
+
+Valid CMM service categories from kb-cmm-product-capabililties.md:
+- operational_services (e.g., USP, EHR Connect, Form Capture, RBAC, Audit, etc.)
+- services_requiring_modification (e.g., User Service, Provider Service, Patient Service, Communication Service)
+- services_in_development (e.g., Consent Service, Prior Authorization Service, Benefits Service, Notification Service)
+
+If the BRD mentions generic concepts like "notification system" or "messaging", verify if it explicitly references
+a named CMM service (e.g., "Notification Service" or "Communication Service"). If not explicitly named, mark as "Not specified".
+-->
+
 **Present**:
 ```
 INTERNAL CMM SERVICES
 
-1. [Service Name]
-   Consumes: [Data consumed]
-   Actions: [Actions requested]
+1. [Service Name from kb-cmm-product-capabililties.md]
+   Consumes: [Data consumed from BRD]
+   Actions: [Actions requested from BRD]
 
-2. [Service Name]
+2. [Service Name from kb-cmm-product-capabililties.md]
    [Same structure...]
+
+[If no CMM services explicitly named in BRD:]
+No internal CMM services explicitly specified in BRD.
 ```
 
 **Ask**: "Internal services correct? Any changes?"
 
 **Validation Checklist**:
-- [ ] All internal CMM services identified from BRD
-- [ ] Each service has clear data/action description
-- [ ] Service dependencies documented
+- [ ] Only CMM services EXPLICITLY named in BRD are listed
+- [ ] Service names match those in kb-cmm-product-capabililties.md
+- [ ] Each service has clear data/action description from BRD
+- [ ] Service dependencies documented from BRD
 - [ ] Cross-referenced to workflows (Stage 4)
+- [ ] No services inferred or assumed beyond BRD statements
 - [ ] User confirmed all services captured
 
 ---
 
 ## 6. External Integrations (all at once)
 
+<!--
+AI AGENT INSTRUCTION:
+Only list external integrations that are EXPLICITLY named in the BRD.
+Reference kb-cmm-product-capabililties.md (external_integrations section) to verify integration names.
+Do NOT infer or assume integrations exist if they are not explicitly mentioned in the BRD.
+
+Valid external integrations from kb-cmm-product-capabililties.md:
+- FastAuth (Medical PA processing)
+- CMM ePA / PA Portal (Pharmacy PA processing)
+- CMM Benefits / Benefits Module (Benefits verification)
+- RxLightning (Enrollment & Patient Consent)
+
+If the BRD mentions generic concepts like "EHR integration" or "email provider", verify if it explicitly references
+a named external system. If not explicitly named, mark as "Not specified".
+
+EHR Connect Service is an INTERNAL CMM service, not an external integration.
+-->
+
 **Present**:
 ```
 EXTERNAL PARTNERS
 
-1. [Partner Name]
-   We Send: [Data/requests]
-   They Send: [Data/responses]
+1. [Partner Name from kb-cmm-product-capabililties.md or explicitly named in BRD]
+   We Send: [Data/requests from BRD]
+   They Send: [Data/responses from BRD]
 
-2. [Partner Name]
+2. [Partner Name from kb-cmm-product-capabililties.md or explicitly named in BRD]
    [Same structure...]
+
+[If no external integrations explicitly named in BRD:]
+No external integrations explicitly specified in BRD.
 ```
 
 **Ask**: "External integrations correct? Any changes?"
 
 **Validation Checklist**:
-- [ ] All external partners identified from BRD
-- [ ] Data exchange patterns documented (what we send/receive)
-- [ ] Integration criticality noted
+- [ ] Only external partners EXPLICITLY named in BRD are listed
+- [ ] Integration names verified against kb-cmm-product-capabililties.md when applicable
+- [ ] Data exchange patterns documented from BRD (what we send/receive)
+- [ ] Integration criticality noted from BRD
 - [ ] Cross-referenced to workflows (Stage 4)
+- [ ] No integrations inferred or assumed beyond BRD statements
 - [ ] User confirmed all integrations captured
 
 ---
