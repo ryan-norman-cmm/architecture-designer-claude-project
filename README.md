@@ -46,16 +46,16 @@ Choose the right project for your task:
 | **technical-project-planner** | Project Planner | Breaking epics into developer tasks | Technical requirements | Epic delivery plan with tasks and dependencies | 12K tokens (5 files) |
 
 **Maturity Indicators:**
-- **architecture-designer**: ⭐⭐⭐ Stable (v3.0) - Production-ready, 3+ iterations, tested workflows
-- **product-releases-creator**: ⭐⭐⭐ Stable (v2.0) - Production-ready, 2+ iterations, validated
-- **product-requirements-validator**: ⭐⭐ Beta - Core features complete, needs user validation
-- **technical-requirements-creator**: ⭐⭐ Beta - Core features complete, needs user validation
-- **technical-solution-estimator**: ⭐⭐ Beta - Core features complete, needs user validation
-- **technical-project-planner**: ⭐⭐ Beta - Core features complete, needs user validation
+- **architecture-designer**: ⭐⭐⭐ Stable (v3.0) - Production-ready, extensively user-tested
+- **product-releases-creator**: ⭐⭐⭐ Stable (v2.0) - Production-ready, extensively user-tested
+- **product-requirements-validator**: ⭐⭐⭐ Stable (v1.0) - User-validated, production-ready
+- **technical-requirements-creator**: ⭐⭐⭐ Stable (v1.0) - User-validated, production-ready
+- **technical-solution-estimator**: ⭐⭐⭐ Stable (v1.0) - User-validated, production-ready
+- **technical-project-planner**: ⭐⭐ Beta - Core features complete, needs user testing
 
 **Maturity Criteria:**
-- **⭐⭐⭐ Stable**: v2.0+, production-tested, multiple workflow iterations, comprehensive knowledge base
-- **⭐⭐ Beta**: v1.0+, core features complete, workflow defined, ready for user testing
+- **⭐⭐⭐ Stable**: User-tested and validated, production-ready, workflow proven effective
+- **⭐⭐ Beta**: Core features complete, workflow defined, ready for user testing
 - **⭐ Alpha**: Experimental, incomplete features, early testing only
 
 ---
