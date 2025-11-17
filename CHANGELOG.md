@@ -125,28 +125,72 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## Maturity Assessment Criteria
+
+Projects are assigned maturity levels based on these criteria:
+
+### Stable (⭐⭐⭐)
+**Requirements:**
+- Version 2.0 or higher
+- Multiple workflow iterations with user feedback incorporated
+- Comprehensive knowledge base (30K+ tokens)
+- Production-tested with real use cases
+- Documented examples and best practices
+- No known critical issues
+
+**Current Stable Projects:**
+- architecture-designer (v3.0)
+- product-releases-creator (v2.0)
+
+### Beta (⭐⭐)
+**Requirements:**
+- Version 1.0 or higher
+- Core features complete and functional
+- Workflow defined and documented
+- Knowledge base created (10K+ tokens)
+- Ready for user testing and feedback
+- May have minor gaps or incomplete examples
+
+**Current Beta Projects:**
+- product-requirements-validator
+- technical-requirements-creator
+- technical-solution-estimator
+- technical-project-planner
+
+### Alpha (⭐)
+**Requirements:**
+- Experimental features
+- Incomplete functionality
+- Limited documentation
+- Early internal testing only
+- Not recommended for production use
+
+**Current Alpha Projects:** None
+
+---
+
 ## Version History
 
 ### Architecture Designer
-- **v3.0** (2025-11-03) - Added decision identification phase, cognitive load management
-- **v2.0** (2025-10-27) - Added solution overview approval gate
-- **v1.0** (2025-10-01) - Initial release with 6-phase workflow
+- **v3.0** (2025-11-03) - STABLE - Added decision identification phase, cognitive load management
+- **v2.0** (2025-10-27) - STABLE - Added solution overview approval gate
+- **v1.0** (2025-10-01) - BETA - Initial release with 6-phase workflow
 
 ### Product Releases Creator
-- **v2.0** (2025-10-28) - Added alternative approaches workflow, option explorer agent
-- **v1.0** (2025-10-15) - Initial release with release decomposition workflow
+- **v2.0** (2025-10-28) - STABLE - Added alternative approaches workflow, option explorer agent
+- **v1.0** (2025-10-15) - BETA - Initial release with release decomposition workflow
 
 ### Product Requirements Validator
-- **Beta** (2025-10-28) - 10-stage validation workflow, requirements traceability
+- **v1.0 Beta** (2025-10-28) - 10-stage validation workflow, requirements traceability
 
 ### Technical Requirements Creator
-- **Beta** (2025-11-03) - 8-step analysis workflow, FHIR resource mappings
+- **v1.0 Beta** (2025-11-03) - 8-step analysis workflow, FHIR resource mappings
 
 ### Technical Solution Estimator
-- **Beta** (2025-11-03) - Estimation methodology with platform capabilities
+- **v1.0 Beta** (2025-11-03) - Estimation methodology with platform capabilities
 
 ### Technical Project Planner
-- **Beta** (2025-11-03) - Epic decomposition workflow with task breakdown
+- **v1.0 Beta** (2025-11-03) - Epic decomposition workflow with task breakdown
 
 ---
 

@@ -46,12 +46,17 @@ Choose the right project for your task:
 | **technical-project-planner** | Project Planner | Breaking epics into developer tasks | Technical requirements | Epic delivery plan with tasks and dependencies | 12K tokens (5 files) |
 
 **Maturity Indicators:**
-- **architecture-designer**: ⭐⭐⭐ Stable (v3.0)
-- **product-releases-creator**: ⭐⭐⭐ Stable (v2.0)
-- **product-requirements-validator**: ⭐⭐ Beta
-- **technical-requirements-creator**: ⭐⭐ Beta
-- **technical-solution-estimator**: ⭐⭐ Beta
-- **technical-project-planner**: ⭐⭐ Beta
+- **architecture-designer**: ⭐⭐⭐ Stable (v3.0) - Production-ready, 3+ iterations, tested workflows
+- **product-releases-creator**: ⭐⭐⭐ Stable (v2.0) - Production-ready, 2+ iterations, validated
+- **product-requirements-validator**: ⭐⭐ Beta - Core features complete, needs user validation
+- **technical-requirements-creator**: ⭐⭐ Beta - Core features complete, needs user validation
+- **technical-solution-estimator**: ⭐⭐ Beta - Core features complete, needs user validation
+- **technical-project-planner**: ⭐⭐ Beta - Core features complete, needs user validation
+
+**Maturity Criteria:**
+- **⭐⭐⭐ Stable**: v2.0+, production-tested, multiple workflow iterations, comprehensive knowledge base
+- **⭐⭐ Beta**: v1.0+, core features complete, workflow defined, ready for user testing
+- **⭐ Alpha**: Experimental, incomplete features, early testing only
 
 ---
 
