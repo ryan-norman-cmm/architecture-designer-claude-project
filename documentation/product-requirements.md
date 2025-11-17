@@ -1,5 +1,5 @@
 # Product Requirements Document
-## Architecture Designer Claude Desktop Project
+## Product Operating Model Agents
 
 ### Summary
 

@@ -1,4 +1,4 @@
-# Claude Desktop Project Templates
+# Product Operating Model Agents
 
 **Version:** 1.0 | **Last Updated:** November 2025 | **For:** CMM Product Managers & Engineers
 
@@ -63,7 +63,7 @@ Choose the right project for your task:
 ## Repository Structure
 
 ```
-architecture-designer-claude-project/
+product-operating-model-agents/
 ├── projects/                           # 6 Claude Desktop projects
 │   ├── architecture-designer/         # System architecture design (252K tokens)
 │   ├── product-releases-creator/      # Initiative decomposition (45K tokens)

@@ -1,7 +1,7 @@
 |                     |        |
 |---------------------|--------|
-| **Initiative Name** | Architecture Designer Claude Desktop Project |
-| **Initiative ID** | INIT-ARCH-001 |
+| **Initiative Name** | Product Operating Model Agents |
+| **Initiative ID** | INIT-POM-001 |
 | **Total Releases** | 4 MVP + 1 Conditional |
 | **Target Release** | MVP Phase 1 |
 | **Created** | 2025-10-27 |
