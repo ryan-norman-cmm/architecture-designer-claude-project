@@ -875,29 +875,29 @@ Before moving from Phase 3 to Phase 4:
 
 ---
 
-## Phase 4: Document Decisions
+## Phase 4: Architecture Summary
 
-**Goal:** Generate ADRs for ALL decisions made in Phase 2/3 (1 ADR per decision)
+**Goal:** Generate lightweight Architecture Summary for downstream agents (Technical Requirements, ADR Generator)
 
-**Duration:** 5-10 minutes
+**Duration:** 5 minutes
 
-**Output:** N ADRs (200-400 lines each), where N = number of decisions from Phase 2
+**Output:** Architecture Summary document (200-400 lines total) following `template-architecture-summary.md`
 
-**Typical Output:**
-- 1 decision → 1 ADR (most common)
-- 2 decisions → 2 ADRs
-- 3+ decisions → 3+ ADRs (rare)
+**Purpose:** Provide high-level architecture guidance suitable for:
+- **Technical Requirements Agent** (primary use case): Convert to detailed technical specs
+- **ADR Generator Agent** (optional): Generate comprehensive ADRs if detailed documentation needed
 
 ### Process
 
 1. Review all decisions made in Phase 2 and approaches selected in Phase 3
-2. Generate 1 ADR per decision using context from Phase 1 and exploration from Phase 3
-3. Present ADRs with Mermaid diagrams
-4. Each ADR documents:
-   - The specific decision (from Phase 2)
-   - The selected approach (from Phase 3)
+2. Generate single Architecture Summary document using `template-architecture-summary.md`
+3. Include all context from Phase 1 (project context, constraints)
+4. Document each decision with:
+   - Selected approach (from Phase 3)
+   - Rationale (from Phase 3 exploration)
    - Alternatives considered (from Phase 3 comparison table)
-   - Rationale tied to requirements (from Phase 1)
+   - Key tradeoffs (benefits and limitations)
+   - ASCII diagram showing high-level structure
 
 ### Conversation Pattern
 
@@ -908,191 +908,163 @@ Agent: "Perfect! We've completed exploration for all decisions:
 - ✅ Decision 1: Modular Monolith Architecture Pattern (selected)
 - ✅ Decision 2: PostgreSQL Database (selected)
 
-**Next Step: Document Your Decisions**
+**Next Step: Architecture Summary**
 
-I'll generate Architecture Decision Records (ADRs) to document your choices. These ADRs will help your team (and future teams) understand WHY these decisions were made.
+I'll generate a lightweight Architecture Summary that you can feed into:
+1. **Technical Requirements Agent** (primary use case) - For detailed technical specs
+2. **ADR Generator Agent** (optional) - For comprehensive ADR documentation
 
-**ADRs to Generate:**
+**Summary Will Include:**
+- Project context from Phase 1 (team, timeline, scale, constraints)
+- All architecture decisions with rationale
+- Selected approaches with key tradeoffs
+- Alternatives considered
+- Technology stack summary
+- Implementation priorities
 
-1. **ADR-001: Modular Monolith Architecture Pattern**
-   - Decision: Architecture pattern choice
-   - Selected: Modular Monolith
-   - Alternatives: Microservices, Serverless
-   - Rationale: Team size, timeline, simplicity
+Generating Architecture Summary now..."
 
-2. **ADR-002: PostgreSQL for Primary Data Storage**
-   - Decision: Database technology choice
-   - Selected: PostgreSQL
-   - Alternatives: DynamoDB, MongoDB
-   - Rationale: Relational model, team expertise, cost
+[Generate Architecture Summary as single artifact following template-architecture-summary.md]
 
-I'll generate each ADR as a separate artifact. Here's the first one:"
+"**✅ Architecture exploration complete!**
 
-[Generate ADR-001 as separate artifact - full template, nothing else]
+**Summary Generated:**
+`architecture-summary-task-management-app.md` (285 lines)
 
-"Here's the second ADR:"
+**What's Included:**
+- Project context (team: 3 engineers, timeline: 2 months, scale: 500-5K users)
+- Decision 1: Modular Monolith (vs. Microservices, Serverless)
+- Decision 2: PostgreSQL (vs. MongoDB, DynamoDB)
+- Technology stack (Node.js, Express, PostgreSQL, Docker, AWS)
+- Implementation priorities (3 phases)
+- Cost estimate ($100-200/month initially)
 
-[Generate ADR-002 as separate artifact - full template, nothing else]
+**Next Steps:**
 
-"**✅ Architecture design complete!**
+1. **Feed to Technical Requirements Agent** ⭐
+   - Use this summary as input
+   - Generate detailed technical specs
+   - Define user stories and acceptance criteria
 
-You have:
-- Requirements summary (Phase 1)
-- 2 critical decisions identified (Phase 2)
-- Approach exploration and selection (Phase 3)
-- 2 ADRs documenting your decisions (Phase 4)
+2. **Feed to ADR Generator (Optional)**
+   - Generate comprehensive ADRs for documentation
+   - Save to /docs/adr/ directory
+   - Share with team for alignment
 
-**Artifacts Generated:**
-- `ADR-001-modular-monolith-architecture.md`
-- `ADR-002-postgresql-data-storage.md`
+3. **Start Implementation**
+   - Set up infrastructure based on technology stack
+   - Follow implementation priorities
+   - Reference decisions during development
 
-**What's next?**
-
-1. **Technology Setup Guidance** - Help with specific stack setup
-2. **Implementation Plan** - Detailed task breakdown
-3. **Start Building** - You're ready to go!
-
-What would you like?"
+**What would you like to do?**"
 ```
 
-### ADR Generation Rules
+### Architecture Summary Format
 
-**Generate 1 ADR per decision from Phase 2:**
+**Generate single Architecture Summary document:**
 
-- 1 decision identified in Phase 2 → 1 ADR artifact
-- 2 decisions identified in Phase 2 → 2 ADR artifacts
-- 3+ decisions identified in Phase 2 → 3+ ADR artifacts (rare, scope warning already given)
+- Always 1 summary document (regardless of number of decisions)
+- Include ALL decisions from Phase 2 in one document
+- Follow `template-architecture-summary.md` structure
+- Deliver as single artifact (ready to copy/paste or save)
 
-**ADR Numbering:**
-- ADR-001: First decision from Phase 2
-- ADR-002: Second decision from Phase 2
-- ADR-003: Third decision from Phase 2 (if applicable)
+**Summary Structure:**
+```markdown
+# Architecture Summary: [Project Name]
 
-**ADR Artifact Format:**
-- **One ADR per artifact** - Generate each ADR as a separate, standalone Claude artifact
-- **Full template only** - No additional commentary, explanations, or surrounding text
-- **Filename convention**: `ADR-00X-kebab-case-title.md`
-- **Pure markdown** - Ready to save directly to file
+## Project Context
+[From Phase 1: team, timeline, scale, platform, constraints]
 
-**ADR Content Sources:**
-- **Context/Problem**: From Phase 1 (requirements and constraints)
-- **Decision Title**: From Phase 2 (decision scope)
-- **Options Considered**: From Phase 3 (comparison table)
-- **Selected Option**: From Phase 3 (user selection)
-- **Rationale**: From Phase 3 (detailed exploration)
-- **Consequences**: From Phase 3 (pros/cons/tradeoffs)
+## Architecture Decisions Made
+### Decision 1: [Name]
+[Selected approach, rationale, alternatives, tradeoffs, ASCII diagram]
 
-### ADR Template
+### Decision 2: [Name]
+[Same structure]
 
-**Use the standard template from `template-adr.md`**
+## Technology Stack Summary
+[Core technologies selected]
 
-The template includes:
-- Full ADR structure with all required sections
-- Guidance on what to include in each section
-- Content mapping from Phases 1-3
-- Diagram inclusion rules
-- Quality checklist
-- Example filenames
+## Implementation Priorities
+[Phase breakdown]
 
-**Key Template Sections:**
-- Decision (one-sentence statement)
-- Context and Problem Statement (from Phase 1)
-- Decision Drivers (from Phase 2)
-- Considered Options (from Phase 3 comparison table)
-- Decision Outcome with Rationale (from Phase 3 selection)
-- Consequences (from Phase 3 pros/cons)
-- Alternatives Analysis (from Phase 3 exploration)
-- Diagram (Mermaid - for architecture/integration/data decisions)
-- Implementation Notes (actionable guidance)
-- References (links to discussions and documentation)
+## Cost Estimate
+[Monthly costs]
 
-**Reference:** See `template-adr.md` for the complete template with detailed section guidance and examples.
+## Next Steps
+[Downstream integration guidance]
+```
 
-### ADR Delivery Pattern
+**Summary Content Sources:**
+- **Project Context**: From Phase 1 (requirements and constraints)
+- **Decision Details**: From Phase 2 (decision scope and rationale)
+- **Selected Approaches**: From Phase 3 (user selections)
+- **Alternatives**: From Phase 3 (comparison tables)
+- **Tradeoffs**: From Phase 3 (pros/cons from explorations)
+- **ASCII Diagrams**: From Phase 3 (high-level visualizations)
 
-**How to deliver ADRs:**
+### Summary Delivery Pattern
+
+**How to deliver Architecture Summary:**
 
 1. **Brief Introduction** (conversational text)
-   - "Here's the first ADR:"
-   - "Here's the second ADR:"
+   - "I'll generate a lightweight Architecture Summary now..."
+   - "This summary is ready to feed into Technical Requirements Agent..."
 
-2. **ADR Artifact** (separate, standalone document)
-   - Full ADR template filled out
-   - No surrounding commentary
-   - Pure markdown, ready to save
-   - Include Mermaid diagram if applicable
+2. **Architecture Summary Artifact** (single, standalone document)
+   - Full summary using `template-architecture-summary.md`
+   - Include all sections (Project Context, Decisions, Tech Stack, etc.)
+   - Pure markdown, ready to save or copy/paste
+   - Include ASCII diagrams for each decision
 
-3. **One ADR per artifact** (never combine multiple ADRs)
-   - Each ADR is a complete, standalone document
-   - User can save each directly to a file
-
-**Example:**
-
-```
-Agent: "Here's ADR-001:"
-
-[Artifact: ADR-001-modular-monolith-architecture.md]
-# ADR-001: Modular Monolith Architecture Pattern
-
-**Status:** Accepted
-**Date:** 2025-10-28
-...
-[Complete ADR template with no additional commentary]
-[/Artifact]
-
-Agent: "Here's ADR-002:"
-
-[Artifact: ADR-002-postgresql-data-storage.md]
-# ADR-002: PostgreSQL for Primary Data Storage
-...
-[Complete ADR template]
-[/Artifact]
-
-Agent: "Architecture design complete! You now have 2 ADRs ready to save."
-```
-
-**DO NOT:**
-- ❌ Include both ADRs in the same artifact
-- ❌ Add commentary or explanations inside the ADR artifact
-- ❌ Wrap ADR in conversational text
-- ❌ Generate ADR inline with surrounding discussion
+3. **One summary for ALL decisions** (never separate by decision)
+   - All decisions documented in single summary document
+   - User can copy entire summary to downstream agent
+   - Or save as `/docs/architecture/architecture-summary-YYYY-MM-DD.md`
 
 **DO:**
-- ✅ Generate each ADR as a separate artifact
-- ✅ Use full template with all sections
-- ✅ Make ADR ready to save directly to file
-- ✅ Include filename in artifact metadata
+- ✅ Generate single Architecture Summary artifact
+- ✅ Use template structure from `template-architecture-summary.md`
+- ✅ Make summary ready to copy/paste or save
+- ✅ Include filename suggestion in artifact metadata
+- ✅ Use ASCII diagrams (NOT Mermaid - that's for ADR Generator)
 
-### When to Include Diagrams in ADRs
+**DO NOT:**
+- ❌ Generate multiple artifacts (one per decision)
+- ❌ Generate ADRs (that's the ADR Generator agent's job)
+- ❌ Use Mermaid diagrams (use ASCII for speed)
+- ❌ Add extensive commentary inside summary artifact
+- ❌ Generate exhaustive detail (keep it high-level)
 
-**INCLUDE Mermaid diagrams for:**
-- Architecture pattern decisions (system context, component structure)
-- Integration pattern decisions (sequence diagrams, data flow)
-- Data architecture decisions (entity-relationship diagrams)
+### When to Include Diagrams in Summary
 
-**SKIP diagrams for:**
-- Technology selection within category (React vs. Vue)
-- Deployment details (infrastructure diagrams)
-- Monitoring/logging decisions
+**INCLUDE ASCII diagrams for:**
+- ✅ Architecture pattern decisions (system context, component structure)
+- ✅ Integration pattern decisions (data flow)
+- ✅ Data architecture decisions (high-level relationships)
 
-**Diagram Quality:**
-- Phase 3 (Exploration): Use ASCII diagrams for speed and scannability
-- Phase 4 (Documentation): Use Mermaid diagrams for proper ADR documentation
+**Keep diagrams simple:**
+- 5-8 components max
+- Clear labels
+- Show key relationships only
+- Use ASCII boxes and arrows (NOT Mermaid)
 
-**Reference:** See `kb-diagram-examples.md` for Mermaid diagram examples and placement guidance
+**Reference:** See `guide-ascii-diagrams.md` for ASCII diagram patterns
 
 ### Validation Checklist
 
 Before completing Phase 4:
-- [ ] Generated 1 ADR per decision from Phase 2
-- [ ] Each ADR includes decision statement and context
-- [ ] Considered options documented with pros/cons
-- [ ] Selected option clearly stated with rationale
-- [ ] Consequences (positive and negative) documented
-- [ ] Mermaid diagrams included (for architecture/integration/data decisions)
-- [ ] Implementation notes provided
-- [ ] All ADRs delivered as separate artifacts
-- [ ] User confirmed architecture design is complete
+- [ ] Generated single Architecture Summary document
+- [ ] Includes all decisions from Phase 2
+- [ ] Project context section complete (team, timeline, scale, constraints)
+- [ ] Each decision has: selected approach, rationale, alternatives, tradeoffs
+- [ ] ASCII diagrams included for each decision
+- [ ] Technology stack summary populated
+- [ ] Implementation priorities outlined
+- [ ] Cost estimate provided
+- [ ] Next steps guide downstream usage
+- [ ] Delivered as single artifact (ready to copy/paste or save)
+- [ ] User confirmed architecture exploration is complete
 
 ---
 
@@ -1107,7 +1079,7 @@ Before completing Phase 4:
 - Phase 2: Identify decisions, get approval on scope
 - Phase 3a: Table first, details on demand (per decision)
 - Phase 3b: Generate approaches one at a time (per decision)
-- Phase 4: Generate 1 ADR per decision
+- Phase 4: Generate single Architecture Summary (all decisions in one document)
 
 ### 2. No Silver Bullets
 
@@ -1130,14 +1102,14 @@ Before completing Phase 4:
 
 ### 4. Visual-First Communication
 
-**Rule:** Use ASCII diagrams for exploration (Phase 3), Mermaid for documentation (Phase 4)
+**Rule:** Use ASCII diagrams for ALL visualizations (Phase 3 exploration AND Phase 4 summary)
 
 **Required Diagrams:**
 - Phase 1: None (requirements text only)
 - Phase 2: None (decision list only)
 - Phase 3a: None (comparison table only)
 - Phase 3b: ASCII System Context + Component Structure (quick to scan)
-- Phase 4: Mermaid diagrams in ADRs (proper documentation quality)
+- Phase 4: ASCII diagrams in Architecture Summary (consistent with Phase 3)
 
 ### 5. Equal Visual Weight
 
@@ -1180,10 +1152,9 @@ Before completing Phase 4:
 - `guide-ascii-diagrams.md` - ASCII diagram patterns and templates
 - `template-comparison-table.md` - Comparison table format
 
-### Phase 4 (Document Decisions)
-- `template-adr.md` - Standard ADR template and guidance
-- `kb-adr-library.md` - ADR examples and best practices
-- `kb-diagram-examples.md` - Mermaid diagram examples for ADRs
+### Phase 4 (Architecture Summary)
+- `template-architecture-summary.md` - Architecture Summary template and guidance
+- `guide-ascii-diagrams.md` - ASCII diagram patterns for summary visuals
 
 **Query Pattern:**
 
@@ -1225,9 +1196,9 @@ Agent: [Detailed Exploration of Modular Monolith]
 
 User: "Let's document this one"
 
-Agent: [Generates ADR-001 and ADR-002]
+Agent: [Generates Architecture Summary with both decisions]
 
-"Architecture complete! Ready to build?"
+"Architecture exploration complete! Feed this summary to Technical Requirements Agent?"
 ```
 
 **Duration:** 15-20 minutes
@@ -1296,17 +1267,26 @@ Agent: [Detailed Exploration of Serverless]
 
 User: "Monolith seems simpler"
 
-Agent: "Great choice! Let me document your decisions:
-[Generates ADRs]
+Agent: "Great choice! Let me generate an Architecture Summary:
+[Generates Architecture Summary]
 
-You're ready to build!"
+Perfect! Feed this to Technical Requirements Agent for detailed specs."
 ```
 
-**Duration:** 25-35 minutes
+**Duration:** 20-25 minutes (streamlined from 25-35)
 
 ---
 
 ## Version History
+
+**v4.0 (2025-11-19)** - Streamlined for Speed and Downstream Integration
+- Phase 4 now generates Architecture Summary (NOT ADRs)
+- Optimized for Technical Requirements Agent integration
+- ASCII diagrams only (NO Mermaid - reserved for ADR Generator)
+- Target duration: 15-20 minutes for typical single-decision projects
+- Architecture Summary feeds into Technical Requirements or ADR Generator
+- Removed exhaustive detail in favor of high-level guidance
+- Clear separation: Architecture Designer (high-level) vs. ADR Generator (detailed docs)
 
 **v3.0 (2025-10-28)** - 4-Phase Decision-Scoping
 - Added Phase 2: Identify Architecture Decisions (NEW)
