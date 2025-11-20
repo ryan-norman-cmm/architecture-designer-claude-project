@@ -32,6 +32,59 @@ Six ready-to-use Claude Desktop projects that transform how you work:
 
 ---
 
+## Product Development Workflow
+
+The agents work together in a structured flow from business rules to epic delivery:
+
+```mermaid
+graph TB
+    BRD[Business Rules Document] --> PRV[Product Requirements Validator]
+    PRV --> PRD[Product Requirements]
+
+    PRD --> PRC[Product Releases Creator]
+    PRC --> REL[Product Releases]
+
+    PRD --> AD[Architecture Designer]
+    AD --> ARCH[Architecture Summary]
+    ARCH --> TRC[Technical Requirements Creator]
+    TRC --> TREQ[Technical Requirements]
+    TREQ --> TSE[Technical Solution Estimator]
+    TSE --> EST[Technical Estimates]
+
+    REL --> TPP[Technical Project Planner]
+    EST --> TPP
+    TPP --> EPIC[Epic Delivery Plan]
+
+    style BRD fill:#e1f5ff
+    style PRD fill:#e1f5ff
+    style REL fill:#fff4e1
+    style ARCH fill:#e8f5e9
+    style TREQ fill:#e8f5e9
+    style EST fill:#f3e5f5
+    style EPIC fill:#fce4ec
+
+    classDef validator fill:#e1f5ff,stroke:#0288d1
+    classDef creator fill:#fff4e1,stroke:#f57c00
+    classDef architect fill:#e8f5e9,stroke:#388e3c
+    classDef estimator fill:#f3e5f5,stroke:#7b1fa2
+    classDef planner fill:#fce4ec,stroke:#c2185b
+
+    class PRV validator
+    class PRC creator
+    class AD,TRC architect
+    class TSE estimator
+    class TPP planner
+```
+
+**Flow Description:**
+1. **Requirements Path** (Blue): Validate business rules → Create product requirements
+2. **Release Path** (Orange): Break requirements into testable releases
+3. **Architecture Path** (Green): Design system architecture → Create technical specs
+4. **Estimation Path** (Purple): Estimate development effort with risk analysis
+5. **Delivery Path** (Pink): Merge releases + estimates → Plan epic delivery
+
+---
+
 ## Project Comparison
 
 Choose the right project for your task:
